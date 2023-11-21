@@ -1,3 +1,4 @@
+import argparse
 import os
 import requests
 import pandas as pd
@@ -21,11 +22,14 @@ class Download:
         
     
     def start(self):
-        os.makedirs(os.path.join(self._working_dir, self._dir), exist_ok=True)
+        goal_dir = os.path.join(self._working_dir, self._dir)
+        os.makedirs(goal_dir, exist_ok=True)
         self.download()
-        
+        self.replace_excel(goal_dir)       
     
     def download(self):
+        """Download all zip data"""
+        
         # Download data        
         for year in self._years_to_download:
             # Url settings
@@ -45,14 +49,22 @@ class Download:
                         file.write(response.text)
                 print(f"Zip file '{filename_download}' downloaded successfully to {filename_save + used_ext}")
                 self.unpack_zip(zip_path=filename_save + used_ext)
-        
+    
+    def replace_excel(self, goal_dir: str):
+        """Replace all excel files by the corresponding csv data"""
+        files = os.listdir(os.path.join(self._working_dir, self._dir))
+        for f in files:
+            try:
+                self.xls_xlsx_to_csv(os.path.join(goal_dir, f), os.path.join(goal_dir, f.split(".")[0] + "_grades.csv"), sheet_name="Noten")
+                self.xls_xlsx_to_csv(os.path.join(goal_dir, f), os.path.join(goal_dir, f.split(".")[0] + "_dist.csv"), sheet_name="Verteilung", replace=True)
+            except ValueError as e:
+                print(f"Error: ", e)
                 
     def xls_xlsx_to_csv(self, input_file: str, output_file: str, replace: bool = False, **kwargs):
         """Transforms the xls and xlsx data into useable csv files"""
         cols = kwargs.get("columns", COLUMNS)
-        df: pd.DataFrame = pd.read_excel(input_file, **kwargs)
+        df: pd.DataFrame = pd.read_excel(input_file, skiprows=11, **kwargs)
         df.columns = cols
-        print(df.info())
         df.to_csv(output_file)
         if replace:
             os.remove(input_file)
@@ -81,9 +93,20 @@ class Download:
         optional_remove = os.path.join(goal, "2013.xlsx")
         if os.path.exists(optional_remove):
             os.remove(optional_remove)
-        
-            
-    
+
 if __name__ == "__main__":
-    download = Download()
+    # Create an argument parser
+    parser = argparse.ArgumentParser(description='Description of your script.')
+
+    # Add arguments
+    parser.add_argument('years', nargs="*", type=str, help='list of years to be downloaded', default=["all"])
+    parser.add_argument('--ext', type=str, help='file extensions to be downloaded', default=".zip")
+    parser.add_argument('--dir', type=str, help='target dir', default=DOWNLOAD_DIR)
+    parser.add_argument('--working-dir', type=str, help='current working directory', default=os.getcwd())
+
+    # Parse command-line arguments
+    args = parser.parse_args()
+    
+    years = YEARS_TO_DOWNLOAD if "all" in args.years else args.years
+    download = Download(years_to_download=years, ext=args.ext, working_dir=args.working_dir)
     download.start()
