@@ -40,8 +40,13 @@ activate_venv() {
     # Activate the virtual environment
     source "$VENV_DIR/bin/activate"
 
-    # Install dependencies from requirements.txt if it exists
+    # Install dependencies and uninstall not needed requirements from requirements.txt if it exists
     if [ -f "requirements.txt" ]; then
+        # Check if there are packages to uninstall
+        if pip freeze | grep -q -vxF -f requirements.txt; then
+            # Uninstall existing packages not in requirements.txt
+            pip freeze | grep -vxF -f requirements.txt | xargs pip uninstall -y
+        fi
         pip install -r requirements.txt
     fi
 
