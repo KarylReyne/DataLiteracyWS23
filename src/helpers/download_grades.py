@@ -63,7 +63,7 @@ class Download:
     def xls_xlsx_to_csv(self, input_file: str, output_file: str, replace: bool = False, **kwargs):
         """Transforms the xls and xlsx data into useable csv files"""
         cols = kwargs.get("columns", COLUMNS)
-        df: pd.DataFrame = pd.read_excel(input_file, skiprows=11, **kwargs)
+        df: pd.DataFrame = pd.read_excel(input_file, skiprows=10, **kwargs)
         df.columns = cols
         df.to_csv(output_file)
         if replace:
