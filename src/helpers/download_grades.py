@@ -56,14 +56,15 @@ class Download:
         for f in files:
             try:
                 self.xls_xlsx_to_csv(os.path.join(goal_dir, f), os.path.join(goal_dir, f.split(".")[0] + "_grades.csv"), sheet_name="Noten")
+                self.xls_xlsx_to_csv(os.path.join(goal_dir, f), os.path.join(goal_dir, f.split(".")[0] + "_grades_fail.csv"), sheet_name="Noten", skip=lambda x: x not in range(5, 10), columns=["Meta"] + COLUMNS[1:])
                 self.xls_xlsx_to_csv(os.path.join(goal_dir, f), os.path.join(goal_dir, f.split(".")[0] + "_dist.csv"), sheet_name="Verteilung", replace=True)
             except ValueError as e:
                 print(f"Error: ", e)
                 
-    def xls_xlsx_to_csv(self, input_file: str, output_file: str, replace: bool = False, **kwargs):
+    def xls_xlsx_to_csv(self, input_file: str, output_file: str, replace: bool = False, skip=10, columns=COLUMNS, **kwargs):
         """Transforms the xls and xlsx data into useable csv files"""
-        cols = kwargs.get("columns", COLUMNS)
-        df: pd.DataFrame = pd.read_excel(input_file, skiprows=10, **kwargs)
+        cols = columns
+        df: pd.DataFrame = pd.read_excel(input_file, skiprows=skip, **kwargs)
         df.columns = cols
         df.to_csv(output_file)
         if replace:
