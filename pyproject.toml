@@ -16,6 +16,11 @@ matplotlib = "^3.8.2"
 openpyxl = "^3.1.2"
 requests = "^2.31.0"
 xlrd = "^2.0.1"
+pygenesis = {git = "https://github.com/rudolf-bauer/genesisclient.git"}
+genesisclient = "^0.0.7"
+suds = "^1.1.2"
+logging = "^0.4.9.6"
+lxml = "^4.9.4"
 
 [build-system]
 requires = ["poetry-core"]

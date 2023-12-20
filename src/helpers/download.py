@@ -5,6 +5,13 @@ import subprocess
 
 
 DOWNLOAD_DIR = "data"
+USE_CUSTOM_CWD = True
+
+def get_cwd():
+    cwd = os.getcwd()
+    if USE_CUSTOM_CWD:
+        cwd = get_config("mapped_share_cwd", file="workspace_config.json")
+    return cwd
 
 def get_genesis_table(id: str, download=False):
     config_file = "genesis_login.json"
@@ -16,7 +23,8 @@ def get_genesis_table(id: str, download=False):
     if download:
         print(f"download_genesis_table: downloading table {id}...")
         client.download_csv(id, f"{DOWNLOAD_DIR}{os.sep}genesis_{id}.csv")
-        sys.stdout.write("\033[F")
+        # client.download_xls(id, f"{DOWNLOAD_DIR}{os.sep}genesis_{id}.xls")
+        # sys.stdout.write("\033[F")
         print(f"download_genesis_table: successfully downloaded table {id}")
 
 
@@ -28,8 +36,12 @@ class ClientWrapper(object):
         self.password = password
 
     def download_csv(self, id: str, save_dir: str):
-        c = f"genesiscl -s {self.site} -u {self.username} -p {self.password} -d {id} -f csv"
-        subprocess.check_call(c, cwd=f"{os.getcwd()}{os.sep}{DOWNLOAD_DIR}{os.sep}")
+        c = f"poetry run python ..{os.sep}src{os.sep}genesisclient{os.sep}__init__.py -s {self.site} -u {self.username} -p {self.password} -d {id} -f csv"
+        subprocess.check_call(c, cwd=f"{get_cwd()}{os.sep}{DOWNLOAD_DIR}{os.sep}", shell=False)
+
+    def download_xls(self, id: str, save_dir: str):
+        c = f"poetry run python ..{os.sep}src{os.sep}genesisclient{os.sep}__init__.py -s {self.site} -u {self.username} -p {self.password} -d {id} -f xls"
+        subprocess.check_call(c, cwd=f"{get_cwd()}{os.sep}{DOWNLOAD_DIR}{os.sep}", shell=False)
     
 
 class DataNotDownloaded(Exception):

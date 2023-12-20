@@ -33,7 +33,7 @@ poetry shell
 ### Running python files
 
 ```bash
-poetry python run path/to/file
+poetry run python path/to/file
 ```
 
 ### Updating Dependencies
