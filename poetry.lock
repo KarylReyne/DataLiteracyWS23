@@ -1550,6 +1550,17 @@ files = [
 ]
 
 [[package]]
+name = "suds-py3"
+version = "1.4.5.0"
+description = "Lightweight SOAP client"
+optional = false
+python-versions = "*"
+files = [
+    {file = "suds-py3-1.4.5.0.tar.gz", hash = "sha256:2b0d433e569c0190ff5e7ed2dfb3287b51bbfb3e51e82361c8bd652c78807167"},
+    {file = "suds_py3-1.4.5.0-py3-none-any.whl", hash = "sha256:0915a7f825c80fa2f0593e040e046bcbc156dd24ba988bb9da6c6604d70155b9"},
+]
+
+[[package]]
 name = "tornado"
 version = "6.4"
 description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
@@ -1668,4 +1679,4 @@ xmlsec = ["xmlsec (>=0.6.1)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "df12cb876f382461ecd5a4226229b513d57097468b70c91889200fc20667030b"
+content-hash = "5b2454894c6ddd4698eeecd1940825c5371cf7bd3584ec9a88a5a5558c718f67"

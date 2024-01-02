@@ -4,6 +4,7 @@ import suds
 from suds.client import Client
 import logging
 from lxml import etree
+import xml
 
 gc = None
 
@@ -458,7 +459,13 @@ class GenesisClient(object):
             parts.pop()
             return "\r\n".join(parts)
         else:
-            result = client.service.TabellenDownload(**params)
+            try:
+                result = client.service.TabellenDownload(**params)
+                print(result)
+            except xml.sax._exceptions.SAXParseException as e:
+                # print(client)
+                print("suds parsing failed")
+                raise(e)
             parts = result.split(result.split("\r\n")[1])
             data = parts[2].split("\r\n\r\n", 1)[-1]
             #data = unicode(data.decode('latin-1'))
