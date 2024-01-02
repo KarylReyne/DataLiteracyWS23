@@ -5,6 +5,7 @@ from suds.client import Client
 import logging
 from lxml import etree
 import xml
+import requests
 
 gc = None
 
@@ -417,9 +418,11 @@ class GenesisClient(object):
         result = client.service.DatenKatalog(**params)
         return result
 
-    def table_export(self, table_code,
+    def table_export(self, 
+            table_code,
             regionalschluessel='',
-            format='csv'):
+            format='csv'
+        ):
         """
         Return data for a given table
         """
@@ -461,13 +464,34 @@ class GenesisClient(object):
         else:
             try:
                 result = client.service.TabellenDownload(**params)
-                print(result)
+                # print(result)
             except xml.sax._exceptions.SAXParseException as e:
                 # print(client)
                 print("suds parsing failed")
                 raise(e)
-            parts = result.split(result.split("\r\n")[1])
-            data = parts[2].split("\r\n\r\n", 1)[-1]
+            result = result.decode('utf-8')
+            id = result.split("\r\n")[1]
+            # print(id)
+            response_parts = [
+                list_elem 
+                for entry in result.split(id) 
+                for list_elem in entry.split("\r\n") if list_elem != ""
+            ]
+            [print(p) for p in response_parts]
+            data = None
+            for item in response_parts:
+                if item.startswith("<?xml"):
+                    href = item.split('href="')[-1].split('"')[0]
+                    url = item.split('href="')[-1].split('"')[0]
+                    print(href)
+                    # xml_response = etree.parse(item).find()
+                    break
+            # data = result.split(id)[2]
+            # print(data)
+            # data = data.split("\r\n\r\n", 1)
+            # print(data)
+            # data = data[-1]
+            # print(data)
             #data = unicode(data.decode('latin-1'))
             # data = unicode(data.decode('utf-8'))
             return data
@@ -496,7 +520,10 @@ def download(client, args):
     result = client.table_export(args.download,
             regionalschluessel=rs,
             format=args.format)
-    open(path, 'wb').write(result)
+    with open(path, 'w') as save_file:
+        print(result)
+        save_file.write(result)
+        save_file.close()
 
 
 def search(client, args):
