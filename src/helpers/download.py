@@ -1,6 +1,5 @@
 from helpers.config_util import get_config
 import os
-import sys
 import subprocess
 
 
@@ -22,7 +21,7 @@ def get_genesis_table(id: str, download=False):
     )
     if download:
         print(f"download_genesis_table: downloading table {id}...")
-        client.download_csv(id, f"genesis_{id}")
+        client.download_csv(id, f"genesis_{id}_y2019-2023", startyear="2019", endyear="2023")
         print(f"download_genesis_table: successfully downloaded table {id}")
 
 
@@ -34,7 +33,7 @@ class ClientWrapper(object):
         self.password = password
 
     def download_csv(self, id: str, filename: str, startyear: str="2019", endyear: str="2023"):
-        c = f"poetry run python ..{os.sep}src{os.sep}genesisclient{os.sep}__init__.py -s {self.site} -u {self.username} -p {self.password} -d {id} -f csv -fn {filename} -y {startyear}-{endyear}"
+        c = f"poetry run python ..{os.sep}src{os.sep}custom_genesisclient{os.sep}__init__.py -s {self.site} -u {self.username} -p {self.password} -d {id} -f csv -fn {filename} -y {startyear}-{endyear}"
         subprocess.check_call(c, cwd=f"{get_cwd()}{os.sep}{DOWNLOAD_DIR}{os.sep}", shell=False)
     
 
