@@ -23,7 +23,6 @@ def get_genesis_table(id: str, download=False):
     if download:
         print(f"download_genesis_table: downloading table {id}...")
         client.download_csv(id, f"genesis_{id}")
-        # sys.stdout.write("\033[F")
         print(f"download_genesis_table: successfully downloaded table {id}")
 
 
@@ -34,8 +33,8 @@ class ClientWrapper(object):
         self.username = username
         self.password = password
 
-    def download_csv(self, id: str, filename: str):
-        c = f"poetry run python ..{os.sep}src{os.sep}genesisclient{os.sep}__init__.py -s {self.site} -u {self.username} -p {self.password} -d {id} -f csv -fn {filename}"
+    def download_csv(self, id: str, filename: str, startyear: str="2019", endyear: str="2023"):
+        c = f"poetry run python ..{os.sep}src{os.sep}genesisclient{os.sep}__init__.py -s {self.site} -u {self.username} -p {self.password} -d {id} -f csv -fn {filename} -y {startyear}-{endyear}"
         subprocess.check_call(c, cwd=f"{get_cwd()}{os.sep}{DOWNLOAD_DIR}{os.sep}", shell=False)
     
 

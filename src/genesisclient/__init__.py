@@ -421,7 +421,9 @@ class GenesisClient(object):
     def table_export(self, 
             table_code,
             regionalschluessel='',
-            format='csv'
+            format='csv',
+            startjahr="2019",
+            endjahr="2023"
         ):
         """
         Return data for a given table
@@ -434,8 +436,8 @@ class GenesisClient(object):
                       format=format,
                       komprimieren=False,
                       transponieren=False,#
-                      startjahr="2019",#'1900',
-                      endjahr="2023",#'2100',
+                      startjahr=startjahr,#'1900',
+                      endjahr=endjahr,#'2100',
                       zeitscheiben='',
                       regionalmerkmal="",#
                       regionalschluessel=regionalschluessel,
@@ -504,9 +506,14 @@ def download(client, args):
         rs = args.regionalschluessel
         path = '%s_%s.%s' % (args.download, args.regionalschluessel, args.format)
     print("Downloading to file %s" % path)
-    result = client.table_export(args.download,
-            regionalschluessel=rs,
-            format=args.format)
+    years = args.years.split("-")
+    result = client.table_export(
+        args.download,
+        regionalschluessel=rs,
+        format=args.format,
+        startjahr=years[0],
+        endjahr=years[1]
+    )
     with open(path, 'w') as save_file:
         for row in result:
             save_file.write(f"{row}\n")
@@ -594,6 +601,9 @@ def main():
                    metavar="RS", help='Only select data for region key RS')
     parser.add_argument('-f', '--format', dest='format', default='csv',
                    metavar="FORMAT", help='Download data in this format (csv, html, xls). Default is csv.')
+    parser.add_argument('-y', '--years', dest='years', default='2019-2023',
+                   metavar="YEARS", 
+                   help='Specify a time span for the data with YEARS (where startjahr-endjahr). Default is 2019-2023')
 
     args = parser.parse_args()
 
