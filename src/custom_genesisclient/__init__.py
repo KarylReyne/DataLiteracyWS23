@@ -86,12 +86,13 @@ class GenesisClient(object):
             for entry in result.split(id) 
             for list_elem in entry.split("\r\n") if list_elem != ""
         ]
-        data = None
+        data = [""]
         for item in response_parts:
             if item[0].startswith("GENESIS-Tabelle:"):
                 data = item[0].split('\n')
                 # [print(row) for row in data]
                 break
+        data = [row.encode("utf-8") for row in data]
         return data
 
 
