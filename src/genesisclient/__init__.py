@@ -5,7 +5,7 @@ from suds.client import Client
 import logging
 from lxml import etree
 import xml
-import requests
+import os
 
 gc = None
 
@@ -434,8 +434,8 @@ class GenesisClient(object):
                       format=format,
                       komprimieren=False,
                       transponieren=False,#
-                      startjahr='1900',
-                      endjahr='2100',
+                      startjahr="2019",#'1900',
+                      endjahr="2023",#'2100',
                       zeitscheiben='',
                       regionalmerkmal="",#
                       regionalschluessel=regionalschluessel,
@@ -464,36 +464,23 @@ class GenesisClient(object):
         else:
             try:
                 result = client.service.TabellenDownload(**params)
-                # print(result)
             except xml.sax._exceptions.SAXParseException as e:
-                # print(client)
                 print("suds parsing failed")
                 raise(e)
+            
             result = result.decode('utf-8')
             id = result.split("\r\n")[1]
-            # print(id)
             response_parts = [
-                list_elem 
+                list_elem.replace("><", ">SPLIT<").split("SPLIT")
                 for entry in result.split(id) 
                 for list_elem in entry.split("\r\n") if list_elem != ""
             ]
-            [print(p) for p in response_parts]
             data = None
             for item in response_parts:
-                if item.startswith("<?xml"):
-                    href = item.split('href="')[-1].split('"')[0]
-                    url = item.split('href="')[-1].split('"')[0]
-                    print(href)
-                    # xml_response = etree.parse(item).find()
+                if item[0].startswith("GENESIS-Tabelle:"):
+                    data = item[0].split('\n')
+                    # [print(row) for row in data]
                     break
-            # data = result.split(id)[2]
-            # print(data)
-            # data = data.split("\r\n\r\n", 1)
-            # print(data)
-            # data = data[-1]
-            # print(data)
-            #data = unicode(data.decode('latin-1'))
-            # data = unicode(data.decode('utf-8'))
             return data
 
 
@@ -512,7 +499,7 @@ def download(client, args):
     Issue a download from command line arguments
     """
     rs = '*'
-    path = '%s.%s' % (args.download, args.format)
+    path = f"{os.getcwd()}{os.sep}{args.filename}.{args.format}"
     if args.regionalschluessel is not None and args.regionalschluessel != '*':
         rs = args.regionalschluessel
         path = '%s_%s.%s' % (args.download, args.regionalschluessel, args.format)
@@ -521,8 +508,8 @@ def download(client, args):
             regionalschluessel=rs,
             format=args.format)
     with open(path, 'w') as save_file:
-        print(result)
-        save_file.write(result)
+        for row in result:
+            save_file.write(f"{row}\n")
         save_file.close()
 
 
@@ -597,13 +584,16 @@ def main():
     parser.add_argument('-g', '--search', dest='searchterm', default=None,
                    metavar="SEARCHTERM",
                    help='Find an item using an actual search engine. Should accept Lucene syntax.')
-    parser.add_argument('-d', '--downlaod', dest='download', default=None,
+    parser.add_argument('-d', '--download', dest='download', default=None,
                    metavar="TABLE_ID",
                    help='Download table with the ID TABLE_ID')
+    parser.add_argument('-fn', '--filename', dest='filename', default="table",
+                   metavar="FILENAME",
+                   help='Save downloaded table as FILENAME (file format is specified separately with -f, default is .csv)')
     parser.add_argument('--rs', dest='regionalschluessel', default=None,
                    metavar="RS", help='Only select data for region key RS')
     parser.add_argument('-f', '--format', dest='format', default='csv',
-                   metavar="FORMAT", help='Download data in this format (csv, html, xls). Default ist csv.')
+                   metavar="FORMAT", help='Download data in this format (csv, html, xls). Default is csv.')
 
     args = parser.parse_args()
 
