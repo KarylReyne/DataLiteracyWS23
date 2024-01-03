@@ -33,7 +33,7 @@ poetry shell
 ### Running python files
 
 ```bash
-poetry python run path/to/file
+poetry run python path/to/file
 ```
 
 ### Updating Dependencies
@@ -83,4 +83,4 @@ If you would like to contribute to the project, please follow these steps:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. It makes use of and is distributed with a modified version of [genesisclient](https://github.com/marians/genesisclient) which is licensed under the MIT License. Please refer to the [LICENSES](https://github.com/KarylReyne/DataLiteracyWS23/tree/main/LICENSES) directory for the individual licenses.
