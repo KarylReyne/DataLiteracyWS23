@@ -23,6 +23,7 @@ lxml = "^4.9.4"
 suds-py3 = "^1.4.5.0"
 tueplots = "^0.0.12"
 seaborn = "^0.13.0"
+suds = "^1.1.2"
 
 [build-system]
 requires = ["poetry-core"]
