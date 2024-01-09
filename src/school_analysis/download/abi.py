@@ -109,7 +109,7 @@ def download_all(config: dict):
 
 if __name__ == "__main__":
     # Create an argument parser
-    parser = argparse.ArgumentParser(description='Description of your script.')
+    parser = argparse.ArgumentParser(description='Download all Abi data.')
 
     # Add arguments
     parser.add_argument('years', nargs="*", type=str, help='list of years to be downloaded', default=["all"])

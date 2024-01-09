@@ -1,4 +1,5 @@
 import school_analysis as sa
+import school_analysis.download as dl
 import school_analysis.download.abi as abi_dl
 import school_analysis.download.genisis as gen_dl
 import yaml
@@ -25,6 +26,7 @@ def download_all():
     logger.log(logging.INFO, "Start downloading all data ...")
     abi_dl.download_all(dl_config["ABI"])
     gen_dl.download_all(dl_config["GENISIS"], credentials["GENISIS"])
+    dl.download_all(dl_config["DEFAULT"])
     
     logger.log(logging.INFO, "Downloading finished.")
 

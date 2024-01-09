@@ -79,7 +79,7 @@ class GenesisClient(object):
         try:
             result = client.service.TabellenDownload(**params)
         except xml.sax._exceptions.SAXParseException as e:
-            print("suds parsing failed")
+            logger.log(logging.ERROR, "suds parsing failed")
             raise(e)
             
         result = result.decode('utf-8')
@@ -93,7 +93,6 @@ class GenesisClient(object):
         for item in response_parts:
             if item[0].startswith("GENESIS-Tabelle:"):
                 data = item[0].split('\n')
-                # [print(row) for row in data]
                 break
         data = [row.encode("utf-8") for row in data]
         return data
@@ -104,7 +103,7 @@ def download(client, args):
     path = f"{os.getcwd()}{os.sep}{args['filename']}.{args['format']}"
     if rs is not None and rs != '*':
         path = '%s_%s.%s' % (args['download'], rs, args['format'])
-    print("Downloading to file %s" % path)
+    logger.log(logging.INFO, "Downloading to file %s" % path)
     years = args['years'].split("-")
     result = client.table_export(
         args['download'],
