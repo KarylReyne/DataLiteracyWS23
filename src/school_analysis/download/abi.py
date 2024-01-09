@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 import zipfile
 import logging
-import school_analysis as sa
+import src.school_analysis as sa
 
 
 DOWNLOAD_DIR = os.path.join("data", "grades")

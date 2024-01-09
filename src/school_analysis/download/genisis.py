@@ -6,7 +6,7 @@ import sys
 import argparse
 import logging
 import tqdm
-import school_analysis as sa
+import src.school_analysis as sa
 
 logger = logging.getLogger(__name__)
 class GenesisClient(object):

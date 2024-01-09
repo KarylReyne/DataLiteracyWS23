@@ -3,7 +3,7 @@ import requests
 import os
 
 from tqdm import tqdm
-import school_analysis as sa
+import src.school_analysis as sa
 import logging
 
 logger = logging.getLogger(__name__)
