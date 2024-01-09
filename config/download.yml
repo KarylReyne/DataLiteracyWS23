@@ -8,7 +8,7 @@ GENISIS:
     format: csv
     years: "1995-2023"
   - name: '# of school children by school type (ger)'
-    download: '21111-004'
+    download: '21111-0004'
     site: DESTATIS
     filename: data/genesis/school_children_by_type
     folder: data/genesis/
