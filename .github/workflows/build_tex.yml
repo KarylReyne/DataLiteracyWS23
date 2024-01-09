@@ -21,8 +21,7 @@ jobs:
 
     - name: Build LaTeX document
       run: |
-        pdflatex -interaction=nonstopmode -halt-on-error report_template.tex
-      working_directory: doc/report
+        pdflatex -interaction=nonstopmode -halt-on-error report_template.tex -working_directory doc/report
 
     - name: Archive PDF artifact
       uses: actions/upload-artifact@v2
