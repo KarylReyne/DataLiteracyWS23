@@ -16,11 +16,13 @@ jobs:
     - name: Set up LaTeX environment
       uses: xu-cheng/latex-action@v2
       with:
-        root_file: doc/report/report_template.tex
+        root_file: report_template.tex
+        working-directory: doc/report
 
     - name: Build LaTeX document
       run: |
-        pdflatex -interaction=nonstopmode -halt-on-error doc/report/report_template.tex
+        pdflatex -interaction=nonstopmode -halt-on-error report_template.tex
+      working-directory: doc/report
 
     - name: Archive PDF artifact
       uses: actions/upload-artifact@v2
