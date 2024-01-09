@@ -1,7 +1,7 @@
-import src.school_analysis as sa
-import src.school_analysis.download as dl
-import src.school_analysis.download.abi as abi_dl
-import src.school_analysis.download.genisis as gen_dl
+import school_analysis as sa
+import school_analysis.download as dl
+import school_analysis.download.abi as abi_dl
+import school_analysis.download.genisis as gen_dl
 import yaml
 import os
 import logging
