@@ -116,7 +116,6 @@ def download(client, args):
             save_file.write(f"{row}\n")
         save_file.close()
 
-
 def main():
     # logging.basicConfig(level='DEBUG')
     logging.basicConfig(level='WARN')
