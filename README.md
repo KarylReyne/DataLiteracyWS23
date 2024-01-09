@@ -68,6 +68,8 @@ If you would like to contribute to the project, please follow these steps:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. It makes use of and is distributed with a modified version of [genesisclient](https://github.com/marians/genesisclient) which is licensed under the MIT License. Please refer to the [LICENSES](https://github.com/KarylReyne/DataLiteracyWS23/tree/main/LICENSES) directory for the individual licenses.
-
-The LICENSES directory also contains the licenses of the data used in this project. Please refer to the [LICENSES](doc/LICENSES/) directory for the individual licenses.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. It makes use of and is distributed with the following components:
+ - a modified version of [genesisclient](https://github.com/marians/genesisclient) which is licensed under the MIT License
+ - the file `doc/report/icml2023.bst` which is licensed under the LaTeX Project Public License and redistributed as a complete, unmodified copy
+ 
+Please refer to the [LICENSES](doc/LICENSES) directory for the individual licenses as well as the licenses of the data used in this project.
