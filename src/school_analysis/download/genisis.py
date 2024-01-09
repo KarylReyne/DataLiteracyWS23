@@ -4,8 +4,11 @@ import xml
 import os
 import sys
 import argparse
+import logging
+import tqdm
+import school_analysis as sa
 
-
+logger = logging.getLogger(__name__)
 class GenesisClient(object):
 
     def __init__(self, site, username=None, password=None):
@@ -97,17 +100,16 @@ class GenesisClient(object):
 
 
 def download(client, args):
-    rs = '*'
-    path = f"{os.getcwd()}{os.sep}{args.filename}.{args.format}"
-    if args.regionalschluessel is not None and args.regionalschluessel != '*':
-        rs = args.regionalschluessel
-        path = '%s_%s.%s' % (args.download, args.regionalschluessel, args.format)
+    rs = args.get("regionalschluessel", '*')
+    path = f"{os.getcwd()}{os.sep}{args['filename']}.{args['format']}"
+    if rs is not None and rs != '*':
+        path = '%s_%s.%s' % (args['download'], rs, args['format'])
     print("Downloading to file %s" % path)
-    years = args.years.split("-")
+    years = args['years'].split("-")
     result = client.table_export(
-        args.download,
+        args['download'],
         regionalschluessel=rs,
-        format=args.format,
+        format=args['format'],
         startjahr=years[0],
         endjahr=years[1]
     )
@@ -115,6 +117,22 @@ def download(client, args):
         for row in result:
             save_file.write(f"{row}\n")
         save_file.close()
+
+def download_all(config, credentials):
+    """Downloads all defined tables of the GENISIS service"""
+    user = credentials["DESTATIS"]["user"]
+    password = credentials["DESTATIS"]["pass"]
+    gc_destatis = GenesisClient("DESTATIS", username=user, password=password)
+    
+    # TODO: Add LDNRW
+    
+    for table in tqdm.tqdm(config):
+        logger.log(logging.INFO, f"Downloading table {table['name']} to {table['filename'] + '.' + table['format']} ...")
+        folder = table["folder"]
+        if not os.path.exists(folder):
+            logger.log(logging.WARNING, f"Creating folder {folder} ...")
+            os.mkdir(folder)
+        download(gc_destatis, table)
 
 def main():
     # logging.basicConfig(level='DEBUG')

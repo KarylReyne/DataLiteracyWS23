@@ -5,7 +5,7 @@ description = "This project aims to analyze the incluence of the covid-19 pandem
 authors = ["Tom Freudenmann <tom.freudenmann@outlook.de>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "src/school_analysis"}]
+packages = [{include = "school_analysis", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -25,6 +25,7 @@ tueplots = "^0.0.12"
 seaborn = "^0.13.0"
 suds = "^1.1.2"
 pyyaml = "^6.0.1"
+tqdm = "^4.66.1"
 
 [build-system]
 requires = ["poetry-core"]
