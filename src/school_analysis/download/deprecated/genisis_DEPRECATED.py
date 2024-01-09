@@ -1,3 +1,4 @@
+"""?DEPRECATED?"""
 from helpers.config_util import get_config
 import os
 import subprocess
