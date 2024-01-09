@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "data_lit_covid_school"
+name = "school_analysis"
 version = "0.1.0"
 description = "This project aims to analyze the incluence of the covid-19 pandemic on the german school system"
 authors = ["Tom Freudenmann <tom.freudenmann@outlook.de>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "src/data_lit_covid_school"}]
+packages = [{include = "school_analysis", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -25,6 +25,7 @@ tueplots = "^0.0.12"
 seaborn = "^0.13.0"
 suds = "^1.1.2"
 pyyaml = "^6.0.1"
+tqdm = "^4.66.1"
 
 [build-system]
 requires = ["poetry-core"]
