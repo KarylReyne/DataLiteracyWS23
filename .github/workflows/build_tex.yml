@@ -16,7 +16,7 @@ jobs:
     - name: Set up LaTeX environment
       uses: xu-cheng/latex-action@v2
       with:
-        root_file: report_template.tex
+        root_file: doc/report/report_template.tex
         working-directory: doc/report
 
     - name: Build LaTeX document
