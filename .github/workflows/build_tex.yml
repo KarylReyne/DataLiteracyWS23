@@ -1,0 +1,29 @@
+name: Build LaTeX Document
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch as needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up LaTeX environment
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: doc/report/report_template.tex
+
+    - name: Build LaTeX document
+      run: |
+        pdflatex -interaction=nonstopmode -halt-on-error doc/report/report_template.tex
+
+    - name: Archive PDF artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: pdf-artifact
+        path: doc/report/report_template.pdf
