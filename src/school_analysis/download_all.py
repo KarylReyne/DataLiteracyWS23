@@ -12,21 +12,29 @@ def download_all():
     """Downloads all data from the internet"""
     
     # Load config
+    skip = False
     if not os.path.exists(sa.CREDENTIAL_PATH):
-        logger.log(logging.ERROR, f"Credentials file not found at {sa.CREDENTIAL_PATH}")
-        return 1
+        skip = True
+        logger.log(logging.WARNING, f"Credentials file not found at {sa.CREDENTIAL_PATH}. Skipping Genisis download.")
         
     with open(sa.DOWNLOAD_YAML, "r") as file:
         dl_config = yaml.load(file, Loader=yaml.FullLoader)
-        
-    with open(sa.CREDENTIAL_PATH, "r") as file:
-        credentials = yaml.load(file, Loader=yaml.FullLoader)
+    
+    if not skip:
+        with open(sa.CREDENTIAL_PATH, "r") as file:
+            credentials = yaml.load(file, Loader=yaml.FullLoader)
     
     # Download data
     logger.log(logging.INFO, "Start downloading all data ...")
     abi_dl.download_all(dl_config["ABI"])
-    gen_dl.download_all(dl_config["GENISIS"], credentials["GENISIS"])
     dl.download_all(dl_config["DEFAULT"])
+    
+    # All data with credentials
+    if not skip:
+        if "GENISIS" not in credentials:
+            logger.log(logging.ERROR, f"Credentials file at {sa.CREDENTIAL_PATH} does not contain GENISIS credentials. Skipping Genisis download.")
+        else:
+            gen_dl.download_all(dl_config["GENISIS"], credentials["GENISIS"])
     
     logger.log(logging.INFO, "Downloading finished.")
 
