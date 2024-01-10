@@ -14,7 +14,7 @@ URL_ARCHIVE = "https://www.kmk.org/fileadmin/Dateien/pdf/Statistik/Aus_Abiturnot
 URL_ARCHIVE2 = "https://www.kmk.org/fileadmin/Dateien/pdf/Statistik/Dokumentationen/Aus_Abiturnoten_"
 COLUMNS = ["Grade", "BW", "BY", "BE", "BB", "HB", "HH", "HE", "MV", "NI", "NW", "RP", "SL", "N", "ST", "SH", "TH"]
 
-logger = logging.getLogger(__name__)
+from school_analysis import logger
 
 class Download:
     

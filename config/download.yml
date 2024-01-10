@@ -3,15 +3,15 @@ GENISIS:
   - name: '# of school children by federal state (ger)'
     download: '21111-0010'
     site: DESTATIS
-    filename: data/genesis/school_children_by_state
-    folder: data/genesis/
+    filename: school_children_by_state
+    folder: genesis/
     format: csv
     years: "1995-2023"
   - name: '# of school children by school type (ger)'
     download: '21111-0004'
     site: DESTATIS
-    filename: data/genesis/school_children_by_type
-    folder: data/genesis/
+    filename: school_children_by_type
+    folder: genesis/
     format: csv
     years: "1995-2023"
 
