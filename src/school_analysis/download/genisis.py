@@ -155,17 +155,12 @@ def download_all(config, credentials, keep_raw=False):
         # Create folder if not exists
         if keep_raw:
             folder_raw = os.path.join(sa.PROJECT_PATH, "data", "raw", table["folder"])
-            create_non_existing_folders(folder_raw)
+            sa.create_non_existing_folders(folder_raw)
         
         folder = os.path.join(sa.PROJECT_PATH, "data", table["folder"])
-        create_non_existing_folders(folder)
+        sa.create_non_existing_folders(folder)
         
         download(gc_destatis, table, keep_raw=keep_raw)
-
-def create_non_existing_folders(folder):
-    if not os.path.exists(folder):
-            logger.log(logging.WARNING, f"Creating folder {folder} ...")
-            os.mkdir(folder)
 
 def main():
     # logging.basicConfig(level='DEBUG')
