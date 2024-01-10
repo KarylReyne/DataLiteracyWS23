@@ -1,3 +1,4 @@
+import argparse
 import school_analysis as sa
 import school_analysis.download as dl
 import school_analysis.download.abi as abi_dl
@@ -6,11 +7,10 @@ import yaml
 import os
 import logging
 
-logger = logging.getLogger(__name__)
+from school_analysis import logger
 
-def download_all():
-    """Downloads all data from the internet"""
-    
+def download_all(kwargs):
+    """Downloads all data from the internet"""    
     # Load config
     skip = False
     if not os.path.exists(sa.CREDENTIAL_PATH):
@@ -26,17 +26,23 @@ def download_all():
     
     # Download data
     logger.log(logging.INFO, "Start downloading all data ...")
-    abi_dl.download_all(dl_config["ABI"])
-    dl.download_all(dl_config["DEFAULT"])
+    abi_dl.download_all(dl_config["ABI"], keep_raw=kwargs.keep_raw)
+    dl.download_all(dl_config["DEFAULT"], keep_raw=kwargs.keep_raw)
     
     # All data with credentials
     if not skip:
         if "GENISIS" not in credentials:
             logger.log(logging.ERROR, f"Credentials file at {sa.CREDENTIAL_PATH} does not contain GENISIS credentials. Skipping Genisis download.")
         else:
-            gen_dl.download_all(dl_config["GENISIS"], credentials["GENISIS"])
+            gen_dl.download_all(dl_config["GENISIS"], credentials["GENISIS"], keep_raw=kwargs.keep_raw)
     
     logger.log(logging.INFO, "Downloading finished.")
 
 if __name__ == "__main__":
-    download_all()
+    
+    
+    # Parse arguments
+    parser = argparse.ArgumentParser(description='Download all data from the internet')
+    parser.add_argument('--keep-raw', action='store_true', help='If set, the raw data will be saved')
+    kwargs = parser.parse_args()
+    download_all(kwargs)

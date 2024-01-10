@@ -3,15 +3,15 @@ GENISIS:
   - name: '# of school children by federal state (ger)'
     download: '21111-0010'
     site: DESTATIS
-    filename: data/genesis/school_children_by_state
-    folder: data/genesis/
+    filename: school_children_by_state
+    folder: genesis/
     format: csv
     years: "1995-2023"
   - name: '# of school children by school type (ger)'
     download: '21111-0004'
     site: DESTATIS
-    filename: data/genesis/school_children_by_type
-    folder: data/genesis/
+    filename: school_children_by_type
+    folder: genesis/
     format: csv
     years: "1995-2023"
   - name: '# of repeaters by state, year, sex, school type'
@@ -25,7 +25,7 @@ GENISIS:
 # Abitur grades by federal state, should be used with abi.py
 ABI:
   years: all
-  dir: data/abi/
+  dir: abi/
   ext: .zip
 
 # Default datasets (single files with url)
@@ -33,10 +33,12 @@ DEFAULT:
   - name: 'Oview destatis german schools 2020/21'
     url: https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bildung-Forschung-Kultur/Schulen/Publikationen/Downloads-Schulen/allgemeinbildende-schulen-2110100217005.xlsx?__blob=publicationFile
     filename: allgemeinbildende-schulen.xlsx
-    folder: data/raw/
+    folder: other/
     format: xlsx
+    parser_args:
+      sheet: "Tab. 7.1"
   - name: 'Pisa study data for Germany'
     url: https://github.com/KarylReyne/DataLiteracyWS23/files/13629119/IDEExcelExport-Dec102023-0927PM.xls
     filename: pisa_germany.xls
-    folder: data/raw/
+    folder: other/
     format: xls

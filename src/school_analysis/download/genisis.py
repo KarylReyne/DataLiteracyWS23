@@ -1,5 +1,6 @@
+from io import StringIO
+import pandas as pd
 from suds.client import Client
-import logging
 import xml
 import os
 import sys
@@ -7,8 +8,10 @@ import argparse
 import logging
 import tqdm
 import school_analysis as sa
+from school_analysis.preprocessing.genisis import GenesisParser
 
-logger = logging.getLogger(__name__)
+from school_analysis import logger
+parser = GenesisParser()
 class GenesisClient(object):
 
     def __init__(self, site, username=None, password=None):
@@ -98,12 +101,18 @@ class GenesisClient(object):
         return data
 
 
-def download(client, args):
+def download(client, args, keep_raw=False):
     rs = args.get("regionalschluessel", '*')
-    path = f"{os.getcwd()}{os.sep}{args['filename']}.{args['format']}"
+    
+    # Build path
+    raw_path = os.path.join(sa.PROJECT_PATH, "data", "raw", args["folder"], args['filename'] + '.' + args['format'])
+    processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['filename'] + '.' + args['format'])
+    
     if rs is not None and rs != '*':
-        path = '%s_%s.%s' % (args['download'], rs, args['format'])
-    logger.log(logging.INFO, "Downloading to file %s" % path)
+        raw_path = os.path.join(sa.PROJECT_PATH, "data", "raw", args["folder"], args['download'] + "_" + rs + '.' + args['format'])
+        processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['download'] + "_" + rs + '.' + args['format'])
+        
+    logger.log(logging.INFO, "Downloading to file %s" % processed_path)
     years = args['years'].split("-")
     result = client.table_export(
         args['download'],
@@ -112,12 +121,29 @@ def download(client, args):
         startjahr=years[0],
         endjahr=years[1]
     )
-    with open(path, 'w') as save_file:
-        for row in result:
-            save_file.write(f"{row}\n")
-        save_file.close()
+    
+    result = "\n".join([row.decode("utf-8") for row in result])
+    
+    if keep_raw or not parser.contains(args["download"]):
+        if not parser.contains(args["download"]):
+            logger.log(logging.WARNING, f"For Table {args['download']} no parser found. Saving raw data.")
+        
+        logger.log(logging.INFO, f"Saving raw data to {raw_path} ...")
+        with open(raw_path, "w") as f:
+            f.write(result)
+            
+    if parser.contains(args["download"]):
+        try:
+            df = parser.parse(result, args["download"])
+        except Exception as e:            
+            logger.log(logging.ERROR, f"Parser failed. Saving raw data.")
+            if not keep_raw:
+                with open(raw_path, "w") as f:
+                    f.write(result)
+                    
+        df.to_csv(processed_path, index=False)
 
-def download_all(config, credentials):
+def download_all(config, credentials, keep_raw=False):
     """Downloads all defined tables of the GENISIS service"""
     user = credentials["DESTATIS"]["user"]
     password = credentials["DESTATIS"]["pass"]
@@ -127,11 +153,16 @@ def download_all(config, credentials):
     
     for table in tqdm.tqdm(config):
         logger.log(logging.INFO, f"Downloading table {table['name']} to {table['filename'] + '.' + table['format']} ...")
-        folder = table["folder"]
-        if not os.path.exists(folder):
-            logger.log(logging.WARNING, f"Creating folder {folder} ...")
-            os.mkdir(folder)
-        download(gc_destatis, table)
+        
+        # Create folder if not exists
+        if keep_raw:
+            folder_raw = os.path.join(sa.PROJECT_PATH, "data", "raw", table["folder"])
+            sa.create_non_existing_folders(folder_raw)
+        
+        folder = os.path.join(sa.PROJECT_PATH, "data", table["folder"])
+        sa.create_non_existing_folders(folder)
+        
+        download(gc_destatis, table, keep_raw=keep_raw)
 
 def main():
     # logging.basicConfig(level='DEBUG')

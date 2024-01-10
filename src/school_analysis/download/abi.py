@@ -5,6 +5,8 @@ import pandas as pd
 import zipfile
 import logging
 import school_analysis as sa
+from school_analysis import logger
+from school_analysis.preprocessing.abi import AbiParser
 
 
 DOWNLOAD_DIR = os.path.join("data", "grades")
@@ -14,7 +16,7 @@ URL_ARCHIVE = "https://www.kmk.org/fileadmin/Dateien/pdf/Statistik/Aus_Abiturnot
 URL_ARCHIVE2 = "https://www.kmk.org/fileadmin/Dateien/pdf/Statistik/Dokumentationen/Aus_Abiturnoten_"
 COLUMNS = ["Grade", "BW", "BY", "BE", "BB", "HB", "HH", "HE", "MV", "NI", "NW", "RP", "SL", "N", "ST", "SH", "TH"]
 
-logger = logging.getLogger(__name__)
+parser = AbiParser()
 
 class Download:
     
@@ -99,13 +101,34 @@ class Download:
         if os.path.exists(optional_remove):
             os.remove(optional_remove)
 
-def download_all(config: dict):
+def download_all(config: dict, keep_raw: bool = False):
     """Downloads all data from the internet"""
     # Download data
     logger.log(logging.INFO, "Downloading abi data ...")
     years = YEARS_TO_DOWNLOAD if "all" in config["years"] else config["years"]
-    download = Download(years_to_download=years, ext=config["ext"], working_dir=sa.PROJECT_PATH)
+    download_path = os.path.join(sa.PROJECT_PATH, "data", "raw", config['dir'])
+    sa.create_non_existing_folders(download_path)
+    download = Download(years_to_download=years, ext=config["ext"], working_dir=sa.PROJECT_PATH, dir=os.path.join("data", "raw", config['dir']))
     download.start()
+    grades, fails = parser.parse(download_path)
+    
+    # Write data to csv
+    failed = False
+    logger.log(logging.INFO, "Writing abi data to csv ...")
+    try:
+        processed_path = os.path.join(sa.PROJECT_PATH, "data", config["dir"])
+        sa.create_non_existing_folders(processed_path)
+        grades.to_csv(os.path.join(processed_path, "grades.csv"))
+        fails.to_csv(os.path.join(processed_path, "fails.csv"))
+    except Exception as e:
+        logger.log(logging.ERROR, f"Error while writing abi data to csv: {e}")
+        failed = True
+    
+    if not keep_raw and not failed:
+        # Remove raw data recursively
+        logger.log(logging.INFO, "Removing raw data ...")
+        sa.delete_dir(download_path)
+    
 
 if __name__ == "__main__":
     # Create an argument parser
