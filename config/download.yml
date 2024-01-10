@@ -14,6 +14,13 @@ GENISIS:
     folder: data/genesis/
     format: csv
     years: "1995-2023"
+  - name: '# of repeaters by state, year, sex, school type'
+    download: '21111-0005'
+    site: DESTATIS
+    filename: data/genesis/number_of_repeaters
+    folder: data/genesis/
+    format: csv
+    years: "1998-2022"
 
 # Abitur grades by federal state, should be used with abi.py
 ABI:
