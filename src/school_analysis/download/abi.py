@@ -124,7 +124,7 @@ def download_all(config: dict, keep_raw: bool = False):
         logger.log(logging.ERROR, f"Error while writing abi data to csv: {e}")
         failed = True
     
-    if not keep_raw or not failed:
+    if not keep_raw and not failed:
         # Remove raw data recursively
         logger.log(logging.INFO, "Removing raw data ...")
         sa.delete_dir(download_path)
