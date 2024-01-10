@@ -10,7 +10,7 @@ import logging
 from school_analysis import logger
 
 def download_all(kwargs):
-    """Downloads all data from the internet"""
+    """Downloads all data from the internet"""    
     # Load config
     skip = False
     if not os.path.exists(sa.CREDENTIAL_PATH):

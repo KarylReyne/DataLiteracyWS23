@@ -59,7 +59,8 @@ def download_all(config, keep_raw: bool = False):
         logger.log(logging.INFO, f"Downloading {file['url']} to data/{file.get('folder', 'other') + os.sep + file.get('filename', None)}")
         target_folder = os.path.join(sa.PROJECT_PATH, "data", file.get("folder", "other"))
         raw_folder = os.path.join(sa.PROJECT_PATH, "data", "raw", file.get("folder", "other"))
-        downloader.download(file["url"], target_folder, raw_folder, file.get("parser_id", None), file.get("filename", None), keep_raw=keep_raw, parser_args=file.get("parser_args", None))
+        parser_id = file["filename"].split(".")[0] if file.get("parser_id", None) is None else file.get("parser_id")
+        downloader.download(file["url"], target_folder, raw_folder, parser_id, file.get("filename", None), keep_raw=keep_raw, parser_args=file.get("parser_args", None))
           
 if __name__ == "__main__":
     

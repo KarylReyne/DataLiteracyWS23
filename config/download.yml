@@ -28,7 +28,6 @@ DEFAULT:
     filename: allgemeinbildende-schulen.xlsx
     folder: other/
     format: xlsx
-    parser_id: "allgemeinbildende-schulen"
     parser_args:
       sheet: "Tab. 7.1"
   - name: 'Pisa study data for Germany'
@@ -36,4 +35,3 @@ DEFAULT:
     filename: pisa_germany.xls
     folder: other/
     format: xls
-    parser_id: "pisa_germany"

@@ -129,7 +129,8 @@ def download(client, args, keep_raw=False):
             logger.log(logging.WARNING, f"For Table {args['download']} no parser found. Saving raw data.")
         
         logger.log(logging.INFO, f"Saving raw data to {raw_path} ...")
-        pd.DataFrame(StringIO(result)).to_csv(raw_path, index=False)
+        with open(raw_path, "w") as f:
+            f.write(result)
             
     if parser.contains(args["download"]):
         try:
@@ -137,7 +138,8 @@ def download(client, args, keep_raw=False):
         except Exception as e:            
             logger.log(logging.ERROR, f"Parser failed. Saving raw data.")
             if not keep_raw:
-                pd.DataFrame(StringIO(result)).to_csv(raw_path, index=False)
+                with open(raw_path, "w") as f:
+                    f.write(result)
                     
         df.to_csv(processed_path, index=False)
 
