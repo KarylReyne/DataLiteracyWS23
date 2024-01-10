@@ -19,7 +19,7 @@ class GenesisParser(GenericParser):
     
     # ------------------- Parser -------------------
     
-    def _parser_21111_0010(self, raw_data) -> pd.DataFrame:
+    def _parser_21111_0010(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for the # of children by federal state of Germany"""
         df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=4, engine="python")
         df.replace("b'", "", inplace=True, regex=True)
@@ -64,7 +64,7 @@ class GenesisParser(GenericParser):
         df = df[df["Year"] >= 1998]
         return df
 
-    def _parser_21111_0004(self, raw_data) -> pd.DataFrame:
+    def _parser_21111_0004(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for the # of children by school type of Germany"""
         df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=7, skipfooter=12, engine="python")
         df.replace("Unnamed: 0", "", inplace=True, regex=True)

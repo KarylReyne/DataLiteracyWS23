@@ -26,10 +26,14 @@ DEFAULT:
   - name: 'Oview destatis german schools 2020/21'
     url: https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bildung-Forschung-Kultur/Schulen/Publikationen/Downloads-Schulen/allgemeinbildende-schulen-2110100217005.xlsx?__blob=publicationFile
     filename: allgemeinbildende-schulen.xlsx
-    folder: data/raw/
+    folder: other/
     format: xlsx
+    parser_id: "allgemeinbildende-schulen"
+    parser_args:
+      sheet: "Tab. 7.1"
   - name: 'Pisa study data for Germany'
     url: https://github.com/KarylReyne/DataLiteracyWS23/files/13629119/IDEExcelExport-Dec102023-0927PM.xls
     filename: pisa_germany.xls
-    folder: data/raw/
+    folder: other/
     format: xls
+    parser_id: "pisa_germany"

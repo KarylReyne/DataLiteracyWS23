@@ -27,7 +27,7 @@ def download_all(kwargs):
     # Download data
     logger.log(logging.INFO, "Start downloading all data ...")
     abi_dl.download_all(dl_config["ABI"], keep_raw=kwargs.keep_raw)
-    dl.download_all(dl_config["DEFAULT"])
+    dl.download_all(dl_config["DEFAULT"], keep_raw=kwargs.keep_raw)
     
     # All data with credentials
     if not skip:
