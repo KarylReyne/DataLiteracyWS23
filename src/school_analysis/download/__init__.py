@@ -36,7 +36,7 @@ class DefaultDownloader:
                 try:
                     logger.log(logging.INFO, f"Parsing {url} with parser {parser_id}")
                     data = parser.parse(response.content, parser_id, **kwargs)
-                    data.to_csv(target, index=False)
+                    data.to_csv(target, index=True)
                 except Exception as e:
                     logger.log(logging.ERROR, f"Parsing of {url} failed with error {e}")
                     failed = True

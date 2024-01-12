@@ -118,8 +118,8 @@ def download_all(config: dict, keep_raw: bool = False):
     try:
         processed_path = os.path.join(sa.PROJECT_PATH, "data", config["dir"])
         sa.create_non_existing_folders(processed_path)
-        grades.to_csv(os.path.join(processed_path, "grades.csv"))
-        fails.to_csv(os.path.join(processed_path, "fails.csv"))
+        grades.to_csv(os.path.join(processed_path, "grades.csv"), index=True)
+        fails.to_csv(os.path.join(processed_path, "fails.csv"), index=True)
     except Exception as e:
         logger.log(logging.ERROR, f"Error while writing abi data to csv: {e}")
         failed = True
