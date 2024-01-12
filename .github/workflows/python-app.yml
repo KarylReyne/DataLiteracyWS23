@@ -30,7 +30,7 @@ jobs:
         poetry install
     - name: Download All Data (without credentials)
       run: |
-        poetry run src/school_analysis/download_all --keep-raw
+        poetry run src/school_analysis/download_all.py --keep-raw
     - name: Test with pytest
       run: |
         poetry run pytest test/pipe
