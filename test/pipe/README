@@ -1,0 +1,3 @@
+# Test Files for GitHub Pipeline
+This is directory contains test files for GitHub Pipeline.
+Important: Please do not place any files which uses the data itself, because we are currently not able to load the data into the test pipeline. Instead use the `test/` directory for test files using the original data.
