@@ -106,11 +106,11 @@ def download(client, args, keep_raw=False):
     
     # Build path
     raw_path = os.path.join(sa.PROJECT_PATH, "data", "raw", args["folder"], args['filename'] + '.' + args['format'])
-    processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['filename'] + '.' + args['format'])
+    processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['filename'] + '.csv')
     
     if rs is not None and rs != '*':
         raw_path = os.path.join(sa.PROJECT_PATH, "data", "raw", args["folder"], args['download'] + "_" + rs + '.' + args['format'])
-        processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['download'] + "_" + rs + '.' + args['format'])
+        processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['download'] + "_" + rs + '.csv')
         
     logger.log(logging.INFO, "Downloading to file %s" % processed_path)
     years = args['years'].split("-")

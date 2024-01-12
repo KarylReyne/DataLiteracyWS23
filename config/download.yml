@@ -17,8 +17,8 @@ GENISIS:
   - name: '# of repeaters by state, year, sex, school type'
     download: '21111-0005'
     site: DESTATIS
-    filename: data/genesis/number_of_repeaters
-    folder: data/genesis/
+    filename: number_of_repeaters
+    folder: genesis/
     format: csv
     years: "1998-2022"
 

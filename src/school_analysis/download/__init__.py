@@ -18,7 +18,7 @@ class DefaultDownloader:
     def download(self, url: str, target_folder: str, raw_folder: str, parser_id: str, target_name = None, keep_raw: bool = False, **kwargs):
         target_folder = os.path.join(sa.PROJECT_PATH, target_folder)
         raw_folder = os.path.join(sa.PROJECT_PATH, raw_folder)
-        target = os.path.join(target_folder, target_name if target_name is not None else url.split("?")[0].split("/")[-1])
+        target = os.path.join(target_folder, target_name.split(".")[0] + ".csv" if target_name is not None else url.split("?")[0].split("/")[-1].split(".")[0] + ".csv")
         target_raw = os.path.join(raw_folder, target_name if target_name is not None else url.split("?")[0].split("/")[-1])
         # Check if target folder exists
         sa.create_non_existing_folders(target_folder)
@@ -36,7 +36,7 @@ class DefaultDownloader:
                 try:
                     logger.log(logging.INFO, f"Parsing {url} with parser {parser_id}")
                     data = parser.parse(response.content, parser_id, **kwargs)
-                    data.to_csv(target)
+                    data.to_csv(target, index=False)
                 except Exception as e:
                     logger.log(logging.ERROR, f"Parsing of {url} failed with error {e}")
                     failed = True
