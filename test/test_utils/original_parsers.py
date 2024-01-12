@@ -40,7 +40,7 @@ def load_table_abi_grades(path=ABI_RAW_PATH, pattern=r".*_grades.csv"):
 
 def load_table_school_children_by_state() -> pd.DataFrame:
     path = "data/raw/genesis/school_children_by_state.csv"
-    df = pd.read_csv(os.path.join(sa.PROJECT_PATH ,path), sep=";", skiprows=5, skipfooter=4, engine="python")
+    df = pd.read_csv(os.path.join(sa.PROJECT_PATH ,path), sep=";", skiprows=5, skipfooter=3, engine="python")
     df.replace("", "", inplace=True, regex=True)
     df.columns = ["School Year"] + df.columns[1:].tolist()
     df.rename(columns={"Baden-W\\xc3\\xbcrttemberg": "Baden-Württemberg"}, inplace=True)
@@ -81,7 +81,7 @@ def load_table_school_children_by_state() -> pd.DataFrame:
 
 def load_table_school_children_by_type() -> pd.DataFrame:
     path = "data/raw/genesis/school_children_by_type.csv"
-    df = pd.read_csv(os.path.join(sa.PROJECT_PATH ,path), sep=";", skiprows=7, skipfooter=12, engine="python")
+    df = pd.read_csv(os.path.join(sa.PROJECT_PATH ,path), sep=";", skiprows=7, skipfooter=3, engine="python")
     df.replace("b'", "", inplace=True, regex=True)
     df.rename(columns={"": "School Year"}, inplace=True)
     df.rename(columns={"Baden-W\\xc3\\xbcrttemberg": "Baden-Württemberg"}, inplace=True)
