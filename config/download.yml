@@ -1,5 +1,5 @@
 # Genesis database should be used with genesis.py
-GENISIS:
+GENESIS:
   - name: '# of school children by federal state (ger)'
     download: '21111-0010'
     site: DESTATIS
@@ -17,8 +17,8 @@ GENISIS:
   - name: '# of repeaters by state, year, sex, school type'
     download: '21111-0005'
     site: DESTATIS
-    filename: data/genesis/number_of_repeaters
-    folder: data/genesis/
+    filename: number_of_repeaters
+    folder: genesis/
     format: csv
     years: "1998-2022"
 
@@ -27,10 +27,24 @@ ABI:
   years: all
   dir: abi/
   ext: .zip
+  fails:
+    target: fails.csv
+    read_args:
+      sep: ","
+      encoding: "utf-8"
+      header: [0, 1]
+      index_col: 0
+  grades:
+    target: grades.csv
+    read_args:
+      sep: ","
+      encoding: "utf-8"
+      header: [0, 1]
+      index_col: 0
 
 # Default datasets (single files with url)
 DEFAULT:
-  - name: 'Oview destatis german schools 2020/21'
+  - name: 'Overview destatis german schools 2020/21'
     url: https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bildung-Forschung-Kultur/Schulen/Publikationen/Downloads-Schulen/allgemeinbildende-schulen-2110100217005.xlsx?__blob=publicationFile
     filename: allgemeinbildende-schulen.xlsx
     folder: other/

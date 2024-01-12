@@ -7,7 +7,7 @@ This project aims to analyze different factors that could influence the grades o
 ## Prerequisites
 
 - Python (>=3.8)
-- Destatis Genisis account (for downloading the data) - [Destatis](https://www-genesis.destatis.de/genesis/online)
+- Destatis Genesis account (for downloading the data) - [Destatis](https://www-genesis.destatis.de/genesis/online)
 - [Poetry](https://python-poetry.org/docs/#installation)
 
 ## Getting Started

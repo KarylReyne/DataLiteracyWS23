@@ -1,4 +1,5 @@
 import os
+import yaml
 import importlib.resources
 import matplotlib.pyplot as plt
 from tueplots import bundles
@@ -29,3 +30,9 @@ def delete_dir(path):
             else:
                 os.remove(file_path)
         os.rmdir(path)
+        
+def load_download_config():
+    """Loads the download config"""
+    with open(DOWNLOAD_YAML, "r") as file:
+        dl_config = yaml.load(file, Loader=yaml.FullLoader)
+    return dl_config

@@ -2,7 +2,7 @@ import argparse
 import school_analysis as sa
 import school_analysis.download as dl
 import school_analysis.download.abi as abi_dl
-import school_analysis.download.genisis as gen_dl
+import school_analysis.download.genesis as gen_dl
 import yaml
 import os
 import logging
@@ -15,10 +15,9 @@ def download_all(kwargs):
     skip = False
     if not os.path.exists(sa.CREDENTIAL_PATH):
         skip = True
-        logger.log(logging.WARNING, f"Credentials file not found at {sa.CREDENTIAL_PATH}. Skipping Genisis download.")
+        logger.log(logging.WARNING, f"Credentials file not found at {sa.CREDENTIAL_PATH}. Skipping Genesis download.")
         
-    with open(sa.DOWNLOAD_YAML, "r") as file:
-        dl_config = yaml.load(file, Loader=yaml.FullLoader)
+    dl_config = sa.load_download_config()
     
     if not skip:
         with open(sa.CREDENTIAL_PATH, "r") as file:
@@ -31,10 +30,10 @@ def download_all(kwargs):
     
     # All data with credentials
     if not skip:
-        if "GENISIS" not in credentials:
-            logger.log(logging.ERROR, f"Credentials file at {sa.CREDENTIAL_PATH} does not contain GENISIS credentials. Skipping Genisis download.")
+        if "GENESIS" not in credentials:
+            logger.log(logging.ERROR, f"Credentials file at {sa.CREDENTIAL_PATH} does not contain GENESIS credentials. Skipping Genesis download.")
         else:
-            gen_dl.download_all(dl_config["GENISIS"], credentials["GENISIS"], keep_raw=kwargs.keep_raw)
+            gen_dl.download_all(dl_config["GENESIS"], credentials["GENESIS"], keep_raw=kwargs.keep_raw)
     
     logger.log(logging.INFO, "Downloading finished.")
 

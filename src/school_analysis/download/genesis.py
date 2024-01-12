@@ -8,7 +8,7 @@ import argparse
 import logging
 import tqdm
 import school_analysis as sa
-from school_analysis.preprocessing.genisis import GenesisParser
+from school_analysis.preprocessing.genesis import GenesisParser
 
 from school_analysis import logger
 parser = GenesisParser()
@@ -106,11 +106,11 @@ def download(client, args, keep_raw=False):
     
     # Build path
     raw_path = os.path.join(sa.PROJECT_PATH, "data", "raw", args["folder"], args['filename'] + '.' + args['format'])
-    processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['filename'] + '.' + args['format'])
+    processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['filename'] + '.csv')
     
     if rs is not None and rs != '*':
         raw_path = os.path.join(sa.PROJECT_PATH, "data", "raw", args["folder"], args['download'] + "_" + rs + '.' + args['format'])
-        processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['download'] + "_" + rs + '.' + args['format'])
+        processed_path = os.path.join(sa.PROJECT_PATH, "data", args["folder"], args['download'] + "_" + rs + '.csv')
         
     logger.log(logging.INFO, "Downloading to file %s" % processed_path)
     years = args['years'].split("-")
@@ -141,10 +141,10 @@ def download(client, args, keep_raw=False):
                 with open(raw_path, "w") as f:
                     f.write(result)
                     
-        df.to_csv(processed_path, index=False)
+        df.to_csv(processed_path, index=True)
 
 def download_all(config, credentials, keep_raw=False):
-    """Downloads all defined tables of the GENISIS service"""
+    """Downloads all defined tables of the GENESIS service"""
     user = credentials["DESTATIS"]["user"]
     password = credentials["DESTATIS"]["pass"]
     gc_destatis = GenesisClient("DESTATIS", username=user, password=password)
