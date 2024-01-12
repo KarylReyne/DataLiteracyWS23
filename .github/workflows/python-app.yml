@@ -28,6 +28,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         poetry install
+    - name: Download All Data (without credentials)
+      run: |
+        poetry run src/school_analysis/download_all --keep-raw
     - name: Test with pytest
       run: |
-        poetry run pytest test
+        poetry run pytest test/pipe
