@@ -21,6 +21,13 @@ GENESIS:
     folder: genesis/
     format: csv
     years: "1998-2022"
+  - name: 'Zensus'
+    download: '12411-0011'
+    site: DESTATIS
+    filename: zensus
+    folder: genesis/
+    format: csv
+    years: "1995-2023"
 
 # Abitur grades by federal state, should be used with abi.py
 ABI:

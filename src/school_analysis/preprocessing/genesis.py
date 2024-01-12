@@ -1,4 +1,5 @@
 from io import StringIO
+import re
 import school_analysis as sa
 import pandas as pd
 import numpy as np
@@ -15,6 +16,7 @@ class GenesisParser(GenericParser):
         self.MAPPING: dict[str, function] = {
             "21111-0010": self._parser_21111_0010,
             "21111-0004": self._parser_21111_0004,
+            "12411-0011": self._parser_12411_0011,
         }
     
     # ------------------- Parser -------------------
@@ -115,3 +117,25 @@ class GenesisParser(GenericParser):
         df['Gender'] = df['Gender'].str.replace("'", '')
         df_normal = df[df["School Type"] != "Total"]
         return df_normal
+    
+    def _parser_12411_0011(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for the # of children by school type of Germany"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=4, engine="python")
+        df = df.rename(columns={"Unnamed: 0": "Temp", "Sex": "m", "Unnamed: 2": "f", "Unnamed: 3": "all"})
+        
+        # Build own melted table --> may be done better
+        temp = pd.DataFrame(columns=["Year", "Gender", "Value", "Federal State"])
+        last_year = ""
+        for i in df.index:
+            if df.loc[i, "Temp"] is np.nan:
+                continue
+            elif re.match(r"\d{4}-\d{2}-\d{2}", df.loc[i, "Temp"]):
+                last_year = df.loc[i, "Temp"].split("-")[0]
+                continue
+        
+            fs = df.loc[i, "Temp"]
+            for g in ["m", "f", "all"]:
+                temp.loc[len(temp.index)] = [last_year, g, df.loc[i, g], fs]
+        df = temp
+        
+        return df

@@ -22,6 +22,7 @@ class Loader():
             'school-children-by-type': lambda: self._default_loader("GENESIS", "# of school children by school type (ger)"),
             'teachers-per-schooltype': lambda: self._default_loader("DEFAULT", "Overview destatis german schools 2020/21"),
             'pisa-germany': lambda: self._default_loader("DEFAULT", "Pisa study data for Germany"),
+            'zensus': lambda: self._default_loader("GENESIS", "Zensus"),
         }
 
     def load(self, name: str):
