@@ -28,6 +28,13 @@ GENISIS:
     folder: data/genesis/
     format: csv
     years: "2000-2022"
+  - name: "# graduates"
+    download: '21111-0013'
+    site: DESTATIS
+    filename: data/genesis/graduates
+    folder: data/genesis/
+    format: csv
+    years: "2015-2022"
 
 
 
