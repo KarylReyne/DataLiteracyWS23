@@ -85,6 +85,12 @@ class DefaultParser(GenericParser):
             df[c] = df[c].str.replace(r'\s*\d+$', '', regex=True)
             df[c] = df[c].str.replace(r'\s*\d+$', '', regex=True)
         
+        # Other replacements
+        df["School Type"] = df["School Type"].str.replace("Grundschulen ", "Grundschulen")
+        df["School Type"] = df["School Type"].str.replace("Hauptschulen ", "Hauptschulen")
+        df["School Type"] = df["School Type"].str.replace("Integrierte Gesamtschulen ", "Integrierte Gesamtschulen")
+        df["School Type"] = df["School Type"].str.replace("\nKollegs", "Kollegs")
+        
         return df
         
     def _parser_pisa_germany(self, raw_data, *args, **kwargs):

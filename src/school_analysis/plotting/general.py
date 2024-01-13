@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 class GeneralPlots:
     
     @staticmethod
-    def absolute_relative_plot(df: pd.DataFrame, x_column: str, y_column: str, label_column: str, label_types: list[str], grouping: list[str] = ["Year", "Gender"]) -> tuple[plt.Figure, plt.Axes]:
+    def absolute_relative_plot(df: pd.DataFrame, x_column: str, y_column: str, label_column: str, label_types: list[str], grouping: list[str] = ["Year", "Gender"], bbox_to_anchor=(1.4, 0.5)) -> tuple[plt.Figure, plt.Axes]:
         """Generates two plots. The first plot shows the absolute values of the y_column for the label_types. The second plot shows the relative values of the y_column for the label_types.
 
         Args:
@@ -54,6 +54,6 @@ class GeneralPlots:
 
         # Build legend
         handles, labels = ax.get_legend_handles_labels()
-        fig.legend(handles, labels, loc='right', bbox_to_anchor=(1.4, 0.5), title=label_column)
+        fig.legend(handles, labels, loc='right', bbox_to_anchor=bbox_to_anchor, title=label_column)
 
         return fig, axs
