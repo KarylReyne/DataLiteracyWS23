@@ -3,7 +3,7 @@ import re
 import school_analysis as sa
 import pandas as pd
 import numpy as np
-from school_analysis.preprocessing import GenericParser
+from school_analysis.preprocessing import GenericParser, SCHOOL_TYPE_MAPPING
 
 from school_analysis import logger
 
@@ -17,6 +17,7 @@ class GenesisParser(GenericParser):
             "21111-0010": self._parser_21111_0010,
             "21111-0004": self._parser_21111_0004,
             "12411-0011": self._parser_12411_0011,
+            "12411-0042": self._parser_12411_0042,
         }
     
     # ------------------- Parser -------------------
@@ -116,10 +117,13 @@ class GenesisParser(GenericParser):
         df["Value"] = df["Value"].astype(float)
         df['Gender'] = df['Gender'].str.replace("'", '')
         df_normal = df[df["School Type"] != "Total"]
-        return df_normal
+        df_mapped = df_normal.copy()
+        df_mapped["Mapped School Type"] = df_normal["School Type"].map(SCHOOL_TYPE_MAPPING)
+        
+        return df_mapped
     
     def _parser_12411_0011(self, raw_data, *args, **kwargs) -> pd.DataFrame:
-        """Parser for the # of children by school type of Germany"""
+        """Parser for the Zensus"""
         df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=4, engine="python")
         df = df.rename(columns={"Unnamed: 0": "Temp", "Sex": "m", "Unnamed: 2": "f", "Unnamed: 3": "all"})
         
@@ -136,6 +140,29 @@ class GenesisParser(GenericParser):
             fs = df.loc[i, "Temp"]
             for g in ["m", "f", "all"]:
                 temp.loc[len(temp.index)] = [last_year, g, df.loc[i, g], fs]
+        df = temp
+        
+        return df
+    
+    def _parser_12411_0042(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for the Zensus - age groups"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=4, engine="python")
+        df = df.rename(columns={"Unnamed: 0": "Temp", "Germans": "Germans m", "Unnamed: 2": "Germans f", "Unnamed: 3": "Germans all", "Foreigners": "Foreigners m", "Unnamed: 5": "Foreigners f", "Unnamed: 6": "Foreigners all", "Total": "Total m", "Unnamed: 8": "Total f", "Unnamed: 9": "Total all"})
+        
+        # Build own melted table --> may be done better
+        temp = pd.DataFrame(columns=["Year", "Gender", "Value", "Federal State", "Origin"])
+        last_year = ""
+        for i in df.index:
+            if df.loc[i, "Temp"] is np.nan:
+                continue
+            elif re.match(r"\d{4}", df.loc[i, "Temp"]):
+                last_year = df.loc[i, "Temp"].split("-")[0]
+                continue
+        
+            fs = df.loc[i, "Temp"]
+            for g in ["m", "f", "all"]:
+                for t in ["Germans", "Foreigners", "Total"]:
+                    temp.loc[len(temp.index)] = [last_year, g, df.loc[i, t + " " + g], fs, t]
         df = temp
         
         return df
