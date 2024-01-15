@@ -23,6 +23,7 @@ class Loader():
             'teachers-per-schooltype': lambda: self._default_loader("DEFAULT", "Overview destatis german schools 2020/21"),
             'pisa-germany': lambda: self._default_loader("DEFAULT", "Pisa study data for Germany"),
             'zensus': lambda: self._default_loader("GENESIS", "Zensus"),
+            'zensus-age': lambda: self._load_age_group("GENESIS", "zensus-"),
         }
 
     def load(self, name: str):
@@ -54,3 +55,20 @@ class Loader():
         i = [n["name"] for n in self._download_config[key]].index(dataset)
         path = os.path.join(sa.PROJECT_PATH, "data", self._download_config[key][i]["folder"], self._download_config[key][i]["filename"].split(".")[0] + ".csv")
         return pd.read_csv(path, **self.STD_CONFIG)
+    
+    def _load_age_group(self, key: str, filename_prefix: str):
+        # Check if file exists
+        if key not in self._download_config:
+            raise ValueError(f"Unknown key {key}")
+        
+        # Find file
+        dfs = []
+        for entry in self._download_config[key]:
+            if entry["filename"].startswith(filename_prefix):
+                path = os.path.join(sa.PROJECT_PATH, "data", entry["folder"], entry["filename"].split(".")[0] + ".csv")
+                dfs.append(pd.read_csv(path, **self.STD_CONFIG))
+        
+        if len(dfs) == 0:
+            raise ValueError(f"Unknown dataset {filename_prefix}")
+            
+        return pd.concat(dfs, ignore_index=True).reset_index(drop=True)

@@ -123,6 +123,9 @@ def download(client, args, keep_raw=False):
     )
     
     result = "\n".join([row.decode("utf-8") for row in result])
+    if len(result) < 10:
+        logger.log(logging.ERROR, f"Download failed for table {args['download']}.")
+        return
     
     if keep_raw or not parser.contains(args["download"]):
         if not parser.contains(args["download"]):

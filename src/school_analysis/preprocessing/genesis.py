@@ -18,6 +18,7 @@ class GenesisParser(GenericParser):
             "21111-0004": self._parser_21111_0004,
             "12411-0011": self._parser_12411_0011,
             "12411-0042": self._parser_12411_0042,
+            "12411-0013": self._parser_12411_0013,
         }
     
     # ------------------- Parser -------------------
@@ -163,6 +164,41 @@ class GenesisParser(GenericParser):
             for g in ["m", "f", "all"]:
                 for t in ["Germans", "Foreigners", "Total"]:
                     temp.loc[len(temp.index)] = [last_year, g, df.loc[i, t + " " + g], fs, t]
+        df = temp
+        
+        return df
+    
+    def _parser_12411_0013(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for the Zensus - age groups"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=4, engine="python")
+        
+        # Rename columns
+        last_state = ""
+        for i in range(1, len(df.columns)):
+            if not re.match("Unnamed: \d", df.columns[i]):
+                last_state = df.columns[i]
+            df = df.rename(columns={df.columns[i]: last_state + "." + df.iloc[0, i]})
+        df = df.drop(df.index[0]).reset_index(drop=True)
+        df = df.rename(columns={"Unnamed: 0": "Temp"})
+        
+        # Build own melted table --> may be done better
+        temp = pd.DataFrame(columns=["Year", "Gender", "Value", "Federal State", "Age"])
+        last_year = ""
+        for i in df.index:
+            if df.loc[i, "Temp"] is np.nan:
+                continue
+            elif re.match(r"\d{4}", df.loc[i, "Temp"]):
+                last_year = df.loc[i, "Temp"].split("-")[0]
+                continue
+        
+            age = df.loc[i, "Temp"]
+            for c in df.columns[1:]:
+                splitted = c.split(".")
+                federal_state = splitted[0]
+                gender = splitted[1]
+                value = df.loc[i, c]
+                temp.loc[len(temp.index)] = [int(last_year), gender, float(value), federal_state, age]                
+            
         df = temp
         
         return df
