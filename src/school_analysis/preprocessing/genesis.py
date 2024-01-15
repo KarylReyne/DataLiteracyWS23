@@ -196,9 +196,22 @@ class GenesisParser(GenericParser):
                 splitted = c.split(".")
                 federal_state = splitted[0]
                 gender = splitted[1]
+                gender = "m" if gender == "Male" else "f" if gender == "Female" else "all"
                 value = df.loc[i, c]
                 temp.loc[len(temp.index)] = [int(last_year), gender, float(value), federal_state, age]                
-            
+        
+        # Convert age to int
+        def convert_ages(x):
+            if x == "under 1 year":
+                return 0
+            elif x == "90 years and over":
+                return 90
+            elif x == "Total":
+                return -1
+            else:
+                return int(x.split(" ")[0])
+        temp["Age"] = temp["Age"].apply(convert_ages)
+        
         df = temp
         
         return df
