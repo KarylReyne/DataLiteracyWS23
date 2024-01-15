@@ -138,13 +138,13 @@ def download(client, args, keep_raw=False):
     if parser.contains(args["download"]):
         try:
             df = parser.parse(result, args["download"])
+            df.to_csv(processed_path, index=True)
         except Exception as e:            
             logger.log(logging.ERROR, f"Parser failed. Saving raw data.")
-            if not keep_raw:
+            if keep_raw:
                 with open(raw_path, "w") as f:
                     f.write(result)
                     
-        df.to_csv(processed_path, index=True)
 
 def download_all(config, credentials, keep_raw=False):
     """Downloads all defined tables of the GENESIS service"""
