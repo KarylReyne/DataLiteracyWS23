@@ -53,6 +53,36 @@ GENESIS:
     folder: genesis/
     format: csv
     years: "1996-2004"
+  - name: '# students with special educational support'
+    download: '21111-0007'
+    site: DESTATIS
+    filename: data/genesis/students_with_sepecial_educational_support
+    folder: data/genesis/
+    format: csv
+    years: "2000-2022"
+  - name: "# graduates #3"
+    download: '21111-0013'
+    site: DESTATIS
+    filename: data/genesis/graduates_3
+    folder: data/genesis/
+    format: csv
+    years: "2015-2022"
+  - name: "# graduates #2"
+    download: '21111-0013'
+    site: DESTATIS
+    filename: data/genesis/graduates_2
+    folder: data/genesis/
+    format: csv
+    years: "2007-2014"
+  - name: "# graduates #1"
+    download: '21111-0013'
+    site: DESTATIS
+    filename: data/genesis/graduates_1
+    folder: data/genesis/
+    format: csv
+    years: "1998-2006"
+
+
 
 # Abitur grades by federal state, should be used with abi.py
 ABI:
