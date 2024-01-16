@@ -1,6 +1,9 @@
 import pytest
 import test_utils as tu
 import test_utils.original_parsers as op
+from school_analysis.preprocessing.load import Loader
+
+loader = Loader()
 
 @pytest.mark.parametrize("name,expected", [
     ("abi-fails", op.load_table_abi_fails()),
@@ -13,3 +16,9 @@ import test_utils.original_parsers as op
 
 def test_parser(name, expected):
     tu.test_parser(name, expected)
+    
+def test_school_type_mapping():
+    children_school_type = loader.load("school-children-by-type")
+    
+    unmapped = children_school_type[children_school_type["Mapped School Type"].isna()]["School Type"].unique()
+    assert len(list(unmapped)) == 0, "There are unmapped school types: {}".format(unmapped)

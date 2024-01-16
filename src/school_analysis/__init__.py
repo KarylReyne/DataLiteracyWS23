@@ -12,6 +12,11 @@ PACKAGE_PATH = importlib.resources.files("school_analysis")
 PROJECT_PATH = os.path.join(PACKAGE_PATH, "..", "..")
 CREDENTIAL_PATH = os.path.join(PROJECT_PATH, "config", "credentials.yml")
 DOWNLOAD_YAML = os.path.join(PROJECT_PATH, "config", "download.yml")
+
+# TEACHERS AND STUDENTS SETTINGS
+MC_NUM = 5
+CONTRACT_TYPES = ["Vollzeitbeschäftigte Lehrkräfte", "Teilzeitbeschäftigte Lehrkräfte", "Stundenweise beschäftigte Lehrkräfte"]
+
 logger = logging.getLogger("Main Logger")
 logger.setLevel(logging.INFO)
 

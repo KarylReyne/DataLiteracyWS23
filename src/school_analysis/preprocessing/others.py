@@ -79,6 +79,18 @@ class DefaultParser(GenericParser):
         df.rename(columns={df.columns[3]: "Gender"}, inplace=True)
         df.reset_index(drop=True, inplace=True)
         df = df.melt(id_vars=df.columns[:4].tolist(), value_vars=df.columns[4:].tolist(), var_name="Year", value_name="Number of Teachers")
+        
+        # Replace numbers at the end of the strings
+        for c in ["Federal State", "Contract Type", "School Type"]:
+            df[c] = df[c].str.replace(r'\s*\d+$', '', regex=True)
+            df[c] = df[c].str.replace(r'\s*\d+$', '', regex=True)
+        
+        # Other replacements
+        df["School Type"] = df["School Type"].str.replace("Grundschulen ", "Grundschulen")
+        df["School Type"] = df["School Type"].str.replace("Hauptschulen ", "Hauptschulen")
+        df["School Type"] = df["School Type"].str.replace("Integrierte Gesamtschulen ", "Integrierte Gesamtschulen")
+        df["School Type"] = df["School Type"].str.replace("\nKollegs", "Kollegs")
+        
         return df
         
     def _parser_pisa_germany(self, raw_data, *args, **kwargs):
