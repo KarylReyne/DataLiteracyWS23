@@ -68,6 +68,14 @@ GENESIS:
     format: csv
     years: "1995-2023"
 
+  - name: 'Verbraucherpreisindex by state'
+    download: '61111-0010'
+    site: DESTATIS
+    filename: verbraucherpreisindex_state
+    folder: genesis/
+    format: csv
+    years: "1995-2023"
+
 # Abitur grades by federal state, should be used with abi.py
 ABI:
   years: all
