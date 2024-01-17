@@ -19,6 +19,9 @@ class GenesisParser(GenericParser):
             "12411-0011": self._parser_12411_0011,
             "12411-0042": self._parser_12411_0042,
             "12411-0013": self._parser_12411_0013,
+            "21381-0013": self._parser_21381_0013, # for SecEff_001
+            "21311-0004": self._parser_21311_0004, # for SecEff_002
+            "21321-0006": self._parser_21321_0006, # for SecEff_003
         }
     
     # ------------------- Parser -------------------
@@ -215,3 +218,29 @@ class GenesisParser(GenericParser):
         df = temp
         
         return df
+    
+
+    def _parser_21381_0013(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for SecEff_001"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=20, engine="python")
+        
+        # TODO
+
+        print(df)
+        return df
+    
+    def _parser_21311_0004(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        # """Parser for SecEff_002"""
+        # df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=0, skipfooter=0, engine="python")
+        # print(df)
+
+        # return df
+        pass
+    
+    def _parser_21321_0006(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        # """Parser for SecEff_003"""
+        # df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=0, skipfooter=0, engine="python")
+        # print(df)
+
+        # return df
+        pass
