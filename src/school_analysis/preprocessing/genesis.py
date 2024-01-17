@@ -20,6 +20,7 @@ class GenesisParser(GenericParser):
             "12411-0042": self._parser_12411_0042,
             "12411-0013": self._parser_12411_0013,
             "21711-0011": self._parser_21711_0011,
+            "21711-0010": self._parser_21711_0010,
         }
     
     # ------------------- Parser -------------------
@@ -222,4 +223,36 @@ class GenesisParser(GenericParser):
         df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=3, engine="python")
         df = df.rename(columns={"Unnamed: 0": "Federal State"})
         df = df.melt(id_vars=["Federal State"], var_name="Year", value_name="Budget")
+        return df
+    
+    def _parser_21711_0010(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for the school budgets by federal states over the years and different areas"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=3, engine="python")
+        df = df.rename(columns={"Unnamed: 0": "Year/Institution", "Unnamed: 1": "Measure", "Unnamed: 2": "Unit"})
+        df = df.drop(df.index[1]).reset_index(drop=True)
+        df = df.replace(r"^.$", np.nan, regex=True)
+        
+        last_year = ""
+        last_institution = ""
+        temp = pd.DataFrame(columns=["Institution", "Year", "Measure", "Unit", "Value", "Federal State"])
+        for i in df.index:
+            if re.match(r"\d{4}", str(df.loc[i, "Year/Institution"])):
+                last_year = df.loc[i, "Year/Institution"]
+                continue
+            if df.loc[i, "Year/Institution"] == "Länder":
+                continue
+            if df.loc[i, "Year/Institution"] is not np.nan:
+                last_institution = df.loc[i, "Year/Institution"]
+                
+            measure = df.loc[i, "Measure"]
+            unit = df.loc[i, "Unit"]
+                    
+            for c in df.columns[3:]:
+                federal_state = c
+                value = df.loc[i, c]
+                temp.loc[len(temp.index)] = [last_institution, int(last_year), measure, unit, float(value), federal_state]
+                
+        df = temp
+        
+        
         return df

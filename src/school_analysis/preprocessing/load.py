@@ -23,6 +23,8 @@ class Loader():
             'school-children-by-state': lambda **kwargs: self._default_loader("GENESIS", "# of school children by federal state (ger)"),
             'school-children-by-type': lambda **kwargs: self._default_loader("GENESIS", "# of school children by school type (ger)"),
             'teachers-per-schooltype': lambda **kwargs: self._default_loader("DEFAULT", "Overview destatis german schools 2020/21"),
+            'budgets-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets of schools by federal state (ger)"),
+            'budgets-per-child-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets per public schools by children by federal state (ger)"),
             'pisa-germany': lambda **kwargs: self._default_loader("DEFAULT", "Pisa study data for Germany"),
             'zensus': lambda **kwargs: self._default_loader("GENESIS", "Zensus"),
             'zensus-age': lambda **kwargs: self._load_age_group("GENESIS", "zensus-"),
