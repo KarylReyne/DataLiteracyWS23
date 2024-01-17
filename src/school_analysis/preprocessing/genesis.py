@@ -19,9 +19,51 @@ class GenesisParser(GenericParser):
             "12411-0011": self._parser_12411_0011,
             "12411-0042": self._parser_12411_0042,
             "12411-0013": self._parser_12411_0013,
+            "21111-0014": self._parser_21111_0014,
+            "21111-0008": self._parser_21111_0008,
+            "21111-0013": self._parser_21111_0013
         }
     
     # ------------------- Parser -------------------
+
+    def _parser_21111_0013(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        return pd.DataFrame()
+
+    def _parser_21111_0008(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        return pd.DataFrame()
+    
+    def _parser_21111_0014(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=14, engine="python")
+        df.replace("b'", "", inplace=True, regex=True)
+        years = [int(item.split("/")[0]) for item in df.iloc[0].dropna().tolist() if item!='' and item!='\'']
+
+        df = df.fillna(method='ffill')
+        df.rename(columns={df.columns[0]: 'state'}, inplace=True)
+        df.rename(columns={df.columns[1]: 'school'}, inplace=True)
+        df.rename(columns={df.columns[3]: 'male'}, inplace=True)
+        df.rename(columns={df.columns[5]: 'female'}, inplace=True)
+        df.rename(columns={df.columns[7]: 'total'}, inplace=True)
+
+        data = []
+
+        for index, row in df.iloc[3:,].iterrows():
+            for idx, year in enumerate(years):
+                try:
+                    record = {
+                        'state': row[0],
+                        'school': row[1],
+                        'grade': row[2],
+                        'year': year,
+                        'male': row[3+idx*6],
+                        'female': row[5+idx*6],
+                        'total': row[7+idx*6]
+                    }
+                    data.append(record)
+                except:
+                    pass
+
+        melted_df = pd.DataFrame(data)
+        return melted_df
     
     def _parser_21111_0010(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for the # of children by federal state of Germany"""

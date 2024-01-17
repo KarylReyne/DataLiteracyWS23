@@ -27,7 +27,7 @@ class Loader():
             'zensus': lambda **kwargs: self._default_loader("GENESIS", "Zensus"),
             'zensus-age': lambda **kwargs: self._load_age_group("GENESIS", "zensus-"),
             'students-per-teacher-by-state': self._load_students_per_teacher_by_state,
-            'students-per-teacher-by-type': self._load_students_per_teacher_by_type,
+            'students-per-teacher-by-type': self._load_students_per_teacher_by_type
         }
 
     def load(self, name: str, **kwargs):
@@ -76,7 +76,7 @@ class Loader():
             raise ValueError(f"Unknown dataset {filename_prefix}")
             
         return pd.concat(dfs, ignore_index=True).reset_index(drop=True)
-    
+
     def _load_students_per_teacher_by_type(self, **kwargs):
         students_per_type = self.load("school-children-by-type")
         teachers = self.load("teachers-per-schooltype")
