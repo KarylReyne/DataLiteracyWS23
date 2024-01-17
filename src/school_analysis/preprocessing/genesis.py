@@ -27,12 +27,96 @@ class GenesisParser(GenericParser):
     # ------------------- Parser -------------------
 
     def _parser_21111_0013(self, raw_data, *args, **kwargs) -> pd.DataFrame:
-        return pd.DataFrame()
+        """Parser for graduates"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=7, skipfooter=4, engine="python", index_col=None, header=None)
+        df.replace("b'", "", inplace=True, regex=True)
+        df.replace("'", "", inplace=True, regex=True)
+        df.set_index(1, inplace=True)
+
+        df.columns = range(df.shape[1])
+
+        df
+
+        df.replace("b'", "", inplace=True, regex=True)
+
+        df.rename(columns={df.columns[0]: 'state'}, inplace=True)
+
+
+        df['state'] = df['state'].fillna(method='ffill')
+
+        years = [int(item.split("/")[0]) for item in df.iloc[0].dropna().tolist() if item!='' and item!='\'']
+
+        states = [
+            "Baden-Württemberg", 
+            "Bayern", 
+            "Berlin", 
+            "Brandenburg", 
+            "Bremen", 
+            "Hamburg", 
+            "Hessen", 
+            "Mecklenburg-Vorpommern", 
+            "Niedersachsen", 
+            "Nordrhein-Westfalen", 
+            "Rheinland-Pfalz", 
+            "Saarland", 
+            "Sachsen", 
+            "Sachsen-Anhalt", 
+            "Schleswig-Holstein", 
+            "Thüringen"
+        ]
+
+
+        data = []
+
+        for idx,state in enumerate(states):
+            part = df.iloc[4+85*idx:]
+            part = part[part.index=="Without secondary general school certificate"]
+            for row in  part.iterrows():
+                for y_idx,year in enumerate(years):
+                    male = row[1][1+y_idx*3]
+                    female = row[1][2+y_idx*3]
+                    total = row[1][3+y_idx*3]           
+                    record = {
+                        'state': state,
+                        'school': row[1]['state'], #state and schol have the same column              
+                        'year': year,
+                        'male': male,
+                        'female':female,
+                        'total': total
+                    }
+                    data.append(record)
+
+        df_melted = pd.DataFrame(data)
+        return df_melted
 
     def _parser_21111_0008(self, raw_data, *args, **kwargs) -> pd.DataFrame:
-        return pd.DataFrame()
+        """Parser for students with special educational support"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=4, engine="python")
+        df.replace("b'", "", inplace=True, regex=True)
+
+        df.replace("b'", "", inplace=True, regex=True)
+        years = [int(item.split("/")[0]) for item in df.iloc[1].dropna().tolist() if item!='' and item!='\'']
+        df = df.fillna(method='ffill')
+
+        df.rename(columns={df.columns[0]: 'school'}, inplace=True)
+        df.rename(columns={df.columns[1]: 'effects'}, inplace=True)
+        data = []
+        for index, row in df.iloc[4:,].iterrows():
+            for idx, year in enumerate(years):      
+                record = {
+                    'school': row[0],
+                    'effect': row[1],
+                    'year': year,
+                    'male': row[2+idx*3],
+                    'female': row[3+idx*3],
+                    'total': row[4+idx*3],
+                }
+                data.append(record)
+        melted_df = pd.DataFrame(data)
+        return melted_df
     
     def _parser_21111_0014(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for repeaters"""
         df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=14, engine="python")
         df.replace("b'", "", inplace=True, regex=True)
         years = [int(item.split("/")[0]) for item in df.iloc[0].dropna().tolist() if item!='' and item!='\'']
