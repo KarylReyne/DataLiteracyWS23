@@ -19,6 +19,7 @@ class GenesisParser(GenericParser):
             "12411-0011": self._parser_12411_0011,
             "12411-0042": self._parser_12411_0042,
             "12411-0013": self._parser_12411_0013,
+            "21711-0011": self._parser_21711_0011,
         }
     
     # ------------------- Parser -------------------
@@ -214,4 +215,11 @@ class GenesisParser(GenericParser):
         
         df = temp
         
+        return df
+    
+    def _parser_21711_0011(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for the school budgets by child by federal states over the years"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=3, engine="python")
+        df = df.rename(columns={"Unnamed: 0": "Federal State"})
+        df = df.melt(id_vars=["Federal State"], var_name="Year", value_name="Budget")
         return df
