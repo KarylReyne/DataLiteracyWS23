@@ -107,6 +107,7 @@ class Loader():
     def _load_students_per_teacher_by_state(self, **kwargs):
         students_per_state = self.load("school-children-by-state", **kwargs)
         teachers = self.load("teachers-per-schooltype")
+        contract_types = kwargs.get("contract_types", sa.CONTRACT_TYPES)
         
         # Merge with teachers
         temp_students = students_per_state[(students_per_state["Gender"] == "all")]
@@ -114,4 +115,6 @@ class Loader():
         temp_teacher = teachers[(teachers["Gender"] == "z") & (teachers["School Type"] == "Zusammen")].drop("Gender", axis=1)
         temp_teacher = temp_teacher.drop("School Type", axis=1)
         students_per_techear_by_federal_state = pd.merge(temp_students, temp_teacher, how="inner", on=["Federal State", "Year"])
-        return students_teachers.get_students_per_teacher(students_per_techear_by_federal_state)
+        students_per_teacher = students_teachers.get_students_per_teacher(students_per_techear_by_federal_state, contract_types)
+        students_per_teacher = students_per_teacher[(students_per_teacher["Contract Type"].isin(contract_types))]
+        return students_per_teacher
