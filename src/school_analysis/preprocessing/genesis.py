@@ -264,6 +264,6 @@ class GenesisParser(GenericParser):
                 temp.loc[len(temp.index)] = [last_institution, int(last_year), measure, unit, float(value), federal_state]
                 
         df = temp
-        
+        df = df[df["Measure"].isna() == False]
         
         return df
