@@ -1,6 +1,6 @@
 # Data Literacy COVID School
-[![Build LaTeX document](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/actions/workflows/build-pdf.yml)
-[![Tests](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/actions/workflows/python-app.yml)
+[![Build LaTeX document](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml)
+[![Tests](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml)
 
 ## Introduction
 
