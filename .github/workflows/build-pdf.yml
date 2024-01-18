@@ -3,9 +3,6 @@ on:
   push:
     paths:
       - doc/report/**
-  pull_request:
-    paths:
-      - doc/report/**
 jobs:
   build_latex:
     runs-on: ubuntu-latest
