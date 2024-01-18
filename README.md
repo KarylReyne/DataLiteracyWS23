@@ -2,7 +2,7 @@
 [![Build LaTeX document](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml)
 [![Tests](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml)
 
-Latest PDF: [Download](https://github.com/KarylReyne/DataLiteracyWS23/actions/runs/<run_id>/artifacts/<artifact_id>/zip)
+Latest PDF: [Download](https://api.github.com/repos/KarylReyne/DataLiteracyWS23/actions/runs/7573874640/zip)
 
 ## Introduction
 
