@@ -62,20 +62,20 @@ GENESIS:
     folder: genesis/
     format: csv
     years: "2015-2023"
-  - name: '# of students per subject'
-    download: '21311-0004'
-    site: DESTATIS
-    filename: SecEff_002_numberOfStudentsPerSubject
-    folder: genesis/
-    format: csv
-    years: "2015-2023"
-  - name: '# of passes and fails per subject'
-    download: '21321-0006'
-    site: DESTATIS
-    filename: SecEff_003_numberOfPassesAndFailsPerSubject
-    folder: genesis/
-    format: csv
-    years: "2015-2023"
+  # - name: '# of students per subject'
+  #   download: '21311-0004'
+  #   site: DESTATIS
+  #   filename: SecEff_002_numberOfStudentsPerSubject
+  #   folder: genesis/
+  #   format: csv
+  #   years: "2015-2023"
+  # - name: '# of passes and fails per subject'
+  #   download: '21321-0006'
+  #   site: DESTATIS
+  #   filename: SecEff_003_numberOfPassesAndFailsPerSubject
+  #   folder: genesis/
+  #   format: csv
+  #   years: "2015-2023"
 
 # Abitur grades by federal state, should be used with abi.py
 ABI:

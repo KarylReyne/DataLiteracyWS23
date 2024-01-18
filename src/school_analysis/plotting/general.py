@@ -1,6 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import os
+import numpy as np
+from tueplots.constants.color import rgb
 
 
 class GeneralPlots:
@@ -57,3 +59,67 @@ class GeneralPlots:
         fig.legend(handles, labels, loc='right', bbox_to_anchor=bbox_to_anchor, title=label_column)
 
         return fig, axs
+    
+
+    def generate_SecEff_001_plots(csv_path: str=f"data{os.sep}genesis{os.sep}SecEff_001_studienberechtigtenquote.csv"):
+        df = pd.read_csv(csv_path)
+
+        years = df.columns[2:]
+        states = df["Unnamed: 0"][0:47:4]
+
+        yvalues_dict = {}
+
+        state_idx = 0
+        for s in states:
+            for key, modifier in {
+                "Entrance qualification for univ. of appl. sciences": 1,
+                "University entrance qualification": 2,
+                "Total": 3
+            }.items():
+                data_array = np.array([df[y][state_idx+modifier] for y in years])
+                yvalues_dict[f"{s}: {key}"] = data_array
+                try:
+                    old_array = yvalues_dict[f"GERMANY: {key}"]
+                    for i in np.arange(0, len(data_array)):
+                        old_array[i].append(data_array[i])
+                    yvalues_dict[f"GERMANY: {key}"] = old_array
+                except KeyError:
+                    yvalues_dict[f"GERMANY: {key}"] = [
+                        [data_array[i]] for i in np.arange(0, len(data_array))
+                    ]
+            state_idx += 4
+        
+        for v in ["Entrance qualification for univ. of appl. sciences", "University entrance qualification", "Total"]:
+            yvalues_dict[f"GERMANY: {v}"] = [np.mean(l)*0.01 for l in yvalues_dict[f"GERMANY: {v}"]]
+
+        # plotting
+        fig,ax = plt.subplots()
+
+        for key, value in {
+            "Entrance qualification for univ. of appl. sciences": [rgb.tue_blue], 
+            "University entrance qualification": [rgb.tue_red], 
+            "Total": [rgb.tue_green]
+        }.items():
+            yvalues = yvalues_dict[f"GERMANY: {key}"]
+            ax.plot(years, yvalues, '.-', ms=2, lw=0.75, color=value[0], label=key)
+
+        _fontsize = 7
+        ax.set_xlabel("year", fontsize=_fontsize)
+        ax.set_ylabel("% of graduates* (mean over all states)", fontsize=_fontsize)
+        # *with allgemeiner Hochschulreife, fachgebundener Hochschulreife or Fachhochschulreife
+        ax.legend(loc="center left")
+
+        ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
+
+        ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
+        ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
+
+        fig.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_001_GERMANY-Total.pdf")
+
+    
+    def generate_SecEff_002_plots(csv_path: str):
+        pass
+
+    
+    def generate_SecEff_003_plots(csv_path: str):
+        pass
