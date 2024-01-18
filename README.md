@@ -2,6 +2,7 @@
 [![Build LaTeX document](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml)
 [![Tests](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml)
 
+Latest PDF: [Download](report.pdf)
 
 ## Introduction
 
@@ -77,4 +78,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
  - the file `doc/report/icml2023.bst` which is licensed under the LaTeX Project Public License and redistributed as a complete, unmodified copy
  
 Please refer to the [LICENSES](doc/LICENSES) directory for the individual licenses as well as the licenses of the data used in this project.
-Latest PDF: [Download]()
