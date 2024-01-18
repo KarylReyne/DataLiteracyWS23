@@ -25,11 +25,11 @@ jobs:
         #   id: get_artifact_url
         #   run: 'echo "::set-output name=artifact_url::$(curl -s -H \"Authorization: token ${{ secrets.GH_TOKEN }}\" https://api.github.com/repos/KarylReyne/DataLiteracyWS23/actions/runs/${{ steps.get_run_id.outputs.run_id }}/artifacts | jq -r \".artifacts[0].archive_download_url\")"'
       
-        # - name: Update README
-        #   run: |
-        #       sed -i '/^Latest PDF:/d' README.md
-        #       echo "Latest PDF: [Download](https://api.github.com/repos/KarylReyne/DataLiteracyWS23/actions/runs/${{ github.run_id }}/artifacts)" >> README.md
-        #       git config --local user.email "action@github.com"
-        #       git config --local user.name "GitHub Action"
-        #       git commit -am "Update README with latest PDF link"
-        #       git push https://${{ secrets.GH_TOKEN }}@github.com/KarylReyne/DataLiteracyWS23.git
+        - name: Update README
+          run: |
+              sed -i '/^Latest PDF:/d' README.md
+              echo "Latest PDF: [Download](https://api.github.com/repos/KarylReyne/DataLiteracyWS23/actions/runs/${{ github.run_id }}/artifacts)" >> README.md
+              git config --local user.email "action@github.com"
+              git config --local user.name "GitHub Action"
+              git commit -am "Update README with latest PDF link"
+              git push https://${{ secrets.GH_TOKEN }}@github.com/KarylReyne/DataLiteracyWS23.git
