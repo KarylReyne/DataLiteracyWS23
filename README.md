@@ -2,6 +2,8 @@
 [![Build LaTeX document](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml)
 [![Tests](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml)
 
+Latest PDF: [Download](https://github.com/KarylReyne/DataLiteracyWS23/actions/runs/<run_id>/artifacts/<artifact_id>/zip)
+
 ## Introduction
 
 This project aims to analyze different factors that could influence the grades of students in Germany. The data is collected from the [Kultusministerkonferenz](https://www.kmk.org/dokumentation-statistik/statistik/schulstatistik/abiturnoten.html) and the [Statistisches Bundesamt](https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bildung-Forschung-Kultur/Schulen/Publikationen/Downloads-Schulen/schueler-schularten-2180320197004.pdf?__blob=publicationFile). The project is part of the Data Literacy course at the University of Tübingen.ß
@@ -76,4 +78,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
  - the file `doc/report/icml2023.bst` which is licensed under the LaTeX Project Public License and redistributed as a complete, unmodified copy
  
 Please refer to the [LICENSES](doc/LICENSES) directory for the individual licenses as well as the licenses of the data used in this project.
-Latest PDF: [Download](https://api.github.com/repos/KarylReyne/DataLiteracyWS23/actions/runs/7573807469/artifacts)
