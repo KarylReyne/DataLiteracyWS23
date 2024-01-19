@@ -90,6 +90,7 @@ class GenesisParser(GenericParser):
                     data.append(record)
 
         df_melted = pd.DataFrame(data)
+        df_melted = df_melted[(df_melted['school'] != 'Total')]
         return df_melted
 
     def _parser_21111_0008(self, raw_data, *args, **kwargs) -> pd.DataFrame:
@@ -116,6 +117,8 @@ class GenesisParser(GenericParser):
                 }
                 data.append(record)
         melted_df = pd.DataFrame(data)
+        melted_df = melted_df[(melted_df['school'] != 'Total') & 
+                (melted_df['effect'] != 'Total')]
         return melted_df
     
     def _parser_21111_0014(self, raw_data, *args, **kwargs) -> pd.DataFrame:
@@ -177,6 +180,9 @@ class GenesisParser(GenericParser):
                     data.append(record)
 
         df_melted = pd.DataFrame(data)
+        df_melted = df_melted[(df_melted['state'] != 'Total') & 
+                      (df_melted['school'] != 'Total') & 
+                      (df_melted['grade'] != 'Total')]
         return df_melted
     
     def _parser_21111_0010(self, raw_data, *args, **kwargs) -> pd.DataFrame:
