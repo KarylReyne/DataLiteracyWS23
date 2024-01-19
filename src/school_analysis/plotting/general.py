@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import school_analysis as sa
+from school_analysis.preprocessing.helpers.students_teachers import get_most_common_school_types
 
 
 class GeneralPlots:
@@ -58,6 +59,57 @@ class GeneralPlots:
         fig.legend(handles, labels, loc='right', bbox_to_anchor=bbox_to_anchor, title=label_column)
 
         return fig, axs
+    
+    @staticmethod
+    def school_type_corr_plot(melted_df_type: pd.DataFrame, y_col: str, x_col: str, y_label: str = None, x_label: str = None, xticks: np.ndarray = None, yticks: np.ndarray = None, title: str = None, two_plots: bool = False, melted_df: pd. DataFrame = None, school_types: list[str] = ["Gymnasium", "Realschule", "Hauptschule", "Grundschule"], avg=True):
+        """Generates a scatter plot for the given data. The data is grouped by school type and the correlation coefficient is calculated for each school type. The average correlation coefficient is also calculated and plotted."""
+        fig, axs = plt.subplots(1, 1 if not two_plots else 2, sharex=True, sharey=True)
+
+        for school in school_types:
+            ax = axs if not two_plots else axs[1]
+            school_data = melted_df_type[melted_df_type["School Type"] == school]
+            ax.scatter(school_data[x_col], school_data[y_col], label=school, s=10)
+
+            # Linear regression
+            corr = np.corrcoef(school_data[x_col], school_data[y_col])[0][1]
+            X = np.vstack([np.ones(len(school_data[x_col])), school_data[x_col]]).T
+            y = school_data[y_col]
+            w,res,_,_ = np.linalg.lstsq(X, y, rcond=None)
+            minimum = school_data[x_col].min()
+            maximum = school_data[x_col].max()
+            minimum = 0 if np.isnan(minimum) else minimum
+            maximum = 0 if np.isnan(maximum) else maximum
+            xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
+            ax.plot(xp, w[0] + w[1] * xp, "--", label="Linear Regression (corr: {:.2f})".format(corr))
+
+        # Average
+        # Linear regression
+        if avg:
+            if melted_df is None:
+                melted_df = melted_df_type
+            ax = axs if not two_plots else axs[0]
+            corr = np.corrcoef(melted_df[x_col], melted_df[y_col])[0][1]
+            X = np.vstack([np.ones(len(melted_df[x_col])), melted_df[x_col]]).T
+            y = melted_df[y_col]
+            w,res,_,_ = np.linalg.lstsq(X, y, rcond=None)
+            minimum = melted_df[x_col].min()
+            maximum = melted_df[x_col].max()
+            xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
+            ax.scatter(melted_df[x_col], melted_df[y_col], label="Average", s=10)
+            ax.plot(xp, w[0] + w[1] * xp, "--", label="Linear Regression (corr: {:.2f})".format(corr))
+
+        # Settings
+        ax.set_ylabel(y_col if y_label is None else y_label)
+        axs = [axs] if not two_plots else axs
+        for ax in axs:
+            ax.set_xlabel(x_col if x_label is None else x_label)
+            ax.set_xticks(xticks) if xticks is not None else None
+            ax.set_yticks(yticks) if yticks is not None else None
+            ax.grid()
+            ax.legend(bbox_to_anchor=(1.05, 1))
+
+        fig.suptitle(f"{x_col} vs.  {y_col}" if title is None else title)
+        plt.show()
     
     @staticmethod
     def federal_state_corr_plot(melted_df_state: pd.DataFrame, y_col: str, x_col: str, y_label: str = None, x_label: str = None, xticks: np.ndarray = None, yticks: np.ndarray = None, title: str = None, two_plots: bool = False, melted_df: pd. DataFrame = None):
