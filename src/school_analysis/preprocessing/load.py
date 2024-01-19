@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import school_analysis as sa
 from school_analysis.analysis.aggregation import Aggregation
+import school_analysis.preprocessing.helpers.budgets as budgets
 import school_analysis.preprocessing.helpers.students_teachers as students_teachers
 
 class Loader():
@@ -18,20 +19,28 @@ class Loader():
         
         self._download_config = sa.load_download_config()
         self._mapping = {
+            # Grades performance related
             'abi-fails': lambda **kwargs: self._load_abi('fails'),
             'abi-grades': lambda **kwargs: self._load_abi('grades'),
+            'pisa-germany': lambda **kwargs: self._default_loader("DEFAULT", "Pisa study data for Germany"),
+            
+            # Number of students / teachers related
             'school-children-by-state': lambda **kwargs: self._default_loader("GENESIS", "# of school children by federal state (ger)"),
             'school-children-by-type': lambda **kwargs: self._default_loader("GENESIS", "# of school children by school type (ger)"),
             'school-children-by-state-percents': self._load_students_by_federal_state_percents,
             'teachers-per-schooltype': lambda **kwargs: self._default_loader("DEFAULT", "Overview destatis german schools 2020/21"),
-            'budgets-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets of schools by federal state (ger)"),
-            'budgets-per-child-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets per public schools by children by federal state (ger)"),
-            'verbraucherpreisindex-state': lambda **kwargs: self._default_loader("GENESIS", "Verbraucherpreisindex by state"),
-            'pisa-germany': lambda **kwargs: self._default_loader("DEFAULT", "Pisa study data for Germany"),
             'zensus': lambda **kwargs: self._default_loader("GENESIS", "Zensus"),
             'zensus-age': lambda **kwargs: self._load_age_group("GENESIS", "zensus-"),
             'students-per-teacher-by-state': self._load_students_per_teacher_by_state,
             'students-per-teacher-by-type': self._load_students_per_teacher_by_type,
+            
+            # Budgets related
+            'budgets-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets of schools by federal state (ger)"),
+            'budgets-corrected': self._load_corrected_budgets,
+            'budgets-per-child-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets per public schools by children by federal state (ger)"),
+            'verbraucherpreisindex-state': lambda **kwargs: self._default_loader("GENESIS", "Verbraucherpreisindex by state"),
+            
+            # Other Performance related
             'students_with_special_educational_support': lambda **kwargs: self._default_loader("GENESIS", "# students with special educational support"),
             'students_with_special_educational_support_no_gender': lambda **kwargs: self._default_loader("GENESIS", "# special educational needs no gender"),
             'number_of_repeaters': lambda **kwargs: self._load_age_group("GENESIS", "number_of_repeaters_"),
@@ -138,3 +147,9 @@ class Loader():
         students_per_state = merged.drop(columns=["Value_zensus", "Age"]).drop_duplicates().reset_index(drop=True).rename(columns={"Value_students": "Students"})
 
         return students_per_state
+    
+    def _load_corrected_budgets(self, **kwargs):
+        """Loads the budgets and corrects them by the verbraucherpreisindex."""
+        budgets_per_child = self.load("budgets-per-child-by-state", **kwargs)
+        verbraucherpreisindex = self.load("verbraucherpreisindex-state", **kwargs)
+        return budgets.correct_by_verbraucherpreisindex(budgets_per_child[budgets_per_child["Federal State"] != "Total"], verbraucherpreisindex)
