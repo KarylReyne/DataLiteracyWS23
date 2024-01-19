@@ -34,7 +34,7 @@ class Loader():
 
             'students_with_special_educational_support': lambda **kwargs: self._default_loader("GENESIS", "# students with special educational support"),
             'number_of_repeaters': lambda **kwargs: self._load_age_group("GENESIS", "number_of_repeaters_"),
-            'graduates': lambda **kwargs: self._load_age_group("GENESIS", "graduates_2")
+            'graduates': lambda **kwargs: self._load_age_group("GENESIS", "graduates_")
         }
 
     def load(self, name: str, **kwargs):
