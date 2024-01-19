@@ -22,6 +22,7 @@ class Loader():
             'abi-grades': lambda **kwargs: self._load_abi('grades'),
             'school-children-by-state': lambda **kwargs: self._default_loader("GENESIS", "# of school children by federal state (ger)"),
             'school-children-by-type': lambda **kwargs: self._default_loader("GENESIS", "# of school children by school type (ger)"),
+            'school-children-by-state-percents': self._load_students_by_federal_state_percents,
             'teachers-per-schooltype': lambda **kwargs: self._default_loader("DEFAULT", "Overview destatis german schools 2020/21"),
             'budgets-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets of schools by federal state (ger)"),
             'budgets-per-child-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets per public schools by children by federal state (ger)"),
@@ -31,7 +32,6 @@ class Loader():
             'zensus-age': lambda **kwargs: self._load_age_group("GENESIS", "zensus-"),
             'students-per-teacher-by-state': self._load_students_per_teacher_by_state,
             'students-per-teacher-by-type': self._load_students_per_teacher_by_type,
-
             'students_with_special_educational_support': lambda **kwargs: self._default_loader("GENESIS", "# students with special educational support"),
             'number_of_repeaters': lambda **kwargs: self._load_age_group("GENESIS", "number_of_repeaters_"),
             'graduates': lambda **kwargs: self._load_age_group("GENESIS", "graduates_")
@@ -124,3 +124,16 @@ class Loader():
         students_per_techear_by_federal_state = pd.merge(temp_students, temp_teacher, how="inner", on=["Federal State", "Year"])
         return students_teachers.get_students_per_teacher(students_per_techear_by_federal_state)
     
+    def _load_students_by_federal_state_percents(self, **kwargs):
+        """Loads the students by federal state and calculates the percentage of the children between 6-18 years old."""
+        # Load other data
+        students_per_state = self.load("school-children-by-state", **kwargs)
+        zensus_age = self.load("zensus-age", **kwargs)
+        
+        # Calculate percentage
+        zensus_children = zensus_age[(zensus_age["Age"] >= 6) & (zensus_age["Age"] <= 18)]
+        merged = pd.merge(students_per_state, zensus_children, how="inner", on=["Federal State", "Gender", "Year"], suffixes=("_students", "_zensus"))
+        merged["Percentage"] = merged.groupby(["Federal State", "Gender", "Year", "Type"]).apply(lambda x: x["Value_students"] / x["Value_zensus"].sum()).reset_index(drop=True)
+        students_per_state = merged.drop(columns=["Value_zensus", "Age"]).drop_duplicates().reset_index(drop=True).rename(columns={"Value_students": "Students"})
+
+        return students_per_state
