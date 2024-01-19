@@ -3,14 +3,56 @@ CONFIG:
   download_path: data/
 
 # Genesis database should be used with genesis.py
-GENESIS:
-  - name: '# of repeaters by state, year, sex, school type'
+GENESIS:  
+  - name: '# of repeaters by state, year, sex, school type-1'
     download: '21111-0014'
     site: DESTATIS
-    filename: number_of_repeaters
+    filename: number_of_repeaters_1
     folder: genesis/
     format: csv
-    years: "1998-2021"    
+    years: "1998-2001"    
+  - name: '# of repeaters by state, year, sex, school type-2'
+    download: '21111-0014'
+    site: DESTATIS
+    filename: number_of_repeaters_2
+    folder: genesis/
+    format: csv
+    years: "2002-2005"   
+  - name: '# of repeaters by state, year, sex, school type-3'
+    download: '21111-0014'
+    site: DESTATIS
+    filename: number_of_repeaters_3
+    folder: genesis/
+    format: csv
+    years: "2006-2009"
+  - name: '# of repeaters by state, year, sex, school type-4'
+    download: '21111-0014'
+    site: DESTATIS
+    filename: number_of_repeaters_4
+    folder: genesis/
+    format: csv
+    years: "2010-2013"
+  - name: '# of repeaters by state, year, sex, school type-5'
+    download: '21111-0014'
+    site: DESTATIS
+    filename: number_of_repeaters_5
+    folder: genesis/
+    format: csv
+    years: "2014-2017"
+  - name: '# of repeaters by state, year, sex, school type-6'
+    download: '21111-0014'
+    site: DESTATIS
+    filename: number_of_repeaters_6
+    folder: genesis/
+    format: csv
+    years: "2018-2020"
+  - name: '# of repeaters by state, year, sex, school type-7'
+    download: '21111-0014'
+    site: DESTATIS
+    filename: number_of_repeaters_7
+    folder: genesis/
+    format: csv
+    years: "2021-2022"  
   - name: '# students with special educational support'
     download: '21111-0008'
     site: DESTATIS
@@ -39,7 +81,6 @@ GENESIS:
     folder: genesis/
     format: csv
     years: "1998-2006"
-
 
 
 
