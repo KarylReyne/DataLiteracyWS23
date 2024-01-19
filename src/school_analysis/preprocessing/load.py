@@ -33,6 +33,7 @@ class Loader():
             'students-per-teacher-by-type': self._load_students_per_teacher_by_type,
 
             'students_with_special_educational_support': lambda **kwargs: self._default_loader("GENESIS", "# students with special educational support"),
+            'students_with_special_educational_support_no_gender': lambda **kwargs: self._default_loader("GENESIS", "# special educational needs no gender"),
             'number_of_repeaters': lambda **kwargs: self._load_age_group("GENESIS", "number_of_repeaters_"),
             'graduates': lambda **kwargs: self._load_age_group("GENESIS", "graduates_")
         }

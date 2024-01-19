@@ -24,10 +24,40 @@ class GenesisParser(GenericParser):
             "21111-0013": self._parser_21111_0013,
             "21711-0011": self._parser_21711_0011,
             "21711-0010": self._parser_21711_0010,
-            "61111-0010": self._parser_61111_0010
+            "61111-0010": self._parser_61111_0010,
+            "21111-0007": self._parser_21111_0007
         }
     
     # ------------------- Parser -------------------
+
+    def _parser_21111_0007(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser special edu support without gender"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=3, engine="python")
+        df.rename(columns={"Pupils with special educational support (number)":"school"}, inplace=True)
+        df.replace("b'", "", inplace=True, regex=True)
+        df.replace("b'", "", inplace=True, regex=True)
+
+        years = [int(item.split("/")[0]) for item in df.iloc[1].dropna().tolist() if item!='' and item!='\'']
+        df['school'] = df['school'].fillna(method='ffill')
+
+        df.rename(columns={df.columns[0]: 'school'}, inplace=True)
+        df.rename(columns={df.columns[1]: 'effects'}, inplace=True)
+        data = []
+        for index, row in df.iloc[2:,].iterrows():
+            for idx, year in enumerate(years):      
+                record = {
+                    'school': row[0],
+                    'effect': row[1],
+                    'year': year,
+                    'total': row[2+idx],
+                }
+                data.append(record)
+        melted_df = pd.DataFrame(data)
+        melted_df = melted_df[(melted_df['school'] != 'Total') & 
+                (melted_df['effect'] != 'Total')]
+
+        melted_df.sort_values(by=['school','year'], inplace=True)
+        return melted_df 
 
     def _parser_21111_0013(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for graduates"""

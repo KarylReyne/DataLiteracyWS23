@@ -3,7 +3,14 @@ CONFIG:
   download_path: data/
 
 # Genesis database should be used with genesis.py
-GENESIS:  
+GENESIS:
+  - name: '# special educational needs no gender'
+    download: '21111-0007'
+    site: DESTATIS
+    filename: special_educational_needs_no_gender
+    folder: genesis/
+    format: csv
+    years: "2000-2022"  
   - name: '# of school children by federal state (ger)'
     download: '21111-0010'
     site: DESTATIS
