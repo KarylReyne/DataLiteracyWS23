@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 from tueplots.constants.color import rgb
+from util.plot_util import get_next_tue_plot_color
+
+FEDERAL_STATES= {
+    "Old Federal States": ["Schleswig-Holstein", "Niedersachsen", "Bremen", "Hamburg", "Nordrhein-Westfalen", "Hessen", "Rheinland-Pfalz", "Saarland", "Baden-Württemberg", "Bayern"],
+    "New Federal States": ["Mecklenburg-Vorpommern", "Brandenburg", "Berlin", "Sachsen", "Sachsen-Anhalt", "Thüringen"]
+}
 
 
 class GeneralPlots:
@@ -61,63 +67,112 @@ class GeneralPlots:
         return fig, axs
     
 
-    def generate_SecEff_001_plots(csv_path: str=f"data{os.sep}genesis{os.sep}SecEff_001_studienberechtigtenquote.csv"):
+    def generate_SecEff_001_plots():
+        csv_path = f"data{os.sep}genesis{os.sep}SecEff_001_studienberechtigtenquote.csv"
         df = pd.read_csv(csv_path)
 
-        years = df.columns[2:]
-        states = df["Unnamed: 0"][0:47:4]
-
-        yvalues_dict = {}
-
-        state_idx = 0
-        for s in states:
-            for key, modifier in {
-                "Entrance qualification for univ. of appl. sciences": 1,
-                "University entrance qualification": 2,
-                "Total": 3
-            }.items():
-                data_array = np.array([df[y][state_idx+modifier] for y in years])
-                yvalues_dict[f"{s}: {key}"] = data_array
-                try:
-                    old_array = yvalues_dict[f"GERMANY: {key}"]
-                    for i in np.arange(0, len(data_array)):
-                        old_array[i].append(data_array[i])
-                    yvalues_dict[f"GERMANY: {key}"] = old_array
-                except KeyError:
-                    yvalues_dict[f"GERMANY: {key}"] = [
-                        [data_array[i]] for i in np.arange(0, len(data_array))
-                    ]
-            state_idx += 4
-        
-        for v in ["Entrance qualification for univ. of appl. sciences", "University entrance qualification", "Total"]:
-            yvalues_dict[f"GERMANY: {v}"] = [np.mean(l)*0.01 for l in yvalues_dict[f"GERMANY: {v}"]]
-
         # plotting
-        fig,ax = plt.subplots()
+        fig1,ax1 = plt.subplots()
+        fig2,ax2 = plt.subplots()
 
-        for key, value in {
-            "Entrance qualification for univ. of appl. sciences": [rgb.tue_blue], 
-            "University entrance qualification": [rgb.tue_red], 
-            "Total": [rgb.tue_green]
-        }.items():
-            yvalues = yvalues_dict[f"GERMANY: {key}"]
-            ax.plot(years, yvalues, '.-', ms=2, lw=0.75, color=value[0], label=key)
+        states = df["Unnamed: 0"][df["Unnamed: 0"].index % 4 == 0].to_list()
+        states_idx = 0
+        states_total = df.loc[df["Unnamed: 0"].index % 4 == 3, df.columns[2:]]
+        
+        for header in states_total:
+            print(states_total[header].to_list())
+            ax1.plot(
+                df.columns[2:].to_list(), 
+                states_total[header].to_list(), 
+                '.-', 
+                ms=2, 
+                lw=0.75, 
+                color=get_next_tue_plot_color(states_idx),
+                label=states[states_idx]
+            )
+            states_idx += 1
+            
+        for key in FEDERAL_STATES:
+            # ax2.plot(
+            #     df.columns[2:].to_list(), 
+            #     states_total[header].to_list(),
+            #     '.-', 
+            #     ms=2, 
+            #     lw=0.75, 
+            #     color=get_next_tue_plot_color(states_idx),
+            #     label=states[states_idx]
+            # )
+            pass
+
 
         _fontsize = 7
-        ax.set_xlabel("year", fontsize=_fontsize)
-        ax.set_ylabel("% of graduates* (mean over all states)", fontsize=_fontsize)
-        # *with allgemeiner Hochschulreife, fachgebundener Hochschulreife or Fachhochschulreife
-        ax.legend(loc="center left")
+        for ax in [ax1, ax2]:
+            ax.set_xlabel("year", fontsize=_fontsize)
+            ax.set_ylabel("% of graduates*", fontsize=_fontsize)
+            # *with allgemeiner Hochschulreife, fachgebundener Hochschulreife or Fachhochschulreife
+            ax.legend(bbox_to_anchor=(1.01, 1))
 
-        ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
+            ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
 
-        ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
-        ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
+            ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
+            ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
 
-        fig.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_001_GERMANY-Total.pdf")
+        fig1.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_001_PerState-Total.pdf")
+        fig2.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_001_OldVsNewStates-Total.pdf")
 
     
-    def generate_SecEff_002_plots(csv_path: str):
+    def generate_SecEff_002_plots(csv_path: str=f"data{os.sep}genesis{os.sep}SecEff_002_numberOfStudentsPerSubject.csv"):
+
+        # def string_contains(string: str, substring: str):
+        #     if substring != "":
+        #         return string != string.replace(substring, "")
+        #     return True
+
+        # df = pd.read_csv(csv_path)
+
+        # yvalue_dict = {}
+
+        # year = ""
+        # per_year_values = {}
+        # for i in np.arange(0, len(df["Unnamed: 0"])):
+        #     if i % 102 == 1:
+        #         yvalue_dict[year] = per_year_values
+        #         year = df["Unnamed: 0"][i]
+        #         per_year_values = {}
+        #     else:
+        #         for degree in ["Diplom", "Bachelor", "Master", "Doctor"]:
+        #             if string_contains(str(df["Unnamed: 0"][i]), degree):
+        #                 num = float(df["Unnamed: 9"][i]) if df["Unnamed: 9"][i] != "-" else 0 #Total Total
+        #                 try:
+        #                     per_year_values[degree] += num
+        #                 except KeyError:
+        #                     per_year_values[degree] = num
+
+        # [print(f"{key}: {value}") for key, value in yvalue_dict.items()]
+        
+        # # plotting
+        # fig,ax = plt.subplots()
+
+        # for degree, color in {
+        #     "Diplom": rgb.tue_blue, 
+        #     "Bachelor": rgb.tue_red, 
+        #     "Master": rgb.tue_green, 
+        #     "Doctor": rgb.tue_violet
+        # }.items():
+        #     yvalues = [yvalue_dict[year][degree] for year in yvalue_dict]
+        #     ax.plot(yvalue_dict.keys(), yvalues, '.-', ms=2, lw=0.75, color=color, label=degree)
+
+        # _fontsize = 7
+        # ax.set_xlabel("year", fontsize=_fontsize)
+        # ax.set_ylabel("% of graduates* (mean over all states)", fontsize=_fontsize)
+        # ax.legend(loc="center left")
+
+        # ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
+
+        # ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
+        # ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
+
+        # fig.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_001_GERMANY-Total.pdf")
         pass
 
     
