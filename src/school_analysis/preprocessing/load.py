@@ -31,6 +31,10 @@ class Loader():
             'zensus-age': lambda **kwargs: self._load_age_group("GENESIS", "zensus-"),
             'students-per-teacher-by-state': self._load_students_per_teacher_by_state,
             'students-per-teacher-by-type': self._load_students_per_teacher_by_type,
+
+            'students_with_special_educational_support': lambda **kwargs: self._default_loader("GENESIS", "# students with special educational support"),
+            'number_of_repeaters': lambda **kwargs: self._load_age_group("GENESIS", "number_of_repeaters_"),
+            'graduates': lambda **kwargs: self._load_age_group("GENESIS", "graduates_2")
         }
 
     def load(self, name: str, **kwargs):
@@ -79,7 +83,7 @@ class Loader():
             raise ValueError(f"Unknown dataset {filename_prefix}")
             
         return pd.concat(dfs, ignore_index=True).reset_index(drop=True)
-    
+
     def _load_students_per_teacher_by_type(self, **kwargs):
         students_per_type = self.load("school-children-by-type")
         teachers = self.load("teachers-per-schooltype")
@@ -118,6 +122,5 @@ class Loader():
         temp_teacher = teachers[(teachers["Gender"] == "z") & (teachers["School Type"] == "Zusammen")].drop("Gender", axis=1)
         temp_teacher = temp_teacher.drop("School Type", axis=1)
         students_per_techear_by_federal_state = pd.merge(temp_students, temp_teacher, how="inner", on=["Federal State", "Year"])
-        students_per_teacher = students_teachers.get_students_per_teacher(students_per_techear_by_federal_state, contract_types)
-        students_per_teacher = students_per_teacher[(students_per_teacher["Contract Type"].isin(contract_types))]
-        return students_per_teacher
+        return students_teachers.get_students_per_teacher(students_per_techear_by_federal_state)
+    
