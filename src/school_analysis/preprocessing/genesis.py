@@ -117,37 +117,64 @@ class GenesisParser(GenericParser):
     
     def _parser_21111_0014(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for repeaters"""
-        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=14, engine="python")
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=14, engine="python")       
         df.replace("b'", "", inplace=True, regex=True)
         years = [int(item.split("/")[0]) for item in df.iloc[0].dropna().tolist() if item!='' and item!='\'']
 
-        df = df.fillna(method='ffill')
         df.rename(columns={df.columns[0]: 'state'}, inplace=True)
-        df.rename(columns={df.columns[1]: 'school'}, inplace=True)
+        df.rename(columns={df.columns[1]: 'grade'}, inplace=True)
         df.rename(columns={df.columns[3]: 'male'}, inplace=True)
         df.rename(columns={df.columns[5]: 'female'}, inplace=True)
         df.rename(columns={df.columns[7]: 'total'}, inplace=True)
 
+        df['state'] = df['state'].fillna(method='ffill')
+        df['grade'] = df['grade'].fillna(method='ffill')
+
+        years = [int(item.split("/")[0]) for item in df.iloc[0].dropna().tolist() if item!='' and item!='\'']
+
+        states = [
+            "Baden-Württemberg", 
+            "Bayern", 
+            "Berlin", 
+            "Brandenburg", 
+            "Bremen", 
+            "Hamburg", 
+            "Hessen", 
+            "Mecklenburg-Vorpommern", 
+            "Niedersachsen", 
+            "Nordrhein-Westfalen", 
+            "Rheinland-Pfalz", 
+            "Saarland", 
+            "Sachsen", 
+            "Sachsen-Anhalt", 
+            "Schleswig-Holstein", 
+            "Thüringen"
+        ]
+
         data = []
 
-        for index, row in df.iloc[3:,].iterrows():
-            for idx, year in enumerate(years):
-                try:
+        for idx,state in enumerate(states):
+            part = df.iloc[4+85*idx:]
+            for row in  part.iterrows():
+                for y_idx,year in enumerate(years):
+                    male = row[1][2+y_idx*3]
+                    female = row[1][3+y_idx*3]
+                    total = row[1][4+y_idx*3]  
+                    grade = row[1]['grade']         
+                    school  = row[1]['state']
                     record = {
-                        'state': row[0],
-                        'school': row[1],
-                        'grade': row[2],
+                        'state': state,
+                        'school': school, #state and schol have the same column              
                         'year': year,
-                        'male': row[3+idx*6],
-                        'female': row[5+idx*6],
-                        'total': row[7+idx*6]
+                        'male': male,
+                        'female':female,
+                        'grade': grade,
+                        'total': total
                     }
                     data.append(record)
-                except:
-                    pass
 
-        melted_df = pd.DataFrame(data)
-        return melted_df
+        df_melted = pd.DataFrame(data)
+        return df_melted
     
     def _parser_21111_0010(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for the # of children by federal state of Germany"""
