@@ -23,6 +23,9 @@ class Loader():
             'school-children-by-state': lambda **kwargs: self._default_loader("GENESIS", "# of school children by federal state (ger)"),
             'school-children-by-type': lambda **kwargs: self._default_loader("GENESIS", "# of school children by school type (ger)"),
             'teachers-per-schooltype': lambda **kwargs: self._default_loader("DEFAULT", "Overview destatis german schools 2020/21"),
+            'budgets-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets of schools by federal state (ger)"),
+            'budgets-per-child-by-state': lambda **kwargs: self._default_loader("GENESIS", "Budgets per public schools by children by federal state (ger)"),
+            'verbraucherpreisindex-state': lambda **kwargs: self._default_loader("GENESIS", "Verbraucherpreisindex by state"),
             'pisa-germany': lambda **kwargs: self._default_loader("DEFAULT", "Pisa study data for Germany"),
             'zensus': lambda **kwargs: self._default_loader("GENESIS", "Zensus"),
             'zensus-age': lambda **kwargs: self._load_age_group("GENESIS", "zensus-"),
@@ -111,6 +114,7 @@ class Loader():
     def _load_students_per_teacher_by_state(self, **kwargs):
         students_per_state = self.load("school-children-by-state", **kwargs)
         teachers = self.load("teachers-per-schooltype")
+        contract_types = kwargs.get("contract_types", sa.CONTRACT_TYPES)
         
         # Merge with teachers
         temp_students = students_per_state[(students_per_state["Gender"] == "all")]
@@ -120,6 +124,3 @@ class Loader():
         students_per_techear_by_federal_state = pd.merge(temp_students, temp_teacher, how="inner", on=["Federal State", "Year"])
         return students_teachers.get_students_per_teacher(students_per_techear_by_federal_state)
     
-
-loader = Loader()
-number_of_repeaters = loader.load('number_of_repeaters')

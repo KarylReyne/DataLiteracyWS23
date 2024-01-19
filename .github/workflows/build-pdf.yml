@@ -1,0 +1,30 @@
+name: Build LaTeX document
+on:
+  push:
+    paths:
+      - doc/report/**
+    branches:
+      - main
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Set up Git repository
+          uses: actions/checkout@v3
+        - name: Compile LaTeX document
+          uses: xu-cheng/latex-action@v3
+          with:
+            root_file: doc/report/report_template.tex
+            args: -cd -pdf -interaction=nonstopmode -halt-on-error
+        - name: Upload PDF file
+          uses: actions/upload-artifact@v3
+          with:
+            name: PDF
+            path: doc/report/report_template.pdf
+        - name: Update README
+          run: |
+              cp doc/report/report_template.pdf report.pdf
+              git config --local user.email "action@github.com"
+              git config --local user.name "GitHub Action"
+              git commit -am "Update README with latest PDF link"
+              git push https://${{ secrets.GH_TOKEN }}@github.com/KarylReyne/DataLiteracyWS23.git
