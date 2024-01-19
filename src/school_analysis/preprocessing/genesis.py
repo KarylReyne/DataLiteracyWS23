@@ -21,7 +21,7 @@ class GenesisParser(GenericParser):
             "12411-0013": self._parser_12411_0013,
             "21111-0014": self._parser_21111_0014,
             "21111-0008": self._parser_21111_0008,
-            "21111-0013": self._parser_21111_0013
+            "21111-0013": self._parser_21111_0013,
             "21711-0011": self._parser_21711_0011,
             "21711-0010": self._parser_21711_0010,
             "61111-0010": self._parser_61111_0010
