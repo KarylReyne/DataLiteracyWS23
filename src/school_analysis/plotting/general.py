@@ -78,9 +78,13 @@ class GeneralPlots:
         states = df["Unnamed: 0"][df["Unnamed: 0"].index % 4 == 0].to_list()
         states_idx = 0
         states_total = df.loc[df["Unnamed: 0"].index % 4 == 3, df.columns[2:]]
+
+        new_states_mean = np.zeros(len(df.columns[2:]))
+        num_new_states = 0
+        old_states_mean = np.zeros(len(df.columns[2:]))
+        num_old_states = 0
         
         for header in states_total:
-            print(states_total[header].to_list())
             ax1.plot(
                 df.columns[2:].to_list(), 
                 states_total[header].to_list(), 
@@ -90,25 +94,40 @@ class GeneralPlots:
                 color=get_next_tue_plot_color(states_idx),
                 label=states[states_idx]
             )
+            if states[states_idx] in FEDERAL_STATES["New Federal States"]:
+                new_states_mean = np.add(new_states_mean, states_total[header].to_list())
+                num_new_states += 1
+            elif states[states_idx] in FEDERAL_STATES["Old Federal States"]:
+                old_states_mean = np.add(old_states_mean, states_total[header].to_list())
+                num_old_states += 1
             states_idx += 1
-            
-        for key in FEDERAL_STATES:
-            # ax2.plot(
-            #     df.columns[2:].to_list(), 
-            #     states_total[header].to_list(),
-            #     '.-', 
-            #     ms=2, 
-            #     lw=0.75, 
-            #     color=get_next_tue_plot_color(states_idx),
-            #     label=states[states_idx]
-            # )
-            pass
 
+        new_states_mean = [v/num_new_states for v in new_states_mean]
+        old_states_mean = [v/num_old_states for v in old_states_mean]
+ 
+        ax2.plot(
+            df.columns[2:].to_list(), 
+            new_states_mean, 
+            '.-', 
+            ms=2, 
+            lw=0.75, 
+            color=get_next_tue_plot_color(1),
+            label="New Federal States"
+        )
+        ax2.plot(
+            df.columns[2:].to_list(), 
+            old_states_mean, 
+            '.-', 
+            ms=2, 
+            lw=0.75, 
+            color=get_next_tue_plot_color(2),
+            label="Old Federal States"
+        )
 
-        _fontsize = 7
+        _fontsize = 6
         for ax in [ax1, ax2]:
             ax.set_xlabel("year", fontsize=_fontsize)
-            ax.set_ylabel("% of graduates*", fontsize=_fontsize)
+            ax.set_ylabel("% of graduates* with university entrance qualification", fontsize=_fontsize)
             # *with allgemeiner Hochschulreife, fachgebundener Hochschulreife or Fachhochschulreife
             ax.legend(bbox_to_anchor=(1.01, 1))
 
