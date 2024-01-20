@@ -87,7 +87,7 @@ class GeneralPlots:
         for header in states_total:
             ax1.plot(
                 df.columns[2:].to_list(), 
-                states_total[header].to_list(), 
+                [v*0.01 for v in states_total[header].to_list()], 
                 '.-', 
                 ms=2, 
                 lw=0.75, 
@@ -102,8 +102,8 @@ class GeneralPlots:
                 num_old_states += 1
             states_idx += 1
 
-        new_states_mean = [v/num_new_states for v in new_states_mean]
-        old_states_mean = [v/num_old_states for v in old_states_mean]
+        new_states_mean = [(v/num_new_states)*0.01 for v in new_states_mean]
+        old_states_mean = [(v/num_old_states)*0.01 for v in old_states_mean]
  
         ax2.plot(
             df.columns[2:].to_list(), 
@@ -124,7 +124,7 @@ class GeneralPlots:
             label="Old Federal States"
         )
 
-        _fontsize = 6
+        _fontsize = 5
         for ax in [ax1, ax2]:
             ax.set_xlabel("year", fontsize=_fontsize)
             ax.set_ylabel("% of graduates* with university entrance qualification", fontsize=_fontsize)
@@ -140,59 +140,63 @@ class GeneralPlots:
         fig2.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_001_OldVsNewStates-Total.pdf")
 
     
-    def generate_SecEff_002_plots(csv_path: str=f"data{os.sep}genesis{os.sep}SecEff_002_numberOfStudentsPerSubject.csv"):
+    def generate_SecEff_002_plots():
+        # get reference data
+        ref_csv_path: str=f"data{os.sep}genesis{os.sep}SecEff_000_studierende.csv"
+        df_ref = pd.read_csv(ref_csv_path)
+        year_mapper = {}
+        for s in df_ref["Unnamed: 0"][df_ref["Unnamed: 0"].index > 0]:
+            year_mapper[s] = s.lstrip("WT ").split("/")[0]
+        df_ref = df_ref.replace({"Unnamed: 0": year_mapper})
 
-        # def string_contains(string: str, substring: str):
-        #     if substring != "":
-        #         return string != string.replace(substring, "")
-        #     return True
+        num_students_total = df_ref["Unnamed: 9"][1:]
+        num_students_male = df_ref["Total"][1:]
+        num_students_female = df_ref["Unnamed: 8"][1:]
+        num_students_german = df_ref["Unnamed: 3"][1:]
+        num_students_foreign = df_ref["Unnamed: 6"][1:]
 
-        # df = pd.read_csv(csv_path)
+        data_csv_path: str=f"data{os.sep}genesis{os.sep}SecEff_002_numberOfStudentsPerSubject.csv"
+        df_data = pd.read_csv(data_csv_path)
 
-        # yvalue_dict = {}
+        # plotting
+        fig1,ax1 = plt.subplots()
+        fig2,ax2 = plt.subplots()
+        fig3,ax3 = plt.subplots()
 
-        # year = ""
-        # per_year_values = {}
-        # for i in np.arange(0, len(df["Unnamed: 0"])):
-        #     if i % 102 == 1:
-        #         yvalue_dict[year] = per_year_values
-        #         year = df["Unnamed: 0"][i]
-        #         per_year_values = {}
-        #     else:
-        #         for degree in ["Diplom", "Bachelor", "Master", "Doctor"]:
-        #             if string_contains(str(df["Unnamed: 0"][i]), degree):
-        #                 num = float(df["Unnamed: 9"][i]) if df["Unnamed: 9"][i] != "-" else 0 #Total Total
-        #                 try:
-        #                     per_year_values[degree] += num
-        #                 except KeyError:
-        #                     per_year_values[degree] = num
+        # states = df["Unnamed: 0"][df["Unnamed: 0"].index % 4 == 0].to_list()
+        # states_idx = 0
+        # states_total = df.loc[df["Unnamed: 0"].index % 4 == 3, df.columns[2:]]
 
-        # [print(f"{key}: {value}") for key, value in yvalue_dict.items()]
+
+
+        # for header in states_total:
+        #     ax1.plot(
+        #         df.columns[2:].to_list(), 
+        #         [v*0.01 for v in states_total[header].to_list()], 
+        #         '.-', 
+        #         ms=2, 
+        #         lw=0.75, 
+        #         color=get_next_tue_plot_color(states_idx),
+        #         label=states[states_idx]
+        #     )
+        #     states_idx += 1
+
+        # _fontsize = 5
+        # for ax in [ax1, ax2]:
+        #     ax.set_xlabel("year", fontsize=_fontsize)
+        #     ax.set_ylabel("% of graduates* with university entrance qualification", fontsize=_fontsize)
+        #     # *with allgemeiner Hochschulreife, fachgebundener Hochschulreife or Fachhochschulreife
+        #     ax.legend(bbox_to_anchor=(1.01, 1))
+
+        #     ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
+
+        #     ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
+        #     ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
+
+        # fig1.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_MaleVsFemale.pdf")
+        # fig2.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_GermanVsForeign.pdf")
+        # fig3.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_HaveTeachingEducation.pdf")
         
-        # # plotting
-        # fig,ax = plt.subplots()
-
-        # for degree, color in {
-        #     "Diplom": rgb.tue_blue, 
-        #     "Bachelor": rgb.tue_red, 
-        #     "Master": rgb.tue_green, 
-        #     "Doctor": rgb.tue_violet
-        # }.items():
-        #     yvalues = [yvalue_dict[year][degree] for year in yvalue_dict]
-        #     ax.plot(yvalue_dict.keys(), yvalues, '.-', ms=2, lw=0.75, color=color, label=degree)
-
-        # _fontsize = 7
-        # ax.set_xlabel("year", fontsize=_fontsize)
-        # ax.set_ylabel("% of graduates* (mean over all states)", fontsize=_fontsize)
-        # ax.legend(loc="center left")
-
-        # ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
-
-        # ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
-        # ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
-
-        # fig.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_001_GERMANY-Total.pdf")
-        pass
 
     
     def generate_SecEff_003_plots(csv_path: str):
