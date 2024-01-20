@@ -1,5 +1,5 @@
-https://www.tandfonline.com/doi/epdf/10.1080/21568235.2020.1718516?needAccess=true
-Arguing that grade inflation in german universities is a result of cyclic dynamics int the time series. 
+https://www.tandfonline.com/doi/epdf/10.1080/21568235.2020.1718516?needAccess=true  
+Arguing that grade inflation in german universities is a result of cyclic dynamics int the time series.  
 In the period of grade increase the grades increse more than they decrease.
 
 https://www.vr-elibrary.de/doi/epdf/10.7788/bue-2015-0407
