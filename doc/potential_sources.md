@@ -4,7 +4,9 @@ In the period of grade increase the grades increse more than they decrease.
 
 https://www.vr-elibrary.de/doi/epdf/10.7788/bue-2015-0407  
 Investigating the grade inflation of Abitur grades and compare it to unversity applications. 
-No explanation for better grades is found and asking for future work.
+No explanation for better grades is found and asking for future work. 
+ALSO: when Abi-makers start the univertity studies
+
 
 https://www.econstor.eu/bitstream/10419/61676/1/722307225.pdf  
 Increased competition between universities does not cause grade inflation.
@@ -69,3 +71,6 @@ Zur Entwicklung des Lehrerbedarfs. Ist halt von 2010 also vielleicht useless
 
 https://www.bildungsserver.de/Lehrerbedarf-und-Lehrerbedarfsprognosen-in-den-Bundeslaendern-5530-de.html#Modellrechnung_und_Beschluesse_der_Kultusministerkonferenz_KMK_  
 Lehrerbedarfsprognose der Kultusministerkonferenz.
+
+https://de.statista.com/statistik/daten/studie/189155/umfrage/durchschnittliche-studiendauer-in-deutschland/
+durchschnittlich zeit für erststudium
