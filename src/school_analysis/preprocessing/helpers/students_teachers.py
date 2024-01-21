@@ -35,6 +35,25 @@ def get_students_per_teacher(df: pd.DataFrame, types: list[str] = ["Vollzeitbesc
     return df_c
 
 
+def aggregate_students_per_teacher(df: pd.DataFrame, students_col: str = "Students", teachers_col: str = "Teachers", new_col: str = "Students per Teacher", value_cols: list = []) -> pd.DataFrame:
+    """Aggregate the students per teacher
+
+    Args:
+        df (pd.DataFrame): Dataframe with the students and teachers.
+        students_col (str, optional): Column of the number of students. Defaults to "Students".
+        teachers_col (str, optional): Column of the number of teachers. Defaults to "Teachers".
+        new_col (str, optional): New column name. Defaults to "Students per Teacher".
+
+    Returns:
+        pd.DataFrame: Dataframe with the aggregated column.
+    """
+    df_c = df.copy()
+    non_value_cols = list(set(df_c.columns.to_list()) - set(value_cols))
+
+    df_c[new_col] = df_c[students_col] / df_c[teachers_col]
+    return df_c
+
+
 def get_most_common_school_types(students_per_type: pd.DataFrame, mc_num: int = sa.MC_NUM, school_type_col: str = "Mapped School Type", value_col: str = "Value") -> list[str]:
     """Get the most common school types for the total number of students"""
     df = students_per_type.copy()

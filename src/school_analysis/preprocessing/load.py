@@ -128,12 +128,16 @@ class Loader():
         contract_types = kwargs.get("contract_types", sa.CONTRACT_TYPES)
         
         # Merge with teachers
-        temp_students = students_per_state[(students_per_state["Gender"] == "all")]
-        temp_students = temp_students.drop("Gender", axis=1).rename(columns={"Value": "Students"})
-        temp_teacher = teachers[(teachers["Gender"] == "z") & (teachers["School Type"] == "Zusammen")].drop("Gender", axis=1)
-        temp_teacher = temp_teacher.drop("School Type", axis=1)
-        students_per_techear_by_federal_state = pd.merge(temp_students, temp_teacher, how="inner", on=["Federal State", "Year"])
-        return students_teachers.get_students_per_teacher(students_per_techear_by_federal_state)
+        # temp_students = students_per_state[(students_per_state["Gender"] == "all")]
+        # temp_students = temp_students.drop("Gender", axis=1).rename(columns={"Value": "Students"})
+        temp_students = students_per_state[students_per_state["Type"] == "Pupils"].rename(
+            columns={"Value": "Students"}).drop_duplicates()
+        temp_teacher = teachers[(teachers["School Type"] == "Zusammen")]
+        temp_teacher = temp_teacher.drop(
+            "School Type", axis=1).drop_duplicates()
+        students_per_techear_by_federal_state = pd.merge(
+            temp_students, temp_teacher, how="left", on=["Federal State", "Year"], suffixes=("_students", "_teachers"))
+        return students_teachers.aggregate_students_per_teacher(students_per_techear_by_federal_state, students_col="Students", teachers_col="Number of Teachers", new_col="Students per Teacher")
     
     def _load_students_by_federal_state_percents(self, **kwargs):
         """Loads the students by federal state and calculates the percentage of the children between 6-18 years old."""
