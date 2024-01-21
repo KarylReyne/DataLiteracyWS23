@@ -46,6 +46,20 @@ STATE_MAPPING = {
     'TH': 'Thüringen'
 }
 
+GENDER_MAPPING = {
+    "z": "all",
+    "all": "all",
+    "Total": "all",
+    "total": "all",
+    "m": "m",
+    "male": "m",
+    "Male": "m",
+    "f": "f",
+    "w": "f",
+    "female": "f",
+    "Female": "f"
+}
+
 # --- Helper functions ---
 
 def create_non_existing_folders(path):

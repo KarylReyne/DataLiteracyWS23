@@ -1,6 +1,6 @@
 import random
 import pandas as pd
-from school_analysis.preprocessing.helpers.students_teachers import aggregate_students_per_teacher, combine_school_type, get_students_per_teacher
+from school_analysis.preprocessing.helpers.students_teachers import aggregate_students_per_teacher, combine_school_type, get_students_per_teacher, map_gender
 
 school_data = pd.DataFrame({
     "School Type": random.choices(["Primary School", "Secondary School", "Gymnasien (G8)", "Gymnasien (G9)"], k=100),
@@ -66,4 +66,10 @@ def test_children_teacher_ratio():
     assert combined[combined["School Type"] == "Combined"]["Students"].sum(
     ) == ratio[ratio["School Type"].isin(["Gymnasien (G8)", "Gymnasien (G9)"])]["Students"].sum(), "The sum should be the same"
 
-# def test_
+
+def test_map_gender():
+    mapped = map_gender(school_data)
+    assert mapped is not school_data, "The function should return a new dataframe."
+    assert mapped.columns.tolist() == school_data.columns.tolist(
+    ), "The columns should be the same."
+    assert set(mapped["Gender"].unique().tolist()) == {"m", "f", "all"}

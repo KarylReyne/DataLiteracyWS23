@@ -16,6 +16,7 @@ class GenesisParser(GenericParser):
         self.MAPPING: dict[str, function] = {
             "21111-0010": self._parser_21111_0010,
             "21111-0004": self._parser_21111_0004,
+            "21111-0002": self._parser_21111_0002,
             "12411-0011": self._parser_12411_0011,
             "12411-0042": self._parser_12411_0042,
             "12411-0013": self._parser_12411_0013,
@@ -261,7 +262,7 @@ class GenesisParser(GenericParser):
         return df
 
     def _parser_21111_0004(self, raw_data, *args, **kwargs) -> pd.DataFrame:
-        """Parser for the # of children by school type of Germany"""
+        """Parser for the # of graduates by school type of Germany"""
         df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=7, skipfooter=3, engine="python")
         df.replace("Unnamed: 0", "", inplace=True, regex=True)
         df.rename(columns={"b'": "School Year"}, inplace=True)
@@ -315,6 +316,51 @@ class GenesisParser(GenericParser):
         
         return df_mapped
     
+    def _parser_21111_0002(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser for the # of children by school type of Germany"""
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=7,
+                         skipfooter=3, engine="python")
+        df = df.rename(
+            columns={
+                "Unnamed: 0": "School Type",
+                "Unnamed: 1": "Grade"
+            }
+        )
+        df = df.loc[1:].reset_index(drop=True)
+        temp = pd.DataFrame(
+            columns=["Year", "School Type", "Grade", "Students", "Gender"])
+
+        last_school_type = ""
+        # Loop over all rows
+        for i in df.index[1:]:
+            if df.loc[i, "School Type"] is not np.nan:
+                last_school_type = df.loc[i, "School Type"]
+                continue
+            if df.loc[i, "Grade"] is np.nan or df.loc[i, "Grade"] == "Total":
+                continue
+
+            grade = df.loc[i, "Grade"]
+            last_year = ""
+
+            # Loop over all columns
+            for c in df.columns[2:]:
+                if re.match(r"\d{4}", str(c)):
+                    last_year = c.split("/")[0]
+                gender = df.loc[0, c]
+                students = df.loc[i, c]
+                temp.loc[len(temp)] = [last_year, last_school_type,
+                                       grade, students, gender]
+
+        df = temp
+
+        # Right types and columns
+        df = df[df["School Type"] != "Total"]
+        df.loc[:, "Year"] = df["Year"].astype(int)
+        df.loc[:, "Students"] = df["Students"].replace("-", np.nan)
+        df.loc[:, "Students"] = df["Students"].astype(float)
+
+        return df
+
     def _parser_12411_0011(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for the Zensus"""
         df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=4, skipfooter=4, engine="python")

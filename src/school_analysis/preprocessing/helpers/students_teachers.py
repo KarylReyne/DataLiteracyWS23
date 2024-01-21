@@ -35,7 +35,22 @@ def get_students_per_teacher(df: pd.DataFrame, types: list[str] = ["Vollzeitbesc
     return df_c
 
 
-def aggregate_students_per_teacher(df: pd.DataFrame, students_col: str = "Students", teachers_col: str = "Teachers", new_col: str = "Students per Teacher", value_cols: list = []) -> pd.DataFrame:
+def map_gender(df: pd.DataFrame, gender_col: str = "Gender") -> pd.DataFrame:
+    """Maps the gender column to the same values as the other dataframes
+
+    Args:
+        df (pd.DataFrame): Data frame to be mapped
+        gender_col (str, optional): Column name of the gender column. Defaults to "Gender".
+
+    Returns:
+        pd.DataFrame: Mapped data frame
+    """
+    df_c = df.copy()
+    df_c[gender_col] = df_c[gender_col].map(sa.GENDER_MAPPING)
+    return df_c
+
+
+def aggregate_students_per_teacher(df: pd.DataFrame, students_col: str = "Students", teachers_col: str = "Teachers", new_col: str = "Students per Teacher") -> pd.DataFrame:
     """Aggregate the students per teacher
 
     Args:
@@ -48,8 +63,6 @@ def aggregate_students_per_teacher(df: pd.DataFrame, students_col: str = "Studen
         pd.DataFrame: Dataframe with the aggregated column.
     """
     df_c = df.copy()
-    non_value_cols = list(set(df_c.columns.to_list()) - set(value_cols))
-
     df_c[new_col] = df_c[students_col] / df_c[teachers_col]
     return df_c
 

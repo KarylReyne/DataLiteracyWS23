@@ -19,9 +19,16 @@ GENESIS:
     format: csv
     years: "1995-2023"
   - name: '# of school children by school type (ger)'
-    download: '21111-0004'
+    download: '21111-0002'
     site: DESTATIS
     filename: school_children_by_type
+    folder: genesis/
+    format: csv
+    years: "1995-2023"
+  - name: '# of graduates by school type (ger)'
+    download: '21111-0004'
+    site: DESTATIS
+    filename: graduates_by_type
     folder: genesis/
     format: csv
     years: "1995-2023"
