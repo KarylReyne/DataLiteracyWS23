@@ -180,18 +180,19 @@ class Loader():
     def _load_children_wo_degree(self, **kwargs):
         """Loads the number of children without a degree."""
         df_melted = self.load('graduates')
-        df_melted['year'] = df_melted["year"].astype(int)
+        # df_melted['year'] = df_melted["year"].astype(int)
         df_melted['total'] = pd.to_numeric(df_melted['total'], errors='coerce')
         total_students_by_year = df_melted.groupby('year')['total'].sum()
 
         children_state = self.load('school-children-by-state')
         children_state = children_state.rename(columns={'Year': 'year'})
-        children_state['year'] = children_state["year"].astype(int)
+        # children_state['year'] = children_state["year"].astype(int)
         child_amount_per_year = children_state.groupby('year')['Value'].sum()
 
         merged_df = pd.merge(total_students_by_year,
-                             child_amount_per_year, on='year')
+                             child_amount_per_year, on='year').reset_index()
+        merged_df["year"] = merged_df["year"].astype(int)
         merged_df['relative'] = merged_df['total']/merged_df['Value']
         merged_df = merged_df.rename(columns={
                                      'total': 'Without degree', 'Value': 'Total students', "relative": "Without degree (rel.)"})
-        return merged_df.reset_index()
+        return merged_df.reset_index(drop=True)
