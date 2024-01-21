@@ -25,10 +25,41 @@ class GenesisParser(GenericParser):
             "21711-0011": self._parser_21711_0011,
             "21711-0010": self._parser_21711_0010,
             "61111-0010": self._parser_61111_0010,
-            "21111-0007": self._parser_21111_0007
+            "21111-0007": self._parser_21111_0007,
+            "21111-0002": self._parser_21111_0002
         }
     
     # ------------------- Parser -------------------
+        
+    def _parser_21111_0002(self, raw_data, *args, **kwargs) -> pd.DataFrame:
+        """Parser school people by school type, gender"""       
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=6, skipfooter=3, engine="python", header=None)
+        df[0].fillna(method='ffill',inplace=True)
+        years = [int(item.split("/")[0]) for item in df.iloc[1].dropna().tolist() if item!='' and item!='\'']
+        data = []
+        for row in df.iloc[4:,].iterrows():
+            for idx,year in enumerate(years):
+                school_type = row[1][0]
+                grade = row[1][1]        
+                male = row[1][2+3*idx]
+                female = row[1][3+3*idx]
+                total = row[1][4+3*idx]
+                record = {
+                        'school': school_type,
+                        'grade': grade,
+                        'year': year,
+                        'male': male,
+                        'female': female,
+                        'total': total,
+                    }
+                data.append(record)
+
+
+        melted_df = pd.DataFrame(data)
+        melted_df = melted_df[(melted_df['school'] != 'Total') & 
+                (melted_df['grade'] != 'Total')]
+
+        return melted_df
 
     def _parser_21111_0007(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser special edu support without gender"""
