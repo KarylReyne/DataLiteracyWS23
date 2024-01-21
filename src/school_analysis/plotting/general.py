@@ -149,11 +149,13 @@ class GeneralPlots:
             year_mapper[s] = s.lstrip("WT ").split("/")[0]
         df_ref = df_ref.replace({"Unnamed: 0": year_mapper})
 
-        num_students_total = df_ref["Unnamed: 9"][1:]
-        num_students_male = df_ref["Total"][1:]
-        num_students_female = df_ref["Unnamed: 8"][1:]
-        num_students_german = df_ref["Unnamed: 3"][1:]
-        num_students_foreign = df_ref["Unnamed: 6"][1:]
+        num_students_total = df_ref["Unnamed: 9"][1:].astype(float).to_list()
+        num_students_male = df_ref["Total"][1:].astype(float).to_list()
+        num_students_female = df_ref["Unnamed: 8"][1:].astype(float).to_list()
+        num_students_german = df_ref["Unnamed: 3"][1:].astype(float).to_list()
+        num_students_foreign = df_ref["Unnamed: 6"][1:].astype(float).to_list()
+
+        years = df_ref["Unnamed: 0"][1:].to_list()
 
         data_csv_path: str=f"data{os.sep}genesis{os.sep}SecEff_002_numberOfStudentsPerSubject.csv"
         df_data = pd.read_csv(data_csv_path)
@@ -167,35 +169,60 @@ class GeneralPlots:
         # states_idx = 0
         # states_total = df.loc[df["Unnamed: 0"].index % 4 == 3, df.columns[2:]]
 
+        data_total = []
+        data_male = []
+        data_female = []
+        data_german = []
+        data_foreign = []
+
+        rows_per_year = 102
+        for i in np.arange(0, np.floor(len(df_data)/rows_per_year)):
+            bool_array_to_select_year = [(idx > i*rows_per_year+1 and idx <= i*rows_per_year+rows_per_year) for idx in df_data["Unnamed: 9"].index]
+
+            data_total.append(df_data["Unnamed: 9"][bool_array_to_select_year].replace("-", "0").astype(float).sum(axis=0))
+            data_male.append(df_data["Total"][bool_array_to_select_year].replace("-", "0").astype(float).sum(axis=0))
+            data_female.append(df_data["Unnamed: 8"][bool_array_to_select_year].replace("-", "0").astype(float).sum(axis=0))
+            data_german.append(df_data["Unnamed: 3"][bool_array_to_select_year].replace("-", "0").astype(float).sum(axis=0))
+            data_foreign.append(df_data["Unnamed: 6"][bool_array_to_select_year].replace("-", "0").astype(float).sum(axis=0))
 
 
-        # for header in states_total:
-        #     ax1.plot(
-        #         df.columns[2:].to_list(), 
-        #         [v*0.01 for v in states_total[header].to_list()], 
-        #         '.-', 
-        #         ms=2, 
-        #         lw=0.75, 
-        #         color=get_next_tue_plot_color(states_idx),
-        #         label=states[states_idx]
-        #     )
-        #     states_idx += 1
+        for ax, [data_list, ref_list, labels] in {
+            ax1: (
+                [data_male, data_female, data_total],
+                [num_students_male, num_students_female, num_students_total],
+                ["Male", "Female", "Total"]
+            ),
+            ax2: (
+                [data_german, data_foreign, data_total],
+                [num_students_german, num_students_foreign, num_students_total],
+                ["Germans", "Foreigners", "Total"]
+            )#TODO: third plot (teaching education)
+        }.items():
+            for i in range(len(data_list)):
+                ax.plot(
+                    years, 
+                    [data_list[i][j]/ref_list[i][j] for j in range(len(years))], 
+                    '.-', 
+                    ms=2, 
+                    lw=0.75, 
+                    color=get_next_tue_plot_color(i),
+                    label=labels[i]
+                )
 
-        # _fontsize = 5
-        # for ax in [ax1, ax2]:
-        #     ax.set_xlabel("year", fontsize=_fontsize)
-        #     ax.set_ylabel("% of graduates* with university entrance qualification", fontsize=_fontsize)
-        #     # *with allgemeiner Hochschulreife, fachgebundener Hochschulreife or Fachhochschulreife
-        #     ax.legend(bbox_to_anchor=(1.01, 1))
+        _fontsize = 5
+        for ax in [ax1, ax2, ax3]:
+            ax.set_xlabel("year", fontsize=_fontsize)
+            ax.set_ylabel("% of students that earn a degree", fontsize=_fontsize)
+            ax.legend(bbox_to_anchor=(1.01, 1))
 
-        #     ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
+            ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
 
-        #     ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
-        #     ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
+            ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
+            ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
 
-        # fig1.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_MaleVsFemale.pdf")
-        # fig2.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_GermanVsForeign.pdf")
-        # fig3.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_HaveTeachingEducation.pdf")
+        fig1.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_MaleVsFemale.pdf")
+        fig2.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_GermanVsForeign.pdf")
+        fig3.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_002_HaveTeachingEducation.pdf")
         
 
     
