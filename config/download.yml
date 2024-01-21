@@ -25,6 +25,13 @@ GENESIS:
     folder: genesis/
     format: csv
     years: "1995-2023"
+  - name: '# of graduates by school type (ger)'
+    download: '21111-0004'
+    site: DESTATIS
+    filename: graduates_by_type
+    folder: genesis/
+    format: csv
+    years: "1995-2023"
   - name: 'Zensus'
     download: '12411-0042' # or 12411-0011
     site: DESTATIS
