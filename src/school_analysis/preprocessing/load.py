@@ -45,7 +45,7 @@ class Loader():
             'students_with_special_educational_support': lambda **kwargs: self._default_loader("GENESIS", "# students with special educational support"),
             'students_with_special_educational_support_no_gender': lambda **kwargs: self._default_loader("GENESIS", "# special educational needs no gender"),
             'number_of_repeaters': lambda **kwargs: self._load_age_group("GENESIS", "number_of_repeaters_"),
-            'graduates': lambda **kwargs: self._load_age_group("GENESIS", "graduates_"),
+            'no_hauptschulabschluss': lambda **kwargs: self._load_age_group("GENESIS", "no_hauptschulabschluss"),
             'children_wo_degree': self._load_children_wo_degree,
         }
 
@@ -179,7 +179,7 @@ class Loader():
 
     def _load_children_wo_degree(self, **kwargs):
         """Loads the number of children without a degree."""
-        df_melted = self.load('graduates')
+        df_melted = self.load('no_hauptschulabschluss')
         # df_melted['year'] = df_melted["year"].astype(int)
         df_melted['total'] = pd.to_numeric(df_melted['total'], errors='coerce')
         total_students_by_year = df_melted.groupby('year')['total'].sum()

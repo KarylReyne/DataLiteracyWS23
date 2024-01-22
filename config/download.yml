@@ -138,24 +138,24 @@ GENESIS:
     folder: genesis/
     format: csv
     years: "2000-2022"
-  - name: "# graduates-3"
+  - name: "# no_hauptschulabschluss-3"
     download: '21111-0013'
     site: DESTATIS
-    filename: graduates_3
+    filename: no_hauptschulabschluss_3
     folder: genesis/
     format: csv
     years: "2015-2022"
-  - name: "# graduates-2"
+  - name: "# no_hauptschulabschluss-2"
     download: '21111-0013'
     site: DESTATIS
-    filename: graduates_2
+    filename: no_hauptschulabschluss_2
     folder: genesis/
     format: csv
     years: "2007-2014"
-  - name: "# graduates-1"
+  - name: "# no_hauptschulabschluss-3"
     download: '21111-0013'
     site: DESTATIS
-    filename: graduates_1
+    filename: no_hauptschulabschluss_1
     folder: genesis/
     format: csv
     years: "1998-2006"
