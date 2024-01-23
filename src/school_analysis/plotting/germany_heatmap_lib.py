@@ -8,12 +8,12 @@ import os
 
 class GermanStatesHeatmapPlot:
 
-    #local_path = 'heatmap_data/'
+
     local_path = os.path.join(sa.PACKAGE_PATH,"plotting/heatmap_data/")
     re_download = False
 
     def create_plot(self, state_values, default_state_color, cmap_name='coolwarm'):
-        # Farbverlauf definieren
+       
         cmap = plt.get_cmap(cmap_name)        
 
         if self.re_download:
@@ -41,6 +41,3 @@ class GermanStatesHeatmapPlot:
         plt.ioff()
         gdf.plot(color=gdf['color'], edgecolor='black', ax=ax)
         return fig, ax, cbar
-    
-
-print()
