@@ -6,7 +6,7 @@ from tueplots import bundles
 import logging
 
 # plt.rcParams.update(bundles.beamer_moml())
-plt.rcParams.update({"figure.dpi": 200})
+plt.rcParams.update({"figure.dpi": 600})
 
 PACKAGE_PATH = importlib.resources.files("school_analysis")
 PROJECT_PATH = os.path.join(PACKAGE_PATH, "..", "..")
