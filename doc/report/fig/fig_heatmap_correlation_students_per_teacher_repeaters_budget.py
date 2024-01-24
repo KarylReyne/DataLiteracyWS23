@@ -36,7 +36,6 @@ budget = budget.drop(columns=["Year Relative", "Index"])
 
 # Load and preprocess data for students per teacher by state and type
 teachers_students_state = loader.load("students-per-teacher-by-state")
-teachers_students_type = loader.load("students-per-teacher-by-type")
 
 # Define contract types for filtering
 CONTRACT_TYPE = [
