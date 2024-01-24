@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 from tueplots.constants.color import rgb
+from scipy.stats import kendalltau
 from util.plot_util import get_next_tue_plot_color
 
 FEDERAL_STATES= {
@@ -165,10 +166,6 @@ class GeneralPlots:
         fig2,ax2 = plt.subplots()
         fig3,ax3 = plt.subplots()
 
-        # states = df["Unnamed: 0"][df["Unnamed: 0"].index % 4 == 0].to_list()
-        # states_idx = 0
-        # states_total = df.loc[df["Unnamed: 0"].index % 4 == 3, df.columns[2:]]
-
         data_total = []
         data_male = []
         data_female = []
@@ -196,7 +193,7 @@ class GeneralPlots:
                 [data_german, data_foreign, data_total],
                 [num_students_german, num_students_foreign, num_students_total],
                 ["Germans", "Foreigners", "Total"]
-            )#TODO: third plot (teaching education)
+            )
         }.items():
             for i in range(len(data_list)):
                 ax.plot(
@@ -226,5 +223,108 @@ class GeneralPlots:
         
 
     
-    def generate_SecEff_003_plots(csv_path: str):
-        pass
+    def generate_SecEff_003_plots():
+        df_student_exam_data = pd.DataFrame()
+        for i in range(2, 12):# 2012-2021
+            this_data_csv_path = f"data{os.sep}genesis{os.sep}SecEff_003-{i}_numberOfPassesAndFailsPerSubject.csv"
+            this_df = pd.read_csv(this_data_csv_path)
+            df_student_exam_data = pd.concat([df_student_exam_data, this_df[:][2:]], axis=0, ignore_index=True)
+
+        # relative student pass rate
+        rows_per_year = 4704
+        student_years = df_student_exam_data["Unnamed: 0"][df_student_exam_data["Unnamed: 0"].index % rows_per_year == 0].to_list()
+        student_years.reverse()
+        student_exam_passes_per_year = []
+        student_exam_total_per_year = []
+        for i in np.arange(0, np.floor(len(df_student_exam_data)/rows_per_year)):
+            bool_array_to_select_year = [(idx > i*rows_per_year and idx <= i*rows_per_year+rows_per_year) for idx in df_student_exam_data["Unnamed: 0"].index]
+
+            student_exam_passes_per_year.append(df_student_exam_data[["Germans", "Unnamed: 4", "Foreigners", "Unnamed: 8"]][bool_array_to_select_year].replace("-", "0").astype(float).sum(axis=0).sum(axis=0))
+            student_exam_total_per_year.append(df_student_exam_data[["Germans","Unnamed: 3","Unnamed: 4","Unnamed: 5","Foreigners","Unnamed: 7","Unnamed: 8","Unnamed: 9"]][bool_array_to_select_year].replace("-", "0").astype(float).sum(axis=0).sum(axis=0))
+        
+        relative_student_passes_per_year = [student_exam_passes_per_year[i]/student_exam_total_per_year[i] for i in range(len(student_years))]
+        relative_student_passes_per_year.reverse()
+        # print(student_years)
+        # print(relative_student_passes_per_year)
+
+        # relative abi pass rate
+        df_abitur_data = pd.read_csv(f"data{os.sep}abi{os.sep}fails.csv")
+        df_abitur_data.columns = df_abitur_data.iloc[0].replace(np.nan, 0).astype(int)
+        abitur_years = list(range(2007, 2017))
+        relative_abitur_passes_per_year = []
+        for year in abitur_years:
+            absolute_passes = df_abitur_data[year][df_abitur_data[year].index == 2].sum(axis=1).to_list()[0]
+            absolute_fails = df_abitur_data[year][df_abitur_data[year].index == 3].sum(axis=1).to_list()[0]
+            relative_abitur_passes_per_year.append(absolute_passes/(absolute_passes+absolute_fails))
+        # print(abitur_years)
+        # print(relative_abitur_passes_per_year)
+
+        combined_years = [f"{abitur_years[i]}/{int(student_years[i])-2000}" for i in range(len(abitur_years))]
+
+        # plotting
+        fig,ax = plt.subplots()
+        ax.plot(
+            combined_years, 
+            relative_abitur_passes_per_year,
+            '.-', 
+            ms=2, 
+            lw=0.75, 
+            color=get_next_tue_plot_color(0),
+            label="abitur"
+        )
+        ax.plot(
+            combined_years, 
+            relative_student_passes_per_year,
+            '.-', 
+            ms=2, 
+            lw=0.75, 
+            color=get_next_tue_plot_color(1),
+            label="higher education"
+        )
+        _fontsize = 6
+        ax.set_xlabel("year: abitur/higher education", fontsize=_fontsize)
+        ax.set_ylabel("% of students that earn the corresponding degree", fontsize=_fontsize)
+        ax.legend(bbox_to_anchor=(1.01, 1))
+
+        ax.set_ylim(0.94, 1.0)
+
+        # ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
+
+        ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
+        ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
+
+        fig.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_003_abiturVsHigherEducation.pdf")
+
+
+        # correlation
+        fig,ax = plt.subplots()
+        m, b = np.polyfit(relative_abitur_passes_per_year, relative_student_passes_per_year, 1)
+        ax.scatter(
+            [float(e) for e in relative_abitur_passes_per_year], 
+            [float(e) for e in relative_student_passes_per_year],
+            color=get_next_tue_plot_color(0),
+            label="(% that passed abitur, % that passed higher education)\u1d40"
+        )
+        ax.plot(
+            relative_abitur_passes_per_year, 
+            [m*float(e)+b for e in relative_abitur_passes_per_year],
+            '-', 
+            ms=2, 
+            lw=0.75, 
+            color=get_next_tue_plot_color(1),
+            label=f"Regression line (Kendall \u03c4 {kendalltau(relative_abitur_passes_per_year, relative_student_passes_per_year).statistic:.2f})"
+        )
+        _fontsize = 8
+        ax.set_xlabel("% that passed abitur", fontsize=_fontsize)
+        ax.set_ylabel("% that passed higher education", fontsize=_fontsize)
+        ax.legend(bbox_to_anchor=(1.01, 1))
+
+        # ax.set_ylim(0.94, 1.0)
+
+        # ax.axhline(0, color=rgb.tue_dark, linewidth=0.5)
+
+        ax.grid(axis="both", color=rgb.tue_dark, linewidth=0.5)
+        ax.grid(axis="both", color=rgb.tue_gray, linewidth=0.5)
+
+        fig.savefig(f"doc{os.sep}report{os.sep}images{os.sep}SecEff_003_abiturVsHigherEducationCorrelation.pdf")
+        
