@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "school_analysis"
+version = "0.1.0"
+description = "This project aims to analyze the incluence of the covid-19 pandemic on the german school system"
+authors = ["Tom Freudenmann <tom.freudenmann@student.uni-tuebingen.de>", "Jonathan Schwab <jonathan.schwab@student.uni-tuebingen.de>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "school_analysis", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ipykernel = "^6.27.1"
+numpy = "^1.26.2"
+pandas = "^2.1.3"
+matplotlib = "^3.8.2"
+openpyxl = "^3.1.2"
+requests = "^2.31.0"
+xlrd = "^2.0.1"
+pygenesis = {git = "https://github.com/rudolf-bauer/genesisclient.git"}
+genesisclient = "^0.0.7"
+logging = "^0.4.9.6"
+lxml = "^4.9.4"
+suds-py3 = "^1.4.5.0"
+tueplots = "^0.0.12"
+seaborn = "^0.13.0"
+suds = "^1.1.2"
+pyyaml = "^6.0.1"
+tqdm = "^4.66.1"
+bs4 = "^0.0.1"
+pytest = "^7.4.4"
+tabulate = "^0.9.0"
+scipy = "^1.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
