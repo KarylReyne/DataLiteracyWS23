@@ -39,5 +39,8 @@ class GermanStatesHeatmapPlot:
         sm._A = []
         cbar = plt.colorbar(sm, ax=ax, fraction=0.046, pad=0.04)        
         plt.ioff()
-        gdf.plot(color=gdf['color'], edgecolor='black', ax=ax)
+        gdf.plot(color=gdf['color'], ax=ax)
+
+        ax.axis('off')
+
         return fig, ax, cbar
