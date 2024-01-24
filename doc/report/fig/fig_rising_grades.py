@@ -59,7 +59,7 @@ for state in data.columns:
         color=rgb.tue_gray,
         alpha=0.5,
         label="Single States" if not label_set else None,
-        lw=0.3,
+        lw=0.8,
     )
     label_set = True
 
@@ -69,7 +69,6 @@ ax.plot(
     reg_data["grade"],
     ".",
     label="Avg. Grade (reference)",
-    lw=0.5,
 )
 
 # Plot the data after Covid
@@ -79,14 +78,13 @@ ax.plot(
     ".",
     label="Avg. Grade (Covid)",
     color=rgb.tue_dark,
-    lw=0.5,
 )
 
 
 # Linear fit
 xp = overall_mean["year"].unique().astype(np.int32)
 ax.plot(
-    xp, w[0] + w[1] * (xp), label="Linear fit", color=rgb.tue_red, lw=0.5
+    xp, w[0] + w[1] * (xp), label="Linear fit", color=rgb.tue_red, linestyle="--"
 )
 
 # Regression uncertainty
