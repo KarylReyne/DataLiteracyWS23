@@ -21,7 +21,7 @@ The dataset \textit{Repeaters}, derived from the \textit{GENESIS} Database of th
 %TODO: Better beginning
 \autoref{fig:heatmap_correlation_students_per_teacher_repeaters_budget} presents a visualization of the Pearson correlation coefficients, analyzing the relationship between the number of students per teacher and the average number of repeaters, as well as the educational budget per state. 
 
-Initially, to compute the average number of repeaters, the \textit{Number of Repeaters}dataset is aggregated by \textit{Federal States} and \textit{Years}, with the mean value being calculated for each grouping. Subsequently, all datasets were merged, using \textit{Federal States} and \textit{Years} as the common attributes for alignment. 
+Initially, to compute the relative number of repeaters, the \textit{Number of Repeaters} dataset is merged with the \textit{school-children-by-state} dataset, grouped by \textit{Federal State} and \textit{Year} and the number of repeaters is divided by the total number of students. Subsequently this dataset is merged with the \textit{budget} and the \textit{students by teacher} dataset, using \textit{Federal States} and \textit{Years} as the common attributes for alignment. 
 
 Finally, for each state, the Pearson correlation coefficient was calculated across different years to ascertain the correlation between students per teacher and the budget, as well as the average amount of repeaters.
 
