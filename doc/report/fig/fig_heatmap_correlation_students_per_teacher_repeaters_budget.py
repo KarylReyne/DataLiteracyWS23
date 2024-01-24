@@ -1,15 +1,29 @@
-from tabulate import tabulate
 import pandas as pd
 import numpy as np
-from school_analysis.preprocessing.helpers.students_teachers import combine_school_type
+from school_analysis.preprocessing import SCHOOL_TYPE_MAPPING
+from school_analysis.preprocessing.helpers import students_teachers
 from school_analysis.preprocessing.load import Loader
 import school_analysis as sa
 from tueplots import bundles
-from tueplots.constants.color import rgb
 import os
 import matplotlib.pyplot as plt
 import school_analysis.plotting.germany_heatmap_lib as heatmaplib
 
+# Define contract types for filtering
+CONTRACT_TYPE = [
+    "Vollzeitbeschäftigte Lehrkräfte",
+    "Teilzeitbeschäftigte Lehrkräfte"
+]
+# No big influence since we have only federal states at the students to teacher ratio
+SCHOOL_TYPES = [
+    "Gymnasien (G8)",
+    "Gymnasien (G9)",
+    "Gymnasien",
+    "Realschulen",
+    "Haupschulen",
+    "Integrierte Gesamtschulen",
+    "Grundschulen",
+]
 DEBUG = False
 
 # Settings and definitions
@@ -29,6 +43,25 @@ repeaters = loader.load("number_of_repeaters")
 repeaters = repeaters.rename(columns={"state": "Federal State", "school": "School Type",
                                       "year": "Year", "total": "Repeaters", "grade": "Grade"}).drop(columns=["male", "female"])
 repeaters["Repeaters"] = repeaters["Repeaters"].replace("-", np.nan).dropna().astype(int)
+repeaters["School Type"] = repeaters["School Type"].map(SCHOOL_TYPE_MAPPING)
+# See comment above
+# repeaters = repeaters[repeaters["School Type"].isin(SCHOOL_TYPES)]
+repeaters = repeaters.dropna()
+repeaters = repeaters.groupby(["Federal State", "Year"])[
+    "Repeaters"].sum().reset_index()
+
+# Get Children data
+children = loader.load("school-children-by-state")
+children = students_teachers.map_gender(children)
+children = children[children["Gender"] == "all"]
+children = children[
+    (children["Type"] == "Pupils")
+    & (children["Federal State"] != "Deutschland")
+]
+children = children.groupby([
+    "Federal State",
+    "Year",
+])["Value"].sum().reset_index()
 
 # Load and preprocess budget data
 budget = loader.load("budgets-corrected")
@@ -36,12 +69,6 @@ budget = budget.drop(columns=["Year Relative", "Index"])
 
 # Load and preprocess data for students per teacher by state and type
 teachers_students_state = loader.load("students-per-teacher-by-state")
-
-# Define contract types for filtering
-CONTRACT_TYPE = [
-    "Vollzeitbeschäftigte Lehrkräfte",
-    "Teilzeitbeschäftigte Lehrkräfte"
-]
 
 # Filter and process the teachers_students data
 teachers_students_state = teachers_students_state[
@@ -57,10 +84,14 @@ teachers_students_state = teachers_students_state[["Federal State", "Year", "Stu
 ts_budget_state = pd.merge(teachers_students_state, budget, on=["Federal State", "Year"]).dropna().drop_duplicates()
 
 # Process repeaters data
-repeaters_state = repeaters.groupby(["Federal State", "Year"])["Repeaters"].mean().reset_index()
+repeaters_merged = pd.merge(repeaters, children, on=[
+                            "Federal State", "Year"], how="left")
+repeaters_merged["Relative Repeaters"] = repeaters_merged["Repeaters"] / \
+    repeaters_merged["Value"]
 
 # Merge datasets and calculate average
-ts_repeaters_state = pd.merge(teachers_students_state, repeaters_state, on=["Federal State", "Year"]).dropna().drop_duplicates()
+ts_repeaters_state = pd.merge(teachers_students_state, repeaters_merged, on=[
+                              "Federal State", "Year"]).dropna().drop_duplicates()
 
 # Analyze and compile results
 result = []
@@ -106,7 +137,7 @@ def create_merged_plot_repeater_budget(plotter, data1, data2, default_state_colo
 
 fig_combined = create_merged_plot_repeater_budget(plotter, heatmap_dictionary1, heatmap_dictionary2, "gray")
 
-fig_combined.suptitle("Correlation coefficients students per teacher")
+fig_combined.suptitle("Correlation coefficients students-to-teacher ratio")
 
 
 if DEBUG:
