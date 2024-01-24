@@ -28,7 +28,7 @@ DEBUG = False
 
 # Settings and definitions
 plt.rcParams.update(bundles.icml2022(
-    column="half", nrows=2, ncols=2, usetex=True))
+    column="half", nrows=1, ncols=1, usetex=True))
 
 
 # Define a function to calculate correlation between two columns in a DataFrame
