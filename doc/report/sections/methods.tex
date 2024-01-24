@@ -4,9 +4,9 @@
 
 
 
-\textbf{The Pearson correlation coefficient}, denoted as $r_{X,Y}$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$. It is computed as the ratio of the sample covariance of the $X$ and $Y$ to the product of their sample standard deviations: %Todo: Source
+\textbf{The Pearson correlation coefficient} \cite{rodgers_thirteen_1988}, denoted as $r$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$. It is computed as the ratio of the sample covariance of the $X$ and $Y$ to the product of their sample standard deviations:
 \begin{equation}
-    r_{X,Y} = \frac{\sum_{i=1}^n (X_i - \overline{X}) (Y_i - \overline{Y})}{\sqrt{\sum_{i=1}^n(X_i-\overline{X})^2 \cdot \sum_{i=1}^n(Y_i-\overline{Y})^2}}
+    r = \frac{\sum_{i=1}^n (X_i - \overline{X}) (Y_i - \overline{Y})}{\sqrt{\sum_{i=1}^n(X_i-\overline{X})^2 \cdot \sum_{i=1}^n(Y_i-\overline{Y})^2}}
 \end{equation}
 
 
@@ -30,6 +30,6 @@ In order to visualize the data over the states a heatmap for the german federal 
 \begin{figure}[h]
     \centering
     \includegraphics{fig/fig_heatmap_correlation_students_per_teacher_repeaters_budget.pdf}
-    \caption{Pearson correlation coefficients between students per teacher and budget, such as repeaters.}
+    \caption{Pearson correlation coefficients between the student-to-teacher ratio and the relative repeater count (left) and the inflation-adjusted average budget per child (right). \textcolor{red}{Red} indicates positive, \textcolor{gray}{gray} neutral, and \textcolor{blue}{blue} negative correlations between the variables.}
     \label{fig:heatmap_correlation_students_per_teacher_repeaters_budget}
 \end{figure}
