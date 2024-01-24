@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from tueplots import bundles
 import logging
 
-plt.rcParams.update(bundles.beamer_moml())
+plt.rcParams.update(bundles.icml2022())
 plt.rcParams.update({"figure.dpi": 200})
 
 PACKAGE_PATH = importlib.resources.files("school_analysis")
