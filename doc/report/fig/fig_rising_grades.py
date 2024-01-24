@@ -4,10 +4,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import school_analysis as sa
 import matplotlib.pyplot as plt
+from tueplots import bundles
 from tueplots.constants.color import rgb
 from school_analysis.preprocessing.load import Loader
 
 # Settings and definitions
+plt.rcParams.update(bundles.icml2022(
+    column="half", nrows=2, ncols=2, usetex=True))
 REFERENCE_BEFORE = 2021
 DEBUG = False
 loader = Loader()
@@ -109,4 +112,4 @@ if DEBUG:
     plt.show(block=True)
 
 fig.savefig(os.path.join(sa.PROJECT_PATH, "doc",
-            "report", "fig", "fig_rising_grades.pdf"), format="pdf")
+            "report", "fig", "{}.pdf".format(os.path.realpath(__file__).split(".")[0])), format="pdf")
