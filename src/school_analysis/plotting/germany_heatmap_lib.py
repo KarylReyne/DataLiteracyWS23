@@ -12,7 +12,7 @@ class GermanStatesHeatmapPlot:
     local_path = os.path.join(sa.PACKAGE_PATH,"plotting/heatmap_data/")
     re_download = False
 
-    def create_plot(self, state_values, default_state_color, cmap_name='coolwarm'):
+    def create_plot(self, state_values, default_state_color, cmap_name='coolwarm', ax=None):
        
         cmap = plt.get_cmap(cmap_name)        
 
@@ -30,17 +30,21 @@ class GermanStatesHeatmapPlot:
     
         gdf['color'] = gdf['NAME_1'].apply(lambda x: cmap(0.5 * (normalized_values.get(x, 0) + 1)) if normalized_values.get(x) is not None else default_state_color)
 
-        fig, ax = plt.subplots()       
+        if ax is None:
+            fig, ax = plt.subplots()
+        else:
+            fig = ax.figure
+    
         ax.set_xticklabels([])
         ax.set_yticklabels([])
         ax.set_xticks([])
         ax.set_yticks([])
         sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=-max_abs_value, vmax=max_abs_value))
         sm._A = []
-        cbar = plt.colorbar(sm, ax=ax, fraction=0.046, pad=0.04)        
+    
         plt.ioff()
         gdf.plot(color=gdf['color'], ax=ax)
 
         ax.axis('off')
 
-        return fig, ax, cbar
+        return fig, ax, sm
