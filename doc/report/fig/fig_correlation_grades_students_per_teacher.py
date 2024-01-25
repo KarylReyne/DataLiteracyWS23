@@ -10,7 +10,7 @@ from school_analysis.preprocessing.load import Loader
 
 # Settings and definitions
 plt.rcParams.update(bundles.icml2022(
-    column="half", nrows=2, ncols=2, usetex=True))
+    column="half", nrows=1, ncols=1, usetex=True))
 CONTRACT_TYPE = [
     "Vollzeitbeschäftigte Lehrkräfte",
     "Teilzeitbeschäftigte Lehrkräfte",
@@ -72,13 +72,14 @@ corr = np.corrcoef(school_data[x_col], school_data[y_col])[0][1]
 X = np.vstack([np.ones(len(school_data[x_col])), school_data[x_col]]).T
 y = school_data[y_col]
 w, res, _, _ = np.linalg.lstsq(X, y, rcond=None)
+print("Grades students to teacher: w={}, res={}".format(w, res))
 minimum = school_data[x_col].min()
 maximum = school_data[x_col].max()
 minimum = 0 if np.isnan(minimum) else minimum
 maximum = 0 if np.isnan(maximum) else maximum
 xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
 ax.plot(xp, w[0] + w[1] * xp, "--",
-        label="Linear Regression (corr: {:.2f})".format(corr), color=rgb.tue_dark)
+        label="Linear Regression (corr: {:.2f})".format(corr), color=rgb.tue_red)
 
 # Settings
 ax.set_ylabel("Students per teacher")
