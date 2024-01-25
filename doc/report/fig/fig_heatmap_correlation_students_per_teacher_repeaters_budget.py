@@ -127,7 +127,7 @@ def create_merged_plot_repeater_budget(plotter, data1, data2, default_state_colo
     _, ax2,sm = plotter.create_plot(data2, default_state_color, ax=ax2)
 
     ax1.set_title("Repeaters")
-    ax2.set_title("Budget")
+    ax2.set_title("Budget per Child (adjusted)")
 
     cbar = plt.colorbar(sm, ax=ax2, fraction=0.10, pad=0.2)    
 

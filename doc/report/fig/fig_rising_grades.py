@@ -104,7 +104,7 @@ ax.set_ylabel("Average Grade")
 order = [1, 2, 3, 0]
 handles, labels = ax.get_legend_handles_labels()
 ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order])
-ax.set_title("Linear Regression on the average Abitur grades")
+fig.suptitle("Linear Regression on the average Abitur grades")
 
 if DEBUG:
     plt.show(block=True)

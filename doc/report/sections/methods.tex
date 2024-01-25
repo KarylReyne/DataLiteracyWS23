@@ -64,15 +64,24 @@ Moreover, all children attending other schools have no direct impact on the resu
 To summarize, the exploratory findings indicate an increasing number of students and teachers, resulting in a decreasing ratio of students to teachers and a rise in the budget per child. The possible outcomes include a linear increase in Abitur grades in grammar schools and a shrinking proportion of repeaters in general.
 
 \paragraph{Correlation and Relationships}
-%TODO: Better beginning
-\autoref{fig:heatmap_correlation_students_per_teacher_repeaters_budget} presents a visualization of the Pearson correlation coefficients, analyzing the relationship between the number of children per teacher and the average number of repeaters, as well as the educational budget per state. 
+The relationships can be explored by combining the datasets, plotting the interesting variables, and calculating the correlation coefficients between them. Since the student-to-teacher ratio aggregates the number of students and teachers, this section will correlate the other variable against it.
 
-%TODO: Reformulate
-Initially, to compute the relative number of repeaters, the \textit{Number of Repeaters} dataset is merged with the \textit{school-children-by-state} dataset, grouped by \textit{Federal State} and \textit{Year} and the number of repeaters is divided by the total number of school children. Subsequently this dataset is merged with the \textit{budget} and the \textit{students by teacher} dataset, using \textit{Federal States} and \textit{Years} as the common attributes for alignment. 
+Therefore, the first  correlation exists between the average Abitur grade in Germany and the student-to-teacher ratio. Initially, the average grades across all federal states are calculated and then compared to the student-to-teacher coefficient for German grammar schools. As shown in \autoref{fig:regression-stt-grade} the relationship between both is nearly linear. In addition, the result contains neither clusters nor outliers. Hence, a smaller student-to-teacher ratio results in better grades. Additionally, the Pearson correlation value is $0.98$, indicating a strong positive correlation. This emphasizes the initial hypothesis and increases the importance of a good care factor between teachers and children.
 
-Finally, for each state, the Pearson correlation coefficient is calculated across different years to ascertain the correlation between the students-to-teacher ratio and the budget, as well as the average amount of repeaters.
+\begin{figure}[h]
+    \centering
+    \includegraphics{fig/fig_correlation_grades_students_per_teacher.pdf}
+    \caption{Linear regression on the students-to-teacher ratio by average Abitur grade. The resulting regression line (\textcolor{TUred}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) is calculated over the aggregated average overall grammar schools (\textcolor{TUlightblue}{\tikz\draw[fill={TUlightblue}] (0,0) circle (0.25em);}) in Germany.}
+    \label{fig:regression-stt-grade}
+\end{figure}
 
-In order to visualize the data over the states a heatmap for the german federal states is created. Therefor the Pearson correlation coefficients are normalized to the used colormap scale. Each state receives the appropriate computed color then.
+As already explained, these results correspond only to grammar schools and are not necessarily representable for other schools or single federal states. Thus, the student-to-teacher ratio is also compared to the repeaters and the budgets per child in each federal state. Therefore, their Pearson correlation coefficients are calculated for each federal state across all years. 
+
+\autoref{fig:heatmap_correlation_students_per_teacher_repeaters_budget} presents a visualization of the Pearson correlation coefficients, analyzing the relationship between the number of children per teacher and the average number of repeaters, as well as the educational budget per child. 
+
+To show the data for the different federal states,  a heatmap is created. Therefore, the Pearson correlation coefficients are normalized to the used color map scale. Each state then receives the appropriate computed color.
+
+% Todo: What changed?
 
 \begin{figure}[h]
     \centering
