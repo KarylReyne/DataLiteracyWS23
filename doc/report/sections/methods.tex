@@ -40,16 +40,13 @@ Firstly, regard the demographic effects on the number of children attending scho
 
 Given the hypothesis that having more teachers per student increases the quality of teaching, the datasets can be merged. As already explained, this merge can only been done separately for school types and federal states. Furthermore, the student-to-teacher ratio is calculated over all full- and part-time teachers, since they represent the majority of the distribution. In contrast, the teachers who are employed on an hourly basis are excluded due to their insignificant impact on the teaching quality and sparse representation in the data. The results (\autoref{fig:spt-type}) show that from 1998 to 2020, the ratio decreased for the five most common school types. As a result, the average decreases from 29 to 24 children per teacher. Together with the hypothesis, it follows that the quality of teaching should increase, and thus the performance measures should increase.
 
-\begin{figure*}
-    \centering
-    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
-    \caption{Students-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed foreach school type and aggregated to their mean (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) and standard deviation (\textcolor{TUgray}{\rule[-0.2ex]{1em}{0.8em}}).}
-    \label{fig:spt-type}
-\end{figure*}
 
 
+% Budget evolution explaination --> also gpd etc.
 
 % Effects
+
+Now that the basic effects that may influence the students' performance have been identified, it is possible to study the performance measures. As the analysis of the students datasets has shown, more children are attending grammar schools in Germany. Thus, the average Abitur grade of the children is a great measure of the performance of many children. \autoref{fig:rising-grades} shows that the average grades are increasing in all federal states. Furthermore, a linear regression can be employed to represent their mean. Importantly, the regression is calculated on the data before 2021 because of the COVID-19 pandemic beginning in 2020. In 2022, the grades significantly increased compared to the years before the pandemic. This could indicate that the pandemic has had novel consequences for the educational system. Due to the lack of data following the pandemic, this paper will solely focus on the linear trend until 2020. Furthermore, an additional analysis of the relative number of failed students has shown that the failure rate has no linear trend. Therefore, the provided results in \autoref{fig:rising-grades} are only valid for children graduating with a grade of at least 4.0.
 
 \begin{figure}[h]
     \centering
@@ -57,6 +54,14 @@ Given the hypothesis that having more teachers per student increases the quality
     \caption{Average Abitur grades before (\textcolor{TUlightblue}{\tikz\draw[fill={TUlightblue}] (0,0) circle (0.25em);}) and after the COVID-19 pandemic (\textcolor{TUdark}{\tikz\draw[fill={TUdark}] (0,0) circle (0.25em);}) with a linear regression line (\textcolor{TUred}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) of the years 2007 to 2020. In the background the figure contains average grades foreach federal state (\textcolor{TUgray}{\rule[-0.2ex]{0.5em}{1pt}}).}
     \label{fig:rising-grades}
 \end{figure}
+
+%  Move to the correct position
+\begin{figure*}
+    \centering
+    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
+    \caption{Students-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed foreach school type and aggregated to their mean (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) and standard deviation (\textcolor{TUgray}{\rule[-0.2ex]{1em}{0.8em}}).}
+    \label{fig:spt-type}
+\end{figure*}
 
 \paragraph{Correlation and Relationships}
 %TODO: Better beginning
