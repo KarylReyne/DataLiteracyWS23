@@ -190,66 +190,80 @@ class GenesisParser(GenericParser):
     
     def _parser_21111_0014(self, raw_data, *args, **kwargs) -> pd.DataFrame:
         """Parser for repeaters"""
-        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5, skipfooter=14, engine="python")       
+        df = pd.read_csv(StringIO(raw_data), sep=";", skiprows=5,
+                         skipfooter=14, engine="python")
         df.replace("b'", "", inplace=True, regex=True)
-        years = [int(item.split("/")[0]) for item in df.iloc[0].dropna().tolist() if item!='' and item!='\'']
-
+        
         df.rename(columns={df.columns[0]: 'state'}, inplace=True)
         df.rename(columns={df.columns[1]: 'grade'}, inplace=True)
         df.rename(columns={df.columns[3]: 'male'}, inplace=True)
         df.rename(columns={df.columns[5]: 'female'}, inplace=True)
         df.rename(columns={df.columns[7]: 'total'}, inplace=True)
 
-        df['state'] = df['state'].fillna(method='ffill')
-        df['grade'] = df['grade'].fillna(method='ffill')
-
-        years = [int(item.split("/")[0]) for item in df.iloc[0].dropna().tolist() if item!='' and item!='\'']
+        df['state'] = df['state'].ffill()
+        df['grade'] = df['grade'].ffill()
 
         states = [
-            "Baden-Württemberg", 
-            "Bayern", 
-            "Berlin", 
-            "Brandenburg", 
-            "Bremen", 
-            "Hamburg", 
-            "Hessen", 
-            "Mecklenburg-Vorpommern", 
-            "Niedersachsen", 
-            "Nordrhein-Westfalen", 
-            "Rheinland-Pfalz", 
-            "Saarland", 
-            "Sachsen", 
-            "Sachsen-Anhalt", 
-            "Schleswig-Holstein", 
+            "Baden-Württemberg",
+            "Bayern",
+            "Berlin",
+            "Brandenburg",
+            "Bremen",
+            "Hamburg",
+            "Hessen",
+            "Mecklenburg-Vorpommern",
+            "Niedersachsen",
+            "Nordrhein-Westfalen",
+            "Rheinland-Pfalz",
+            "Saarland",
+            "Sachsen",
+            "Sachsen-Anhalt",
+            "Schleswig-Holstein",
             "Thüringen"
         ]
 
         data = []
+        last_state = ""
+        for idx in df.index[3:]:
+            row = df.loc[idx]
+            if row["state"] in states:
+                last_state = row["state"]
+                continue
+            if row["state"] == "Total":
+                last_state = "Total"
+                continue
 
-        for idx,state in enumerate(states):
-            part = df.iloc[4+85*idx:]
-            for row in  part.iterrows():
-                for y_idx,year in enumerate(years):
-                    male = row[1][2+y_idx*3]
-                    female = row[1][3+y_idx*3]
-                    total = row[1][4+y_idx*3]  
-                    grade = row[1]['grade']         
-                    school  = row[1]['state']
-                    record = {
-                        'state': state,
-                        'school': school, #state and schol have the same column              
-                        'year': year,
-                        'male': male,
-                        'female':female,
-                        'grade': grade,
-                        'total': total
-                    }
-                    data.append(record)
+            last_year = ""
+            for col in df.columns[2:]:
+                if re.match(r"\d{4}/\d{2}", str(df.loc[0][col])):
+                    last_year = str(df.loc[0][col]).split("/")[0]
+
+                gender = df.loc[2][col]
+                grade = row["grade"]
+                school = row["state"]
+                record = {
+                    'state': last_state,
+                    'school': school,  # state and schol have the same column
+                    'year': last_year,
+                    'grade': grade,
+                    'gender': gender,
+                    'repeaters': row[col]
+                }
+                data.append(record)
 
         df_melted = pd.DataFrame(data)
-        df_melted = df_melted[(df_melted['state'] != 'Total') & 
-                      (df_melted['school'] != 'Total') & 
-                      (df_melted['grade'] != 'Total')]
+        df_melted = df_melted.replace("-", np.nan)
+        df_melted = df_melted.astype({"year": int, "repeaters": float})
+        df_melted = df_melted.pivot_table(values='repeaters', columns="gender", index=[
+            "state", "school", "year", "grade"]).reset_index()
+        df_melted = df_melted[(df_melted['state'] != 'Total') &
+                              (df_melted['school'] != 'Total') &
+                              (df_melted['grade'] != 'Total')]
+        df_melted = df_melted.rename(columns={
+            "Male": "male",
+            "Female": "female",
+            "Total": "total",
+        })
         return df_melted
     
     def _parser_21111_0010(self, raw_data, *args, **kwargs) -> pd.DataFrame:
