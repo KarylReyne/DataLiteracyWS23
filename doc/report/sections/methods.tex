@@ -11,6 +11,15 @@
 
 
 \paragraph{Datasets:}
+
+% Maybe move it later
+\begin{figure*}[t!]
+    \centering
+    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
+    \caption{Students-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed foreach school type and aggregated to their mean (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) and standard deviation (\textcolor{TUgray}{\rule[-0.2ex]{1em}{0.8em}}).}
+    \label{fig:spt-type}
+\end{figure*}
+
 The datasets used in this paper can be grouped into causes and effects. Therefore, the causes are societal, demographic, or political factors influencing the quality of the German school system. This could be the number of students, teachers, or budget provided by the German government. In contrast, this paper defines the effects of the causes as observable measures of the students' performance. Examples are the average grades, PISA study results, or the rate of repeaters and school-leavers.
 
 % Causes
@@ -26,10 +35,7 @@ Although this is a great model for the performance of children attending grammar
 
 % Say that also other effects such as people without degree, special educational needs were also explored but don't have a big impact due to their low percentage relative to all schoolchildren
 
-\paragraph{Data cleansing}
-% Todo May be optional or done in the text
-
-\paragraph{Descriptive Statistics and Visualizations}
+\paragraph{First trends and basic analysis}
 % Todo: Better Introduction
 
 Having introduced all used datasets, this paragraph aims to investigate potential patterns through an exploratory data analysis of the potential causes and effects. 
@@ -40,9 +46,7 @@ Firstly, regard the demographic effects on the number of children attending scho
 
 Given the hypothesis that having more teachers per student increases the quality of teaching, the datasets can be merged. As already explained, this merge can only been done separately for school types and federal states. Furthermore, the student-to-teacher ratio is calculated over all full- and part-time teachers, since they represent the majority of the distribution. In contrast, the teachers who are employed on an hourly basis are excluded due to their insignificant impact on the teaching quality and sparse representation in the data. The results (\autoref{fig:spt-type}) show that from 1998 to 2020, the ratio decreased for the five most common school types. As a result, the average decreases from 29 to 24 children per teacher. Together with the hypothesis, it follows that the quality of teaching should increase, and thus the performance measures should increase.
 
-
-
-% Budget evolution explaination --> also gpd etc.
+Besides the demographic measures, the federal states plan their school budgets independently. The analysis of the adjusted budget to inflation per child has shown that it steadily increases for all federal states. Although, this may be caused by the increasing number of teachers and the goals of digitalization at schools (TODO source).
 
 % Effects
 
@@ -56,12 +60,7 @@ Now that the basic effects that may influence the students' performance have bee
 \end{figure}
 
 %  Move to the correct position
-\begin{figure*}
-    \centering
-    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
-    \caption{Students-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed foreach school type and aggregated to their mean (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) and standard deviation (\textcolor{TUgray}{\rule[-0.2ex]{1em}{0.8em}}).}
-    \label{fig:spt-type}
-\end{figure*}
+
 
 \paragraph{Correlation and Relationships}
 %TODO: Better beginning
