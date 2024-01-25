@@ -24,7 +24,32 @@ Moreover, the primary effects on students' performance are the basis for the ana
 
 Although this is a great model for the performance of children attending grammar schools, a general performance measure for all school types is required. Accordingly, this paper uses the number of repeaters derived from the \textit{{GENESIS}} Database of the \citeauthor{statistische_bundesamt_statistisches_2023}. There, the absolute count of repeaters by federal state, school type, and year is provided for the years 1998 to 2022.
 
-\paragraph{Figures}
+% Say that also other effects such as people without degree, special educational needs were also explored but don't have a big impact due to their low percentage relative to all schoolchildren
+
+\paragraph{Data cleansing}
+% Todo May be optional or done in the text
+
+\paragraph{Descriptive Statistics and Visualizations}
+% Todo: Better Introduction
+
+Having introduced all used datasets, this paragraph aims to investigate potential patterns through an exploratory data analysis of the potential causes and effects. 
+
+% Describe causes
+% Todo: Sources
+Firstly, regard the demographic effects on the number of children attending school and teachers employed by school type and federal state. The exploratory data analysis has shown that the number of schoolchildren decreases steadily from 1998 to 2014. Instead, it increased from 2019 to 2022 because more children started their education and fewer left school. Furthermore, more children graduate from grammar schools with university entrance qualifications. This demographic effect is combined with an increasing number of teachers across all German school types and federal states. Although, the percentage of part-time teachers is increasing, the number of full-time teachers is decreasing until 2020.
+
+Given the hypothesis that having more teachers per student increases the quality of teaching, the datasets can be merged. As already explained, this merge can only been done separately for school types and federal states. Furthermore, the student-to-teacher ratio is calculated over all full- and part-time teachers, since they represent the majority of the distribution. In contrast, the teachers who are employed on an hourly basis are excluded due to their insignificant impact on the teaching quality and sparse representation in the data. The results (\autoref{fig:spt-type}) show that from 1998 to 2020, the ratio decreased for the five most common school types. As a result, the average decreases from 29 to 24 children per teacher. Together with the hypothesis, it follows that the quality of teaching should increase, and thus the performance measures should increase.
+
+\begin{figure*}
+    \centering
+    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
+    \caption{Students-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed foreach school type and aggregated to their mean (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) and standard deviation (\textcolor{TUgray}{\rule[-0.2ex]{1em}{0.8em}}).}
+    \label{fig:spt-type}
+\end{figure*}
+
+
+
+% Effects
 
 \begin{figure}[h]
     \centering
@@ -33,6 +58,7 @@ Although this is a great model for the performance of children attending grammar
     \label{fig:rising-grades}
 \end{figure}
 
+\paragraph{Correlation and Relationships}
 %TODO: Better beginning
 \autoref{fig:heatmap_correlation_students_per_teacher_repeaters_budget} presents a visualization of the Pearson correlation coefficients, analyzing the relationship between the number of children per teacher and the average number of repeaters, as well as the educational budget per state. 
 

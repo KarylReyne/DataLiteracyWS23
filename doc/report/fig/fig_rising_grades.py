@@ -97,14 +97,14 @@ ax.plot(
 # )
 
 ax.invert_yaxis()
-ax.grid(True)
+# ax.grid(True)
 ax.set_xlabel("Year")
 ax.set_ylabel("Average Grade")
 # Create the legend with the specified order
 order = [1, 2, 3, 0]
 handles, labels = ax.get_legend_handles_labels()
 ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order])
-ax.set_title("Linear Regression on the data before Covid")
+ax.set_title("Linear Regression on the average Abitur grades")
 
 if DEBUG:
     plt.show(block=True)
