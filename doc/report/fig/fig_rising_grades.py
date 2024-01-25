@@ -10,7 +10,7 @@ from school_analysis.preprocessing.load import Loader
 
 # Settings and definitions
 plt.rcParams.update(bundles.icml2022(
-    column="half", nrows=2, ncols=2, usetex=True))
+    column="half", nrows=1, ncols=1, usetex=True))
 REFERENCE_BEFORE = 2021
 DEBUG = False
 loader = Loader()
@@ -84,7 +84,7 @@ ax.plot(
 # Linear fit
 xp = overall_mean["year"].unique().astype(np.int32)
 ax.plot(
-    xp, w[0] + w[1] * (xp), label="Linear fit", color=rgb.tue_red, linestyle="--"
+    xp, w[0] + w[1] * (xp), label="Linear Regression", color=rgb.tue_red, linestyle="--"
 )
 
 # Regression uncertainty
@@ -97,14 +97,14 @@ ax.plot(
 # )
 
 ax.invert_yaxis()
-ax.grid(True)
+# ax.grid(True)
 ax.set_xlabel("Year")
 ax.set_ylabel("Average Grade")
 # Create the legend with the specified order
 order = [1, 2, 3, 0]
 handles, labels = ax.get_legend_handles_labels()
 ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order])
-ax.set_title("Linear Regression on the data before Covid")
+ax.set_title("Linear Regression on the average Abitur grades")
 
 if DEBUG:
     plt.show(block=True)
