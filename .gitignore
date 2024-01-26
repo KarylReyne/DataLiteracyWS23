@@ -159,22 +159,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
-# latex
-doc/report/*.aux
-doc/report/*.bbl
-doc/report/*.blg
-doc/report/*.fdb_latexmk
-doc/report/*.fls
-doc/report/*.log
-doc/report/*.out
-doc/report/*.pdf
-doc/report/*.synctex.gz
-doc/report/sections/*.aux
-
-# misc stuff
 data/*
 credentials.yml
-src/config/*
-credentials.yml
-doc/report/report_template.pdf
-doc/report/images/SecEff*.pdf
