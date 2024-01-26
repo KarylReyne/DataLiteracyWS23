@@ -1,9 +1,9 @@
-%!TEX root =../report_template.tex
+%!TEX root = ../report_template.tex
 \section{Results}
 The most intriguing discovery in our analysis is the robust correlation observed between the student-teacher ratio and Abitur grades.
 While it may seem intuitive, the data provides concrete evidence of the strength of the correlation. Initially, the average grades across all federal states are calculated and then compared to the student-to-teacher coefficient for German grammar schools.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics{fig/fig_correlation_grades_students_per_teacher.pdf}
     \caption{Linear regression on the students-to-teacher ratio by average Abitur grade. The resulting regression line (\textcolor{TUred}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) is calculated over the aggregated average overall grammar schools (\textcolor{TUlightblue}{\tikz\draw[fill={TUlightblue}] (0,0) circle (0.25em);}) in Germany.}
@@ -11,11 +11,11 @@ While it may seem intuitive, the data provides concrete evidence of the strength
 \end{figure}
 
 As shown in \autoref{fig:regression-stt-grade}, the relationship between both is nearly linear. In addition, the result contains neither clusters nor outliers. Hence, a smaller student-to-teacher ratio strongly correlates (Pearson correlation value of $0.98$) with better Abitur grades.
-The association between student performance and the presence of teaching personnel is a familiar topic in research, often examined in the realm of university performance \cite{doi:10.1080/00220485.1984.10845072}. However, its application to this specific problem is novel, and the interpretation in this context is important. Since the student-teacher ratio got smaller in recent years and the grades went on a steep increase, this observation and the strong correlation underline the necessity of having enough teaching personnel available.
+The association between student performance and the presence of teaching personnel is a familiar topic in research, often examined in the realm of university performance \cite{dickson_economic_1984}. However, its application to this specific problem is novel, and the interpretation in this context is important. Since the student-teacher ratio got smaller in recent years and the grades went on a steep increase, this observation and the strong correlation underline the necessity of having enough teaching personnel available.
 
 \autoref{fig:heatmap_correlation_students_per_teacher_repeaters_budget} presents a visualization of the Pearson correlation coefficients, analyzing the relationship between the number of children per teacher and the average number of repeaters, as well as the educational budget per child. To visually represent the data across various federal states, a heatmap is generated. Therefore, the Pearson correlation coefficients for each state are normalised to the used colour map scale. Consequently, each state is assigned a colour, representing the correlation coefficient.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics{fig/fig_heatmap_correlation_students_per_teacher_repeaters_budget.pdf}
     \caption{Pearson correlation coefficients between the student-to-teacher ratio and the relative repeater count (left) and the inflation-adjusted average budget per child (right). \textcolor{red}{Red} indicates positive, \textcolor{gray}{gray} neutral, and \textcolor{blue}{blue} negative correlations between the variables.}
@@ -24,7 +24,7 @@ The association between student performance and the presence of teaching personn
 
 For most federal states, there is a strong positive correlation between the student-to-teacher ratio and the number of repeaters. Moreover, the correlation between the student-to-teacher ratio and the inflation-adjusted budget per child tends to be positive. Brandenburg and Thüringen are the exception in both cases, as they even have a slight correlation the other way around. For Mecklenburg Vorpommern, the correlation between student-teacher ratio and budget is also positive.
 
-After seeing this visualisation, suggesting that schools simply require additional funding to hire more teachers might seem like a straightforward solution. The data from Thüringen, Mecklenburg-Vorpommern, and Brandenburg shows that this is not the case. For them, the correlation between budget and students per teacher is positive. These states have had an increase in the number of students over the past decade  \cite{thuringer_ministerium_fur_bildung_jugend_und_sport_verteilung_2023,ministerium_fur_bildung_jugend_und_sport_zahlen_2023,statistisches_amt_mecklenburg-vorpommern_statistik_nodate}. If certain schools have more children, they might want to employ more teachers. This does not happen since they don't have enough teachers in these states available \cite{kultusminister_konferenz_lehrkrafteeinstellungsbedarf_2023}. This leads to schools getting more money, but the number of teachers staying the same or even decreasing because people retire. This leads to a negative correlation.
+After seeing this visualisation, suggesting that schools simply require additional funding to hire more teachers might seem like a straightforward solution. The data from Thüringen, Mecklenburg-Vorpommern, and Brandenburg shows that this is not the case. For them, the correlation between budget and students per teacher is positive. These states have had an increase in the number of students over the past decade  \cite{thuringer_ministerium_fur_bildung_jugend_und_sport_verteilung_2023, brandenburger_ministerium_fur_bildung_jugend_und_sport_zahlen_2023,statistisches_amt_mecklenburg-vorpommern_statistik_nodate}. If certain schools have more children, they might want to employ more teachers. This does not happen since they don't have enough teachers in these states available \cite{kultusminister_konferenz_lehrkrafteeinstellungsbedarf_2023}. This leads to schools getting more money, but the number of teachers staying the same or even decreasing because people retire. This leads to a negative correlation.
 
 % TODO paragraphen bitte überarbeiten:-)
 The same anomaly can be observed with the repeaters. Here, a different phenomenon is accountable for this. Schools in Thüringen and Brandenburg rely more and more on Teilzeitkräfte (QUELLE?). This means that the overall proportion of teachers increases, but since they only account for about half the teaching time, the number of children failing a class still increases.
