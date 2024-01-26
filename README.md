@@ -1,10 +1,10 @@
-# Data Literacy COVID School
-[![Build LaTeX document](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml)
-[![Tests](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml)
-[![PDF](https://img.shields.io/badge/PDF-Download-blue)](https://github.com/KarylReyne/DataLiteracyWS23/blob/main/report.pdf)
+# Data Literacy Project: Grade Inflation in the German School System - Causes and Effects
+
+[![Build LaTeX document](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/build-pdf.yml) [![Tests](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml/badge.svg)](https://github.com/KarylReyne/DataLiteracyWS23/actions/workflows/python-app.yml) [![PDF](https://img.shields.io/badge/PDF-Download-blue)](https://github.com/KarylReyne/DataLiteracyWS23/blob/main/report.pdf)
+
 ## Introduction
 
-This project aims to analyze different factors that could influence the grades of students in Germany. The data is collected from the [Kultusministerkonferenz](https://www.kmk.org/dokumentation-statistik/statistik/schulstatistik/abiturnoten.html) and the [Statistisches Bundesamt](https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bildung-Forschung-Kultur/Schulen/Publikationen/Downloads-Schulen/schueler-schularten-2180320197004.pdf?__blob=publicationFile). The project is part of the Data Literacy course at the University of Tübingen.ß
+This project aims to analyze different factors that could influence the grades of students in Germany. The data is collected from the [Kultusministerkonferenz](https://www.kmk.org/dokumentation-statistik/statistik/schulstatistik/abiturnoten.html) and the [Statistisches Bundesamt](https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bildung-Forschung-Kultur/Schulen/Publikationen/Downloads-Schulen/schueler-schularten-2180320197004.pdf?__blob=publicationFile). The project is part of the Data Literacy course at the University of Tübingen.
 
 
 ## Prerequisites
@@ -15,7 +15,13 @@ This project aims to analyze different factors that could influence the grades o
 
 ## Getting Started
 
-For running the project, you need to install the dependencies and activate the virtual environment. The following commands are for Linux and MacOS. For Windows, please refer to the [Poetry documentation](https://python-poetry.org/docs/#installation).
+For running the project, you need to install the dependencies and activate the virtual environment. For the installation of Poetry please refer to the [Poetry documentation](https://python-poetry.org/docs/#installation).
+
+If you have Poetry installed, you can run the following commands to install the dependencies and activate the virtual environment:
+
+```bash
+poetry install
+```
 
 ### Downloading the Data
 
@@ -26,6 +32,14 @@ In order to download the data, you need to run the following command:
 ```bash
 poetry run python src/school_analysis/download_all.py
 ```
+
+If you want to download only the data of a specific data source, you can run the following command:
+
+```bash
+poetry run python src/school_analysis/download.py <genesis|default|abi>
+```
+
+For keeping the raw data you may add the `--keep-raw` flag.
 
 ### Folder Structure
 
@@ -42,6 +56,7 @@ The project is structured as follows:
 |   |-- raw # Raw data from other sources
 |-- doc
 |   |-- LICENSES # Licenses of the data used in this project
+|   |-- report # The latex files used to generate the final report
 |-- exp 
 |   |-- ... # Experiments
 |-- src/school_analysis # Source code
@@ -52,11 +67,12 @@ The project is structured as follows:
 |-- LICENSE
 |-- pyproject.toml
 |-- README.md
+|-- report.pdf # Final report
 ```
 
 ## Additional Notes
 
-- **Python Version:** This project requires Python 3.8 or higher.
+- **Python Version:** This project requires Python 3.11 or higher.
 - **Virtual Environment:** Ensure that you activate the Poetry virtual environment before running the project.
 
 ## Contributing
