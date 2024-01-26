@@ -11,7 +11,7 @@
 
 @KarylReyne
 
-- [ ] Refer to our github repository
+- [x] Refer to our github repository
 - [ ] Correct everything and be critical to the paper
 
 @JDev2001
