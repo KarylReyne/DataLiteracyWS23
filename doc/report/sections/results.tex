@@ -1,4 +1,27 @@
 %!TEX root = ../report_template.tex
+\paragraph{Correlation and Relationships}
+The relationships can be explored by combining the datasets, plotting the interesting variables, and calculating the correlation coefficients between them. Since the student-to-teacher ratio aggregates the number of students and teachers, this section will correlate the other variable against it.
+
+Therefore, the first  correlation exists between the average Abitur grade in Germany and the student-to-teacher ratio. Initially, the average grades across all federal states are calculated and then compared to the student-to-teacher coefficient for German grammar schools. As shown in \autoref{fig:regression-stt-grade} the relationship between both is nearly linear. In addition, the result contains neither clusters nor outliers. Hence, a smaller student-to-teacher ratio results in better grades. Additionally, the Pearson correlation value is $0.98$, indicating a strong positive correlation. This emphasizes the initial hypothesis and increases the importance of a good care factor between teachers and children.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{fig/fig_correlation_grades_students_per_teacher.pdf}
+    \caption{Linear regression on the students-to-teacher ratio by average Abitur grade. The resulting regression line (\textcolor{TUred}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) is calculated over the aggregated average overall grammar schools (\textcolor{TUlightblue}{\tikz\draw[fill={TUlightblue}] (0,0) circle (0.25em);}) in Germany.}
+    \label{fig:regression-stt-grade}
+\end{figure}
+
+As already explained, these results correspond only to grammar schools and are not necessarily representable for other schools or single federal states. Thus, the student-to-teacher ratio is also compared to the repeaters and the budgets per child in each federal state. Therefore, their Pearson correlation coefficients are calculated for each federal state across all years. 
+
+\autoref{fig:heatmap_correlation_students_per_teacher_repeaters_budget} presents a visualization of the Pearson correlation coefficients, analyzing the relationship between the number of children per teacher and the average number of repeaters, as well as the educational budget per child. To visually represent the data across various federal states, a heatmap is generated. Therefore, the Pearson correlation coefficients for each state is normalized to the used color map scale. Consequently, each state is assigned a color representing the correlation coefficient. It is evident that there exists a strong positive correlation between the student-to-teacher ratio and the rate of repeaters in the most new federal states, while the correlation in the new federal states is significantly weaker. Moreover the correlation between the student-to-teacher ratio and the inflation adjusted budget per child tends to be positive for the new federal states and negative for the old federal states.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{fig/fig_heatmap_correlation_students_per_teacher_repeaters_budget.pdf}
+    \caption{Pearson correlation coefficients between the student-to-teacher ratio and the relative repeater count (left) and the inflation-adjusted average budget per child (right). \textcolor{red}{Red} indicates positive, \textcolor{gray}{gray} neutral, and \textcolor{blue}{blue} negative correlations between the variables.}
+    \label{fig:heatmap_correlation_students_per_teacher_repeaters_budget}
+\end{figure}
+
 \section{Results}
 The most intriguing discovery in our analysis is the robust correlation observed between the student-teacher ratio and Abitur grades.
 While it may seem intuitive, the data provides concrete evidence of the strength of the correlation. 
