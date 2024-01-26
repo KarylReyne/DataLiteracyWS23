@@ -1,17 +1,18 @@
 %!TEX root = ../report_template.tex
-\section*{Methods}
-%Todo: Think about citations
+\section{Methods}
+%Todo: Introduction
 
+\subsection{Mathematical Basics}
+% Todo: Introduction 
 
+% Todo: Linear Regression
 
-\textbf{The Pearson correlation coefficient} \cite{rodgers_thirteen_1988}, denoted as $r$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$. It is computed as the ratio of the sample covariance of the $X$ and $Y$ to the product of their sample standard deviations:
+The Pearson correlation coefficient \cite{rodgers_thirteen_1988}, denoted as $r$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$. It is computed as the ratio of the sample covariance of the $X$ and $Y$ to the product of their sample standard deviations:
 \begin{equation}
     r = \frac{\sum_{i=1}^n (X_i - \overline{X}) (Y_i - \overline{Y})}{\sqrt{\sum_{i=1}^n(X_i-\overline{X})^2 \cdot \sum_{i=1}^n(Y_i-\overline{Y})^2}}
 \end{equation}
 
-
-\paragraph{Datasets:}
-
+\subsection{Datasets}
 % Maybe move it later
 \begin{figure*}[t!]
     \centering
@@ -35,7 +36,7 @@ Although this is a great model for the performance of children attending grammar
 
 % Say that also other effects such as people without degree, special educational needs were also explored but don't have a big impact due to their low percentage relative to all schoolchildren
 
-\paragraph{First trends and basic analysis}
+\subsection{Exploratory Data Analysis}
 % Todo: Better Introduction
 
 Having introduced all used datasets, this paragraph aims to investigate potential patterns through an exploratory data analysis of the potential causes and effects. 
@@ -63,6 +64,7 @@ Moreover, all children attending other schools have no direct impact on the resu
 
 To summarize, the exploratory findings indicate an increasing number of students and teachers, resulting in a decreasing ratio of students to teachers and a rise in the budget per child. The possible outcomes include a linear increase in Abitur grades in grammar schools and a shrinking proportion of repeaters in general.
 
+% Todo: Move this into results --> adapt their on the argumentation
 \paragraph{Correlation and Relationships}
 The relationships can be explored by combining the datasets, plotting the interesting variables, and calculating the correlation coefficients between them. Since the student-to-teacher ratio aggregates the number of students and teachers, this section will correlate the other variable against it.
 
