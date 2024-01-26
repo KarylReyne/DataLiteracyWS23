@@ -163,7 +163,7 @@ GENESIS:
 
 # --- secondary effects (uni) ---
   - name: 'Studierende'
-    download: '21311-0010' # number of new students
+    download: '21311-0010'
     site: DESTATIS
     filename: SecEff_000_studierende
     folder: genesis/
