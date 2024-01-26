@@ -23,7 +23,7 @@
 
 @Super-T02
 
-- [ ] Work through @KarylReyne correction
+- [X] Work through @KarylReyne correction
 - [ ] Check style of references
 - [ ] Add more references
 - [ ] Rewrite Conclusion (without the word "we")

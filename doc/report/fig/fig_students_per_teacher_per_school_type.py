@@ -22,14 +22,6 @@ TEACHER_CONTRACT = [
     "Teilzeitbeschäftigte Lehrkräfte"
 ]
 
-COLORS = [
-    rgb.tue_lightblue,
-    rgb.tue_green,
-    rgb.tue_red,
-    rgb.tue_orange,
-    rgb.tue_violet,
-]
-
 # Students per teachers avg
 fig, ax = plt.subplots()
 
@@ -68,7 +60,7 @@ for idx, st in enumerate(most_common_school_types):
     st_group = plot_data[plot_data["School Type"] == st].groupby("Year")
     st_group_mean = st_group["Students per Teacher"].mean().reset_index()
     ax.plot(st_group_mean["Year"],
-            st_group_mean["Students per Teacher"], label=st, color=COLORS[idx])
+            st_group_mean["Students per Teacher"], label=st)
 
 # Other settings
 ax.set_xlabel("Year")
