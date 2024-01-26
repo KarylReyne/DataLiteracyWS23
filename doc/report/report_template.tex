@@ -1,0 +1,120 @@
+\documentclass{article}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{booktabs} % for professional tables
+\usepackage{xcolor}
+\usepackage{tikz}
+% Corporate Design of the University of Tübingen
+% Primary Colors
+\definecolor{TUred}{RGB}{165,30,55}
+\definecolor{TUgold}{RGB}{180,160,105}
+\definecolor{TUdark}{RGB}{50,65,75}
+\definecolor{TUgray}{RGB}{175,179,183}
+
+% Secondary Colors
+\definecolor{TUdarkblue}{RGB}{65,90,140}
+\definecolor{TUblue}{RGB}{0,105,170}
+\definecolor{TUlightblue}{RGB}{80,170,200}
+\definecolor{TUlightgreen}{RGB}{130,185,160}
+\definecolor{TUgreen}{RGB}{125,165,75}
+\definecolor{TUdarkgreen}{RGB}{50,110,30}
+\definecolor{TUocre}{RGB}{200,80,60}
+\definecolor{TUviolet}{RGB}{175,110,150}
+\definecolor{TUmauve}{RGB}{180,160,150}
+\definecolor{TUbeige}{RGB}{215,180,105}
+\definecolor{TUorange}{RGB}{210,150,0}
+\definecolor{TUbrown}{RGB}{145,105,70}
+
+% hyperref makes hyperlinks in the resulting PDF.
+% If your build breaks (sometimes temporarily if a hyperlink spans a page)
+% please comment out the following usepackage line and replace
+% \usepackage{icml2023} with \usepackage[nohyperref]{icml2023} above.
+\usepackage{hyperref}
+
+
+% Attempt to make hyperref and algorithmic work together better:
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+\usepackage[accepted]{icml2023}
+
+% For theorems and such
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+% if you use cleveref..
+\usepackage[capitalize,noabbrev]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+%\usepackage[disable,textsize=tiny]{todonotes}
+\usepackage[textsize=tiny]{todonotes}
+
+\newcommand{\D}{\text{d}}% leibniz notation d for derivatives/integrals
+\renewcommand{\qed}{\hfill \ensuremath{\Box}}% white qed box aligned to the right
+\newcommand{\lp}[1]{\left({#1}\right)}% large parentheses, e.g. for vectors or fractions
+\newcommand{\mono}{\texttt}% monospace text
+\newcommand{\ceil}[1]{\left\lceil{#1}\right\rceil}
+\newcommand{\floor}[1]{\left\lfloor{#1}\right\rfloor}
+\newcommand{\cont}{\lightning}
+
+\icmltitlerunning{Project Report for Data Literacy 2023/24}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{
+    Project Report for Data Literacy 2023/24\\ 
+    Grade Inflation in the German School System - Causes and Effects
+}
+
+\icmlsetsymbol{equal}{*}
+
+\begin{icmlauthorlist}
+\icmlauthor{Jonathan Schwab}{equal,first}
+\icmlauthor{Lars Kasüschke}{equal,second}
+\icmlauthor{Niklas Munkes}{equal,third}
+\icmlauthor{Tom Freudenmann}{equal,fourth}
+\end{icmlauthorlist}
+
+\icmlaffiliation{first}{Matrikelnummer 6765897, jonathan.schwab@student.uni-tuebingen.de, MSc Computer Science}
+\icmlaffiliation{second}{Matrikelnummer 4247775, lars.kasueschke@student.uni-tuebingen.de, BSc Computer Science}
+\icmlaffiliation{third}{Matrikelnummer 4269436, niklas.munkes@student.uni-tuebingen.de, MSc Media Informatics}
+\icmlaffiliation{fourth}{Matrikelnummer 6631101, tom.freudenmann@student.uni-tuebingen.de, MSc Computer Science}
+
+\vskip 0.3in
+]
+\printAffiliationsAndNotice{\icmlEqualContribution}
+
+\input{sections/abstract}
+
+\input{sections/introduction}
+\newpage
+\input{sections/methods}
+\newpage
+\input{sections/results}
+
+\input{sections/conclusion}
+\newpage
+\bibliography{bibliography}
+\bibliographystyle{icml2023}
+
+\end{document}
