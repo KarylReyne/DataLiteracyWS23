@@ -36,7 +36,7 @@ poetry run python src/school_analysis/download_all.py
 If you want to download only the data of a specific data source, you can run the following command:
 
 ```bash
-poetry run python src/school_analysis/download.py <genesis|default|abi>
+poetry run python src/school_analysis/download_all.py <genesis|default|abi>
 ```
 
 For keeping the raw data you may add the `--keep-raw` flag.
