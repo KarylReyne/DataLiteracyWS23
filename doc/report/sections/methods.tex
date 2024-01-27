@@ -27,24 +27,20 @@ It is also important to analyze the  effects on student performance, since they 
 Although this is a great model for the performance of children attending grammar schools, a general performance measure for all school types is required to translate the results to all school types. Accordingly, this paper uses the number of repeaters (\href{https://www-genesis.destatis.de/genesis//online?operation=table&code=21111-0014&bypass=true&levelindex=0&levelid=1706352887288#abreadcrumb}{$21111-0014$}) from the \citeauthor{statistische_bundesamt_statistisches_2024}. There, the absolute count of repeaters by federal state, school type, and year is provided for the years 1998 to 2022.
 
 \subsection{Mathematical Concepts}
-The subsequent paragraph provides an overview of two concepts linear regression and Pearson correlation coefficient.
+The subsequent paragraph provides an overview of two concepts: linear regression and the Pearson correlation coefficient.
 
-Linear regression is a statistical technique for modeling the relationship between a dependent variable and one or more independent variables \cite{james_introduction_2021}. It seeks to fit a linear equation to the data that minimizes the discrepancy between observed and predicted values. This is done through least squares minimization, resulting in an equation of the form:
+Firstly, linear regression is a statistical technique for modeling the relationship between a dependent variable and one or more independent variables \cite{james_introduction_2021}. It seeks to fit a linear equation to the data that minimizes the discrepancy between observed and predicted values. This is done through least squares minimization, resulting in an equation of the form \cite{james_introduction_2021}:
 \begin{equation}
     Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 +  ...+ \beta_p X_p + \epsilon 
 \end{equation}
 
-The Pearson correlation coefficient \cite{rodgers_thirteen_1988}, denoted as $r$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$. It is computed as the ratio of the sample covariance of the $X$ and $Y$ to the product of their sample standard deviations:
+Finally, the Pearson correlation coefficient $r$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$ \cite{rodgers_thirteen_1988}. It is computed as the ratio of the sample covariance of $X$ and $Y$ to the product of their sample standard deviations \cite{rodgers_thirteen_1988}:
 \begin{equation}
     r = \frac{\sum_{i=1}^n (X_i - \overline{X}) (Y_i - \overline{Y})}{\sqrt{\sum_{i=1}^n(X_i-\overline{X})^2 \cdot \sum_{i=1}^n(Y_i-\overline{Y})^2}}
 \end{equation}
 
-% Say that also other effects such as people without degree, special educational needs were also explored but don't have a big impact due to their low percentage relative to all schoolchildren
-
 \subsection{Exploratory Data Analysis}
-% Todo: Better Introduction
-
-Having introduced all used datasets, this paragraph aims to investigate potential patterns through an exploratory data analysis of the potential causes and effects. 
+Having introduced all used datasets, this paragraph aims to investigate potential patterns through an exploratory data analysis of the potential \emph{causes} and \emph{effects}. 
 
 % Describe causes
 % Todo: Sources
