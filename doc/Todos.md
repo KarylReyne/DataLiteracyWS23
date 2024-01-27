@@ -16,10 +16,10 @@
 
 @JDev2001
 
-- [ ] Introduction to Methods
-- [ ] Explain linear regression
-- [ ] Change position of maths and dataset
-- [ ] Introduction Mathematical Basics
+- [X] Introduction to Methods
+- [X] Explain linear regression
+- [X] Change position of maths and dataset
+- [X] Introduction Mathematical Basics
 
 @Super-T02
 
