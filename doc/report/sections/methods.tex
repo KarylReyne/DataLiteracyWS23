@@ -36,16 +36,37 @@ Having introduced all used datasets, this paragraph aims to investigate potentia
 
 % Describe causes
 % Todo: Sources
-Firstly, regard the demographic effects on the number of children attending school and teachers employed by school type and federal state. The exploratory data analysis of the teachers and children datasets\footnote{\label{footnote:teachers-children}Teachers and children plots and exploration can be found \href{https://github.com/KarylReyne/DataLiteracyWS23/blob/main/exp/TF-005-TeachersToChildren.ipynb}{here}.} has shown that the number of schoolchildren decreases steadily from 1998 to 2014. Instead, it increased from 2019 to 2022 because more children started their education and fewer left school. Furthermore, more children graduate from grammar schools with university entrance qualifications. This demographic effect is combined with an increasing number of teachers across all German school types and federal states. Although, the percentage of part-time teachers is increasing, the number of full-time teachers is decreasing until 2020.
+Firstly, regard the demographic effects on the number of children attending school and teachers employed by school type and federal state. The exploratory data analysis of the teachers and children datasets\footnote{\label{footnote:teachers-children}Teachers and children plots and exploration can be found \href{https://github.com/KarylReyne/DataLiteracyWS23/blob/main/exp/TF-005-TeachersToChildren.ipynb}{here}.} has shown that the number of schoolchildren decreases steadily from 1998 to 2014. Instead, it increased from 2019 to 2022 because more children started their education and fewer left school. Furthermore, more children graduate from grammar schools with university entrance qualifications.
 
-\begin{figure*}[ht!]
+Moreover, this demographic effect is combined with an increasing number of teachers across all German school types and federal states. % New below
+Although, there is a difference between old and new federal states in the evolution of full- and part-time teachers, as displayed in \autoref{fig:teacher_contracts}. The new federal states had a higher proportion of part-time teachers than full-time teachers between 2004 and 2008. Instead, the old federal states have a nearly constant distribution of part-time teachers on average. Furthermore, they have employed fewer full-time teachers since 2014 than the new federal states. 
+
+% Was the last sentence before
+% Although, the percentage of part-time teachers is increasing, the number of full-time teachers is decreasing until 2020.
+
+% Plot of the teachers per contract
+\begin{figure*}[ht]
     \centering
-    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
-    \caption{Student-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed for each school type and aggregated to their average (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}).}
-    \label{fig:spt-type}
+    \includegraphics{fig/fig_teacher_contracts.pdf}
+    \caption{Relative number of teachers by contract type and federal states. The average ratio of full-time (\textcolor{TUblue}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) and part-time (\textcolor{TUred}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}) contracts of teachers is displayed with its minimal and maximal bound for the old federal states (\emph{left}) and the new federal states (\emph{right}).}
+    \label{fig:teacher_contracts}
 \end{figure*}
 
-Given the hypothesis that having more teachers per student increases the quality of teaching, the datasets are merged \cite{kasau_onesmus_mulei_pupil-teacher_2016,koc_impact_2015}. As already explained, this merge can only been done separately for school types and federal states. Furthermore, the student-to-teacher ratio is calculated over all full- and part-time teachers, since they represent the majority ({\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}} $90\%$) of the distribution\footref{footnote:teachers-children}. The results in \autoref{fig:spt-type} show that from 1998 to 2020, the ratio decreased for the five most common school types. As a result, the average decreases from 29 to 24 children per teacher. Together with the hypothesis, it follows that the quality of teaching should increase, and thus the performance measures should increase.
+% Plot of the student to teacher ratio over all school types
+
+% \begin{figure*}[ht!]
+%     \centering
+%     \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
+%     \caption{Student-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed for each school type and aggregated to their average (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}).}
+%     \label{fig:spt-type}
+% \end{figure*}
+
+Given the hypothesis that having more teachers per student increases the quality of teaching, the datasets are merged \cite{kasau_onesmus_mulei_pupil-teacher_2016,koc_impact_2015}. As already explained, this merge can only been done separately for school types and federal states. Furthermore, the student-to-teacher ratio is calculated over all full- and part-time teachers, since they represent the majority ({\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}} $90\%$) of the distribution\footref{footnote:teachers-children}. % New
+As a result, the average over the 5 most common schools decreases from 29 to 24 children per teacher. Together with the hypothesis, it follows that the quality of teaching should increase, and thus the performance measures should increase.
+
+
+% Old version
+% The results in \autoref{fig:spt-type} show that from 1998 to 2020, the ratio decreased for the five most common school types. As a result, the average decreases from 29 to 24 children per teacher. Together with the hypothesis, it follows that the quality of teaching should increase, and thus the performance measures should increase.
 
 Besides the demographic measures, the analysis of the adjusted budget\footnote{\label{footnote:budget}Budget plots and exploration can be found \href{https://github.com/KarylReyne/DataLiteracyWS23/blob/main/exp/TF-007-SchoolBudgets.ipynb}{here}.} to inflation per child has shown that it steadily increases for all federal states. Although, this may be caused by the increasing number of teachers and the goals of digitalization of schools in the last years \cite{cone_pandemic_2022}.
 
