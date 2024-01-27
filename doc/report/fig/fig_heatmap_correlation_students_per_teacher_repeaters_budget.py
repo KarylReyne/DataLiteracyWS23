@@ -137,7 +137,7 @@ def create_merged_plot_repeater_budget(plotter, data1, data2, default_state_colo
 
 fig_combined = create_merged_plot_repeater_budget(plotter, heatmap_dictionary1, heatmap_dictionary2, "gray")
 
-fig_combined.suptitle("Correlation coefficients students-to-teacher ratio")
+fig_combined.suptitle("Correlation coefficients student-to-teacher ratio")
 
 
 if DEBUG:
