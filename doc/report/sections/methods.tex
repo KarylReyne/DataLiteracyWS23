@@ -3,14 +3,6 @@
 The basis of the exploratory data analysis are the used datasets and the applied mathematical concepts for forming a quantitative argumentation. Thus, this section first introduces the used data sets and explains afterward the mathematical background. Finally, this section analyzes first trends and findings on the effects of increasing grades.
 
 \subsection{Datasets}
-% Maybe move it later
-\begin{figure*}[ht!]
-    \centering
-    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
-    \caption{Students-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed for each school type and aggregated to their average (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}).}
-    \label{fig:spt-type}
-\end{figure*}
-
 This paper investigates both the causes and effects of the phenomena discussed in \autoref{sec:Introduction}. Thus, the analyzed datasets are grouped into \emph{cause} and \emph{effect} datasets. All used datasets are collected on all public schools, since they are obliged to forward the federal statistical institutions \cite{statistische_bundesamt_statistisches_2024,kultusminister_konferenz_abiturnoten_nodate}.
 
 In the following, \emph{causes} are defined as the social, demographic, or political factors that  influence the German school system, such as the number of students, teachers, or budget provided by the German government. In contrast, \emph{effect} refers to the observable impact of these causes on any measure modeling the students' performance, e.g., average grades or the rate of repeaters and school-leavers.
@@ -46,12 +38,18 @@ Having introduced all used datasets, this paragraph aims to investigate potentia
 % Todo: Sources
 Firstly, regard the demographic effects on the number of children attending school and teachers employed by school type and federal state. The exploratory data analysis has shown that the number of schoolchildren decreases steadily from 1998 to 2014. Instead, it increased from 2019 to 2022 because more children started their education and fewer left school. Furthermore, more children graduate from grammar schools with university entrance qualifications. This demographic effect is combined with an increasing number of teachers across all German school types and federal states. Although, the percentage of part-time teachers is increasing, the number of full-time teachers is decreasing until 2020.
 
+\begin{figure*}[ht!]
+    \centering
+    \includegraphics{fig/fig_students_per_teacher_per_school_type.pdf}
+    \caption{Students-to-teacher ratio of the five most common school types in Germany. The ratio of full- and part-time teachers is displayed for each school type and aggregated to their average (\textcolor{TUgold}{\rule[-0.2ex]{0.5em}{2pt} \rule[-0.2ex]{0.5em}{2pt}}).}
+    \label{fig:spt-type}
+\end{figure*}
+
 Given the hypothesis that having more teachers per student increases the quality of teaching, the datasets can be merged. As already explained, this merge can only been done separately for school types and federal states. Furthermore, the student-to-teacher ratio is calculated over all full- and part-time teachers, since they represent the majority ({\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}} $90\%$) of the distribution. In contrast, the teachers who are employed on an hourly basis are excluded due to their small impact on the teaching quality and sparse representation in the data. The results (\autoref{fig:spt-type}) show that from 1998 to 2020, the ratio decreased for the five most common school types. As a result, the average decreases from 29 to 24 children per teacher. Together with the hypothesis, it follows that the quality of teaching should increase, and thus the performance measures should increase.
 
 Besides the demographic measures, the analysis of the adjusted budget to inflation per child has shown that it steadily increases for all federal states. Although, this may be caused by the increasing number of teachers and the goals of digitalization of schools in the last years \cite{cone_pandemic_2022}.
-s
-% Effects
 
+% Effects
 Now that some basic effects that may influence the students' performance have been identified, it is possible to study the performance measures. As the analysis of the students datasets has shown, more children are attending grammar schools in Germany. Thus, the average Abitur grade of the children is a great measure of the performance of many children. \autoref{fig:rising-grades} shows that the average grades are increasing in all federal states. Furthermore, a linear regression can be employed to represent their mean. Importantly, the regression is calculated on the data before 2021 because of the COVID-19 pandemic beginning in 2020. In 2022, the grades significantly increased compared to the years before the pandemic. This could indicate that the pandemic has had novel consequences for the educational system. Due to the lack of data following the pandemic, this paper will solely focus on the linear trend until 2020. Furthermore, an additional analysis of the relative number of failed students has shown that the failure rate has no repetitive or linear pattern. Therefore, the provided results in \autoref{fig:rising-grades} are only valid for children graduating with a grade of at least 4.0.
 
 \begin{figure}[ht]
