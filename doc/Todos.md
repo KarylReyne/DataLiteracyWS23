@@ -12,7 +12,7 @@
 @KarylReyne
 
 - [x] Refer to our github repository
-- [ ] Correct everything and be critical to the paper
+- [x] Correct everything and be critical to the paper
 
 @JDev2001
 
