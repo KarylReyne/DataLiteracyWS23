@@ -40,6 +40,22 @@ poetry run python src/school_analysis/download_all.py <genesis|default|abi>
 
 For keeping the raw data you may add the `--keep-raw` flag.
 
+### Reproducing the Results
+
+If you want to reproduce the results, you can run the following command (only works on Unix systems):
+
+```bash
+poetry run doc/report/build_figures.sh # Unix command
+```
+
+Else you can run each python file in the [doc/report/fig/](doc/report/fig) directory individually. They create the figures used in the report.
+
+Furthermore, you can run the notebooks in the [exp](exp) directory to reproduce the results of the experiments and analysis.
+
+##### Important Note
+
+Make sure that you have downloaded the data before running the notebooks. Otherwise, the notebooks will not work.
+
 ### Folder Structure
 
 The project is structured as follows:
@@ -56,6 +72,8 @@ The project is structured as follows:
 |-- doc
 |   |-- LICENSES # Licenses of the data used in this project
 |   |-- report # The latex files used to generate the final report
+|   |   |-- fig # Figures used in the report
+|   |   |-- ... # LaTeX files for the report
 |-- exp 
 |   |-- ... # Experiments
 |-- src/school_analysis # Source code
