@@ -25,8 +25,8 @@
 
 - [X] Work through @KarylReyne correction
 - [ ] Check style of references
-- [ ] Add more references
-- [ ] Rewrite Conclusion (without the word "we")
+- [X] Add more references
+- [X] Rewrite Conclusion (without the word "we")
   
 @L-Kasu
 
@@ -34,8 +34,8 @@
   
 ## Repository
 
-- [ ] Add more comments @JDev2001 @Super-T02
-- [ ] Check notebooks for errors @JDev2001 @Super-T02
-- [ ] Add comments and explanations to notebooks @JDev2001 @Super-T02
+- [ ][X] Add more comments @JDev2001 @Super-T02
+- [ ][X] Check notebooks for errors @JDev2001 @Super-T02
+- [ ][X] Add comments and explanations to notebooks @JDev2001 @Super-T02
 - [ ] Remove not used functions from the project @Super-T02
-- [ ] Link to plots for the paper @Super-T02
+- [X] Link to plots for the paper @Super-T02

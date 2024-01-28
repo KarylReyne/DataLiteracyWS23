@@ -6,7 +6,6 @@
 
 This project aims to analyze different factors that could influence the grades of students in Germany. The data is collected from the [Kultusministerkonferenz](https://www.kmk.org/dokumentation-statistik/statistik/schulstatistik/abiturnoten.html) and the [Statistisches Bundesamt](https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bildung-Forschung-Kultur/Schulen/Publikationen/Downloads-Schulen/schueler-schularten-2180320197004.pdf?__blob=publicationFile). The project is part of the Data Literacy course at the University of Tübingen.
 
-
 ## Prerequisites
 
 - Python (>=3.8)
