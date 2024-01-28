@@ -5,7 +5,7 @@
 @All
 
 - [ ] Read through the report
-- [ ] Rewrite abstract (without the word "we")
+- [X] Rewrite abstract (without the word "we")
 - [ ] Check axes, labels, etc.
 
 
@@ -30,12 +30,13 @@
   
 @L-Kasu
 
-- [x] Combine Results and Correlations
+- [X] Combine Results and Correlations
   
 ## Repository
 
-- [ ][X] Add more comments @JDev2001 @Super-T02
-- [ ][X] Check notebooks for errors @JDev2001 @Super-T02
-- [ ][X] Add comments and explanations to notebooks @JDev2001 @Super-T02
-- [ ] Remove not used functions from the project @Super-T02
+- [X] Add more comments @JDev2001 @Super-T02
+- [X] Check notebooks for errors @JDev2001 @Super-T02
+- [X] Add comments and explanations to notebooks @JDev2001 @Super-T02
+- [X] Remove not used functions from the project @Super-T02
 - [X] Link to plots for the paper @Super-T02
+- [ ] Section into readme how to create report plots. @Super-T02
