@@ -9,14 +9,15 @@ import os
 class GermanStatesHeatmapPlot:
 
 
-    local_path = os.path.join(sa.PACKAGE_PATH,"plotting/heatmap_data/")
-    re_download = False
+    local_path = os.path.join(sa.PACKAGE_PATH,"plotting/heatmap_data/")  
 
     def create_plot(self, state_values, default_state_color, cmap_name='coolwarm', ax=None):
        
         cmap = plt.get_cmap(cmap_name)        
 
-        if self.re_download:
+        if not os.path.exists(self.local_path):
+            os.makedirs(self.local_path)
+            print("Downloading Heatmap Data")
             url = "https://biogeo.ucdavis.edu/data/diva/adm/DEU_adm.zip"
             r = requests.get(url)
             z = zipfile.ZipFile(io.BytesIO(r.content))

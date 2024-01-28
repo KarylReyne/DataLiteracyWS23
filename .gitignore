@@ -178,3 +178,4 @@ src/config/*
 credentials.yml
 doc/report/report_template.pdf
 doc/report/images/SecEff*.pdf
+heatmap_data/
