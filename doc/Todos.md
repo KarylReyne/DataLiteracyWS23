@@ -39,4 +39,4 @@
 - [X] Add comments and explanations to notebooks @JDev2001 @Super-T02
 - [X] Remove not used functions from the project @Super-T02
 - [X] Link to plots for the paper @Super-T02
-- [ ] Section into readme how to create report plots. @Super-T02
+- [X] Section into readme how to create report plots. @Super-T02
