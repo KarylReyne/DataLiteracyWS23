@@ -26,7 +26,7 @@ poetry install
 
 If you want to download all the data, including the data from the Destatis Genesis database, you need to create an credentials.yml file in the config directory. To make this process easier, you can use the [credentials.example.yml](config/credentials.example.yml) file as a template.
 
-In order to download the data, you need to run the following command:
+To download the data, you need to run the following command:
 
 ```bash
 poetry run python src/school_analysis/download_all.py
