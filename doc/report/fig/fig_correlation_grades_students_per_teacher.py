@@ -79,10 +79,10 @@ minimum = 0 if np.isnan(minimum) else minimum
 maximum = 0 if np.isnan(maximum) else maximum
 xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
 ax.plot(xp, w[0] + w[1] * xp, "--",
-        label="Linear Regression (corr: {:.2f})".format(corr), color=rgb.tue_red)
+        label="Linear Regression (r={:.2f})".format(corr), color=rgb.tue_red)
 
 # Settings
-ax.set_ylabel("Students per teacher")
+ax.set_ylabel("Students-per-teacher")
 ax.set_xlabel("Average Grade")
 ax.grid()
 ax.legend()

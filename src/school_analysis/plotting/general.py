@@ -89,7 +89,8 @@ class GeneralPlots:
             minimum = 0 if np.isnan(minimum) else minimum
             maximum = 0 if np.isnan(maximum) else maximum
             xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
-            ax.plot(xp, w[0] + w[1] * xp, "--", label="Linear Regression (corr: {:.2f})".format(corr))
+            ax.plot(xp, w[0] + w[1] * xp, "--",
+                    label="Linear Regression (r={:.2f})".format(corr))
 
         # Average
         # Linear regression
@@ -105,7 +106,8 @@ class GeneralPlots:
             maximum = melted_df[x_col].max()
             xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
             ax.scatter(melted_df[x_col], melted_df[y_col], label="Average", s=10)
-            ax.plot(xp, w[0] + w[1] * xp, "--", label="Linear Regression (corr: {:.2f})".format(corr))
+            ax.plot(xp, w[0] + w[1] * xp, "--",
+                    label="Linear Regression (r={:.2f})".format(corr))
 
         # Settings
         ax.set_ylabel(y_col if y_label is None else y_label)
@@ -139,7 +141,8 @@ class GeneralPlots:
             minimum = state_data[x_col].min()
             maximum = state_data[x_col].max()
             xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
-            ax.plot(xp, w[0] + w[1] * xp, "--", label="Linear Regression (corr: {:.2f})".format(corr))
+            ax.plot(xp, w[0] + w[1] * xp, "--",
+                    label="Linear Regression (r={:.2f})".format(corr))
 
         # Average
         # Linear regression
@@ -154,7 +157,8 @@ class GeneralPlots:
         maximum = melted_df[x_col].max()
         xp = np.linspace(minimum, maximum, int(abs(maximum - minimum) * 100))
         ax.scatter(melted_df[x_col], melted_df[y_col], label="Average", s=10)
-        ax.plot(xp, w[0] + w[1] * xp, "--", label="Linear Regression (corr: {:.2f})".format(corr))
+        ax.plot(xp, w[0] + w[1] * xp, "--",
+                label="Linear Regression (r={:.2f})".format(corr))
 
         # Settings
         ax.set_ylabel(y_col if y_label is None else y_label)

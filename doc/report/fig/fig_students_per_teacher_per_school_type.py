@@ -23,7 +23,7 @@ TEACHER_CONTRACT = [
     "Teilzeitbeschäftigte Lehrkräfte"
 ]
 
-# Students per teachers avg
+# Students-per-teachers avg
 fig, ax = plt.subplots()
 
 
@@ -67,14 +67,14 @@ ax.plot(plot_data_mean["Year"], plot_data_mean["Students per Teacher"],
 
 # Other settings
 ax.set_xlabel("Year")
-ax.set_ylabel("Student-to-teacher ratio")
+ax.set_ylabel("Students-per-teacher ratio")
 ax.set_xticks(np.arange(plot_data["Year"].min(),
               plot_data["Year"].max() + 1, 2))
 ax.grid(True)
 ax.legend(bbox_to_anchor=(1.05, 0.5), loc='center left', title="School Type")
 
 # Other settings
-fig.suptitle("Student-to-teacher ratio in Germany")
+fig.suptitle("Students-per-teacher ratio in Germany")
 
 if DEBUG:
     plt.show(block=True)
