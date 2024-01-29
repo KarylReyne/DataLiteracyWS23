@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "school_analysis"
-version = "0.1.0"
+version = "1.0.0"
 description = "This projkect analyses different causes and effects on the German school system"
 authors = ["Tom Freudenmann <tom.freudenmann@student.uni-tuebingen.de>", "Jonathan Schwab <jonathan.schwab@student.uni-tuebingen.de>"]
 license = "MIT"
