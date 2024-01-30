@@ -25,18 +25,22 @@ While this is a feasible variable for the performance of children attending gram
 \subsection{Mathematical Concepts}
 The subsequent paragraph provides an overview of the two primary concepts used in this paper: \emph{linear regression} and the Pearson \emph{correlation coefficient}.
 
-Linear regression is a statistical technique for modeling the relationship between a dependent variable $Y$ and one or more independent variables $X_1,...,X_p$ \cite{james_introduction_2021}. It seeks to fit a linear equation to the data that minimizes the discrepancy between observed and predicted values. This is done through least squares minimization, resulting in an equation of the form \cite{james_introduction_2021}:
-\begin{equation}
-    Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 +  ...+ \beta_p X_p + \epsilon 
-\end{equation}
+\emph{Linear regression} is a statistical technique for modeling the relationship between a dependent variable $Y$ and one or more independent variables $X_1,...,X_p$. It seeks to fit a linear equation to the data that minimizes the discrepancy between observed and predicted values. This is done through least squares minimization \cite{james_introduction_2021}.
 
-The Pearson correlation coefficient $r$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$ \cite{rodgers_thirteen_1988}. It is defined as the ratio of the sample covariance of $X$ and $Y$ to the product of their sample standard deviations \cite{rodgers_thirteen_1988}:
+% , resulting in an equation of the form \cite{james_introduction_2021}:
+% \begin{equation}
+%     Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 +  ...+ \beta_p X_p + \epsilon 
+% \end{equation}
+
+The \emph{Pearson correlation} coefficient $r$, is a statistical measure used to assess the linear relationship between two sets of data, $X$ and $Y$ \cite{rodgers_thirteen_1988}. It is defined as the ratio of the sample covariance of $X$ and $Y$ to the product of their sample standard deviations \cite{rodgers_thirteen_1988}:
 \begin{equation}
     r = \frac{\sum_{i=1}^n (X_i - \overline{X}) (Y_i - \overline{Y})}{\sqrt{\sum_{i=1}^n(X_i-\overline{X})^2 \cdot \sum_{i=1}^n(Y_i-\overline{Y})^2}}
 \end{equation}
 
 \subsection{Exploratory Data Analysis}\label{sec:analysis}
-Having introduced all used datasets and primary mathematical concepts, this paragraph investigates possible patterns through an exploratory data analysis of the potential \emph{causes} and \emph{effects}. 
+% Having introduced all used datasets and primary mathematical concepts, 
+
+This paragraph investigates possible patterns through an exploratory data analysis of the potential \emph{causes} and \emph{effects}. 
 
 % Describe causes
 First, the demographic effects on the number of children attending school and the number of teachers employed by school type and federal state are considered. The exploratory data analysis of the teachers and children datasets\footnote{\label{footnote:teachers-children}Teachers and children plots and exploration can be found \href{https://github.com/KarylReyne/DataLiteracyWS23/blob/main/exp/TF-005-TeachersToChildren.ipynb}{here}.} has shown that the number of schoolchildren decreased steadily from 1998 to 2014. Instead, it increased from 2019 to 2022 because more children started their education and fewer left school. Furthermore, there is an overall trend of more children graduating from grammar schools with university entrance qualifications.
@@ -83,6 +87,9 @@ Now that some basic effects that may influence the students' performance have be
     \label{fig:rising-grades}
 \end{figure}
 
-Moreover, children attending other schools have no direct impact on the results of the Abitur grades. Therefore, the number of repeaters per federal state, school type, grade, and school year is analyzed. To enhance the relevance of the results, the relative ratio of repeaters\footnote{\label{footnote:repeaters}Repeater plots and exploration can be found \href{https://github.com/KarylReyne/DataLiteracyWS23/blob/main/exp/JS-001-Repeaters.ipynb}{here}.} is calculated by dividing the absolute counts by the absolute number of schoolchildren. This results in an aggregation for the federal states per year and in one for the school types per year. As a result, the number of repeaters has decreased for all educational institutions and federal states from 1998 to 2020. Hence, the trend equals the expected result, after analyzing the Abitur grades.
+Moreover, children attending other schools have no direct impact on the results of the Abitur grades. Therefore, the number of repeaters per federal state, school type, grade, and school year is analyzed. To enhance the relevance of the results, the relative ratio of repeaters\footnote{\label{footnote:repeaters}Repeater plots and exploration can be found \href{https://github.com/KarylReyne/DataLiteracyWS23/blob/main/exp/JS-001-Repeaters.ipynb}{here}.} is calculated by dividing the absolute counts by the absolute number of schoolchildren. % Here
+As a result, the number of repeaters has decreased for all educational institutions and federal states from 1998 to 2020. Hence, the trend equals the expected result, after analyzing the Abitur grades.
+
+% This results in an aggregation for the federal states per year and in one for the school types per year.
 
 The exploratory findings indicate an increasing number of students and teachers, resulting in a decreasing ratio of students to teachers and a rise in the budget per child. The possible outcomes include a linear increase in Abitur grades in grammar schools and a shrinking proportion of repeaters in general.
